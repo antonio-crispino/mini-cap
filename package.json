@@ -1,0 +1,29 @@
+{
+  "name": "my-app",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test:ci": "jest"
+  },
+  "dependencies": {
+    "@chakra-ui/react": "^1.7.4",
+    "@emotion/react": "^11.7.1",
+    "@emotion/styled": "^11.6.0",
+    "@supabase/supabase-js": "^1.29.3",
+    "axios": "^0.25.0",
+    "framer-motion": "^5.6.0",
+    "next": "12.0.8",
+    "nprogress": "^0.2.0",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-hook-form": "^7.25.0"
+  },
+  "devDependencies": {
+    "eslint": "8.7.0",
+    "eslint-config-next": "12.0.8",
+    "jest": "^27.4.7"
+  }
+}
