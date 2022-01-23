@@ -6,7 +6,7 @@ import {
 import { useRouter } from 'next/router';
 
 function Main() {
-    const { logout } = useAppContext()
+    const { logout, user } = useAppContext()
     const router = useRouter()
 
 
@@ -16,8 +16,8 @@ function Main() {
         if (!error) {
             const toast = createStandaloneToast()
             toast({
-                title: 'logout in successful.',
-                description: 'redirecting you home page',
+                title: 'logout successful.',
+                description: 'redirecting you to home page',
                 status: 'success',
                 duration: 6000,
                 isClosable: true,
@@ -29,7 +29,6 @@ function Main() {
 
 
     return (
-        <>
             <>
                 <VStack gap={3} alignItems={'center'}>
                     <Heading as='h2' > Hello {user.firstname} {user.lastname}</Heading>
@@ -38,8 +37,7 @@ function Main() {
                         Logout
                     </Button>
                 </VStack>
-            </>
-        </>
+            </> 
     )
 }
 

@@ -1,14 +1,18 @@
 /* eslint-disable react/display-name */
+import { useRouter } from "next/router";
 import { useAppContext } from "../context/context";
+import ErrorCatcher from "./ErrorCatcher";
 
 
 const withAuth = (WrappedComponent) => {
 
     return props => {
         const { user } = useAppContext();
+        const router = useRouter()
+
         if (!user) {
             return (
-                <h1>you need to login</h1>
+               <ErrorCatcher message="You need to login to view this page" callback={()=>{router.push('/login')}}></ErrorCatcher>
             )
         }
         return <WrappedComponent {...props} />;

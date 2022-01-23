@@ -8,28 +8,39 @@ import {
   ModalBody,
   ModalCloseButton,
   Button,
-  Text
+  Text,
 } from '@chakra-ui/react'
 import { useAppContext } from '../context/context';
 
-export default function ErrorCatcher() {
+export default function ErrorCatcher(props) {
   const { error, setError } = useAppContext()
-  if (error){
+  const { message, callback } = props
+
+  const Close = () => {
+    if (message) {
+      callback()
+      message = null
+      return
+    }
+    setError(null);
+  }
+
+  if (error || message) {
     return (
-      <Modal isOpen={error} onClose={() => setError(null)}>
+      <Modal isOpen={error || message} onClose={Close}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Modal Title</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Text>{error.message}</Text>
+            <Text>{error?.message || message}</Text>
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme='blue' mr={3} onClick={() => setError(null)}>
+            <Button colorScheme='blue' mr={3} onClick={Close}>
               Close
             </Button>
-            <Button variant='ghost' onClick={() => setError(null)}>Secondary Action</Button>
+            <Button variant='ghost' onClick={Close}>Secondary Action</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
@@ -37,5 +48,5 @@ export default function ErrorCatcher() {
     );
   }
 
-    return ''
+  return ''
 }
