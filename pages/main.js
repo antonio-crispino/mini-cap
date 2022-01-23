@@ -1,7 +1,7 @@
 import withAuth from "../components/WithAuth"
 import { useAppContext } from "../context/context"
 import {
-    HStack, Button, Box, createStandaloneToast,
+    VStack, Button, Heading, createStandaloneToast,
 } from "@chakra-ui/react"
 import { useRouter } from 'next/router';
 
@@ -30,12 +30,15 @@ function Main() {
 
     return (
         <>
-            <HStack gap={3} alignItems={'center'}>
-                <Button variant="solid" color="teal" size="lg" w="full" type='submit' maxWidth={'25%'} onClick={async () => signout()}>
-                    Logout
-                </Button>
-                <Box> Main</Box>
-            </HStack>
+            <>
+                <VStack gap={3} alignItems={'center'}>
+                    <Heading as='h2' > Hello {user.firstname} {user.lastname}</Heading>
+
+                    <Button variant="solid" color="teal" size="lg" w="full" type='submit' maxWidth={'25%'} onClick={async () => signout()}>
+                        Logout
+                    </Button>
+                </VStack>
+            </>
         </>
     )
 }
