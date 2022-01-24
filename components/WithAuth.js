@@ -7,12 +7,15 @@ import ErrorCatcher from "./ErrorCatcher";
 const withAuth = (WrappedComponent) => {
 
     return props => {
-        const { user } = useAppContext();
+        const { user, isLoading } = useAppContext();
         const router = useRouter()
 
-        if (!user) {
+        if (isLoading) {
+            return ''
+        }
+        if (!user && !isLoading) {
             return (
-               <ErrorCatcher message="You need to login to view this page" callback={()=>{ router.push('/login') }}></ErrorCatcher>
+                <ErrorCatcher message="You need to login to view this page" callback={() => { router.push('/login') }}></ErrorCatcher>
             )
         }
         return <WrappedComponent {...props} />;

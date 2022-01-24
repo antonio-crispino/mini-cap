@@ -6,13 +6,13 @@ import {
 import { useRouter } from 'next/router';
 
 function Main() {
-    const { logout, user } = useAppContext()
+    const { logout, user} = useAppContext()
     const router = useRouter()
 
 
     const signout = async () => {
+        router.push('/')
         const error = await logout()
-
         if (!error) {
             const toast = createStandaloneToast()
             toast({
@@ -22,9 +22,7 @@ function Main() {
                 duration: 6000,
                 isClosable: true,
             })
-            router.push('/')
         }
-
     }
 
 

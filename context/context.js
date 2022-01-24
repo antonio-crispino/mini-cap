@@ -10,6 +10,7 @@ const ContextProvider = ({ children }) => {
 
   useEffect(() => {
     const getUserProfile = async () => {
+      setIsLoading(true)
       const sessionUser = supabase.auth.user();
 
       if (sessionUser) {
@@ -24,8 +25,8 @@ const ContextProvider = ({ children }) => {
           ...user,
         });
 
-        setIsLoading(false);
       }
+      setIsLoading(false);
     };
 
     getUserProfile();
@@ -53,38 +54,42 @@ const ContextProvider = ({ children }) => {
 
 
   const login = async (email, password) => {
-    const { sessionUser: user, error } = await supabase.auth.signIn({
+    setIsLoading(true);
+    const authData = await supabase.auth.signIn({
       email,
       password
     });
+    const { error } = authData
+    const sessionUser = authData.user
 
     if (error) {
       setError(error)
+      setIsLoading(false);
       return error
     }
 
-    if (user) {
-      const { data: user } = await supabase
+    if (sessionUser) {
+      const userData = await supabase
         .from("users")
         .select("*")
         .eq("id", sessionUser.id)
         .single();
-
       setUser({
         ...sessionUser,
-        ...user,
+        ...userData.data,
       });
 
-      setIsLoading(false);
     }
-
+    setIsLoading(false);
   };
 
   const logout = async () => {
-    const {error} = await supabase.auth.signOut();
+    setIsLoading(true)
+    const { error } = await supabase.auth.signOut();
     if (!error) {
       setUser(null);
     }
+    setIsLoading(false);
     return error
   };
 
@@ -95,6 +100,7 @@ const ContextProvider = ({ children }) => {
     login,
     logout,
     setError,
+    setIsLoading
   };
 
   return <Context.Provider value={exposed}>{children}</Context.Provider>;

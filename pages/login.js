@@ -34,7 +34,6 @@ const Details = () => {
 
         if (!error) {
             const toast = createStandaloneToast()
-            router.push('/main')
             toast({
                 title: 'logged in successful.',
                 description: 'redirecting you to your profile',
@@ -42,6 +41,8 @@ const Details = () => {
                 duration: 9000,
                 isClosable: true,
             })
+
+            router.push('/main')
         }
 
     }
