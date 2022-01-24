@@ -1,6 +1,10 @@
 # mini-cap
 This repository contains our group's mini-capstone project for our SOEN 390 course.
 
+### How to run?
+- rename `env.sample` to `env.local` and add the variables needed these are found on our supabase project
+- run `npm install` then `npm run dev`
+
 ## Team Members
 - [Antonio Crispino](https://github.com/antonio-crispino "antonio-crispino") (40109690)
 - [Hamna Akhter](https://github.com/Hamna-Akh "Hamna-Akh") (40078011)

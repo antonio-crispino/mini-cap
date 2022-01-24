@@ -12,7 +12,7 @@ const withAuth = (WrappedComponent) => {
 
         if (!user) {
             return (
-               <ErrorCatcher message="You need to login to view this page" callback={()=>{router.push('/login')}}></ErrorCatcher>
+               <ErrorCatcher message="You need to login to view this page" callback={()=>{ router.push('/login') }}></ErrorCatcher>
             )
         }
         return <WrappedComponent {...props} />;
