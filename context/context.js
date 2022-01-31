@@ -1,24 +1,20 @@
 import { createContext, useState, useEffect, useContext } from "react";
-import { supabase } from "../utils/supabaseClient";
+import { supaCurrentUser, supaSignIn, supaGetUserData, supaSignOut } from "../utils/supabase";
 
 const Context = createContext();
 
 const ContextProvider = ({ children }) => {
-  const [user, setUser] = useState(supabase.auth.user());
+  const [user, setUser] = useState(supaCurrentUser());
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState()
 
   useEffect(() => {
     const getUserProfile = async () => {
       setIsLoading(true)
-      const sessionUser = supabase.auth.user();
+      const sessionUser = supaCurrentUser()
 
       if (sessionUser) {
-        const { data: user } = await supabase
-          .from("users")
-          .select("*")
-          .eq("id", sessionUser.id)
-          .single();
+        const { data: user } = await supaGetUserData(sessionUser.id)
 
         setUser({
           ...sessionUser,
@@ -31,49 +27,22 @@ const ContextProvider = ({ children }) => {
 
     getUserProfile();
 
-    supabase.auth.onAuthStateChange(() => {
-      getUserProfile();
-    });
   }, []);
-
-
-  useEffect(() => {
-    if (user) {
-      const subscription = supabase
-        .from(`users:id=eq.${user.id}`)
-        .on("UPDATE", (payload) => {
-          setUser({ ...user, ...payload.new });
-        })
-        .subscribe();
-
-      return () => {
-        supabase.removeSubscription(subscription);
-      };
-    }
-  }, [user]);
 
 
   const login = async (email, password) => {
     setIsLoading(true);
-    const authData = await supabase.auth.signIn({
-      email,
-      password
-    });
+    const authData = await supaSignIn(email, password)
     const { error } = authData
-    const sessionUser = authData.user
-
     if (error) {
       setError(error)
       setIsLoading(false);
       return error
     }
+    const sessionUser = authData.user
 
     if (sessionUser) {
-      const userData = await supabase
-        .from("users")
-        .select("*")
-        .eq("id", sessionUser.id)
-        .single();
+      const userData = await supaGetUserData(sessionUser.id)
       setUser({
         ...sessionUser,
         ...userData.data,
@@ -85,13 +54,25 @@ const ContextProvider = ({ children }) => {
 
   const logout = async () => {
     setIsLoading(true)
-    const { error } = await supabase.auth.signOut();
+    const { error } = await supaSignOut()
     if (!error) {
       setUser(null);
     }
     setIsLoading(false);
     return error
   };
+
+  const refreshData = async () => {
+
+    if (user) {
+      setIsLoading(true)
+      const userData = await supaGetUserData(user.id)
+      setState(prevState => {
+        return { ...prevState, ...userData };
+      });
+      setIsLoading(false)
+    }
+  }
 
   const exposed = {
     user,
@@ -100,7 +81,8 @@ const ContextProvider = ({ children }) => {
     login,
     logout,
     setError,
-    setIsLoading
+    setIsLoading,
+    refreshData
   };
 
   return <Context.Provider value={exposed}>{children}</Context.Provider>;

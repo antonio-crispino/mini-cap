@@ -18,7 +18,7 @@ import { useForm } from "react-hook-form";
 import { useRouter } from 'next/router';
 import { useAppContext } from '../context/context';
 import NextLink from "next/link"
-import { supabase } from "../utils/supabaseClient";
+import { supaSignUp } from "../utils/supabase";
 
 const Signup = () => {
 
@@ -28,23 +28,16 @@ const Signup = () => {
     const router = useRouter()
 
     const signup = async ({email, password, firstname, lastname}) => {
-        const { user, error } = await supabase.auth.signUp({
+        const  error = await supaSignUp({
             email,
-            password
+            password, 
+            firstname,
+            lastname
         })
         if (error) {
             setError(error)
             return
         }
-        const { createUserError } = await supabase
-            .from('users')
-            .insert([
-                { firstname, lastname, id: user.id }
-            ])
-        if(createUserError){
-            setError(createUserError)
-        }
-
         await router.push('/login')
 
         const toast = createStandaloneToast()
