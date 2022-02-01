@@ -2,7 +2,7 @@ import { render, screen, queryByAttribute } from '@testing-library/react';
 import Main from '../pages/main'
 import ContextProvider from '../context/context'
 
-//integration test, sees how main page reacts with ErrorCatcher component, context and Main component
+//integration test, sees how main page reacts with withAuth hoc, ErrorCatcher component, context and Main component
 
 describe('<Main/>', () => {
     it('Displays Error catcher and Asks user to login when no user found in context', () => {
