@@ -13,7 +13,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <ChakraProvider>
       <CSSReset />
-      <ContextProvider test="1">
+      <ContextProvider>
         <ErrorCatcher />
         <Component {...pageProps} />
       </ContextProvider>
