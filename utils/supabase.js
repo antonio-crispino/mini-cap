@@ -1,53 +1,64 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+export class SupaClient {
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+    constructor() {
+        const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+        const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+        this.client = createClient(supabaseUrl, supabaseAnonKey)
 
-
-export const supaSignIn = async (email, password) => {
-    return await supabase.auth.signIn({
-        email,
-        password
-    });
-}
-
-export const supaGetUserData = async (id) => {
-    return await supabase
-        .from("users")
-        .select("*")
-        .eq("id", id)
-        .single();
-}
-
-
-export const supaSignOut = async () => {
-    return await supabase.auth.signOut();
-}
-
-export const supaCurrentUser = () => {
-    return supabase.auth.user();
-}
-
-export const supaSignUp = async ({ email, password, firstname, lastname }) => {
-    let error
-    const { user, error: createAuthError } = await supabase.auth.signUp({
-        email,
-        password
-    })
-    if (createAuthError) {
-        error = createAuthError
-        return error 
     }
-    const { error: createUserError } = await supabase
-        .from('users')
-        .insert([
-            { firstname, lastname, id: user.id }
-        ])
 
-    if (createUserError) {
-        error = createAuthError
-        return error;
+    async supaSignIn(email, password) {
+        return await this.client.auth.signIn({
+            email,
+            password
+        });
     }
+
+    async supaGetUserData(id) {
+        return await this.client
+            .from("users")
+            .select("*")
+            .eq("id", id)
+            .single();
+    }
+
+
+    async supaSignOut() {
+        return await this.client.auth.signOut();
+    }
+
+
+    supaCurrentUser() {
+        return this.client.auth.user();
+    }
+
+    async supaSignUp({ email, password, firstname, lastname }) {
+        let error
+        const { user, error: createAuthError } = await this.client.auth.signUp({
+            email,
+            password
+        })
+        if (createAuthError) {
+            error = createAuthError
+            return error
+        }
+        const { error: createUserError } = await this.client
+            .from('users')
+            .insert([
+                { firstname, lastname, id: user.id }
+            ])
+
+        if (createUserError) {
+            error = createAuthError
+            return error;
+        }
+    }
+
 }
+
+
+
+
+

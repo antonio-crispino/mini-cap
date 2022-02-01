@@ -1,20 +1,28 @@
 import { createContext, useState, useEffect, useContext } from "react";
-import { supaCurrentUser, supaSignIn, supaGetUserData, supaSignOut } from "../utils/supabase";
+import { MockSupaClient } from "../mocks/supabase";
+import { SupaClient} from "../utils/supabase";
 
-const Context = createContext();
+export const Context = createContext();
 
-const ContextProvider = ({ children }) => {
-  const [user, setUser] = useState(supaCurrentUser());
+const ContextProvider = ({ contextData, children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState()
+  const [client, setClient] = useState(()=>{
+    if(process.env.NODE_ENV='test'){
+      return new MockSupaClient
+    }
+    return new SupaClient
+  })
+  const [user, setUser] = useState(client.supaCurrentUser());
+
 
   useEffect(() => {
     const getUserProfile = async () => {
       setIsLoading(true)
-      const sessionUser = supaCurrentUser()
+      const sessionUser = client.supaCurrentUser()
 
       if (sessionUser) {
-        const { data: user } = await supaGetUserData(sessionUser.id)
+        const { data: user } = await client.supaGetUserData(sessionUser.id)
 
         setUser({
           ...sessionUser,
@@ -27,12 +35,12 @@ const ContextProvider = ({ children }) => {
 
     getUserProfile();
 
-  }, []);
+  }, [client]);
 
 
   const login = async (email, password) => {
     setIsLoading(true);
-    const authData = await supaSignIn(email, password)
+    const authData = await client.supaSignIn(email, password)
     const { error } = authData
     if (error) {
       setError(error)
@@ -42,7 +50,7 @@ const ContextProvider = ({ children }) => {
     const sessionUser = authData.user
 
     if (sessionUser) {
-      const userData = await supaGetUserData(sessionUser.id)
+      const userData = await client.supaGetUserData(sessionUser.id)
       setUser({
         ...sessionUser,
         ...userData.data,
@@ -54,7 +62,7 @@ const ContextProvider = ({ children }) => {
 
   const logout = async () => {
     setIsLoading(true)
-    const { error } = await supaSignOut()
+    const { error } = await client.supaSignOut()
     if (!error) {
       setUser(null);
     }
@@ -66,7 +74,7 @@ const ContextProvider = ({ children }) => {
 
     if (user) {
       setIsLoading(true)
-      const userData = await supaGetUserData(user.id)
+      const userData = await client.supaGetUserData(user.id)
       setState(prevState => {
         return { ...prevState, ...userData };
       });
@@ -74,7 +82,7 @@ const ContextProvider = ({ children }) => {
     }
   }
 
-  const exposed = {
+  const exposed = contextData? contextData: {
     user,
     isLoading,
     error,
