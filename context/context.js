@@ -5,7 +5,7 @@ import { SupaClient } from "../utils/supabase";
 export const Context = createContext();
 
 
-const ContextProvider = ({ contextData, children }) => {
+const ContextProvider = ({ mockData, children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState()
   const [client, setClient] = useState(()=>process.env.NODE_ENV=='test'? new MockSupaClient(): new SupaClient())
@@ -78,7 +78,7 @@ const ContextProvider = ({ contextData, children }) => {
     }
   }
 
-  const exposed = contextData ? contextData : {
+  const exposed = mockData ? mockData : {
     user,
     isLoading,
     error,

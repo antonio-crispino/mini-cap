@@ -8,7 +8,7 @@ describe('<Main/>', () => {
     it('Displays Error catcher and Asks user to login when no user found in context', () => {
 
       const { container, debug } = render(
-        <ContextProvider contextData={{}}>
+        <ContextProvider mockData={{}}>
             <Main />
         </ContextProvider>
 
@@ -22,7 +22,7 @@ describe('<Main/>', () => {
     it('Displays User name when user found in context', () => {
 
         const { container, debug } = render(
-          <ContextProvider contextData={{isLoading: false, user:{firstname: 'john', lastname:'doe'}}}>
+          <ContextProvider mockData={{isLoading: false, user:{firstname: 'john', lastname:'doe'}}}>
               <Main />
           </ContextProvider>
   

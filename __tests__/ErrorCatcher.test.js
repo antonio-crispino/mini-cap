@@ -12,7 +12,7 @@ describe('<ErrorCatcher/>', () => {
       alert('executed')
     }
     const { container, debug } = render(
-      <ContextProvider contextData={{}}>
+      <ContextProvider mockData={{}}>
         <ErrorCatcher message="Error Occured" callback={mockCallback} />
       </ContextProvider>
 
@@ -28,7 +28,7 @@ describe('<ErrorCatcher/>', () => {
       alert('executed')
     }
     const { container, debug } = render(
-      <ContextProvider contextData={{ error: { message: 'test error occured' } }}>
+      <ContextProvider mockData={{ error: { message: 'test error occured' } }}>
         <ErrorCatcher />
       </ContextProvider>
 
