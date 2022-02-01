@@ -15,7 +15,6 @@ describe('<ErrorCatcher/>', () => {
         </ContextProvider>
 
       );
-
       const msg = screen.getByText('Error Occured')
       expect(msg).toBeInTheDocument();
     });
