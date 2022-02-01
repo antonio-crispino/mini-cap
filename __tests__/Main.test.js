@@ -26,9 +26,7 @@ describe('<Main/>', () => {
               <Main />
           </ContextProvider>
   
-        );
-  
-        debug()
+        );  
         const msg = screen.getByText('Hello john doe')
         expect(msg).toBeInTheDocument();
   
