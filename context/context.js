@@ -1,24 +1,24 @@
 import { createContext, useState, useEffect, useContext } from "react";
-import { supabase } from "../utils/supabaseClient";
+import { MockSupaClient } from "../mocks/supabase";
+import { SupaClient } from "../utils/supabase";
 
-const Context = createContext();
+export const Context = createContext();
 
-const ContextProvider = ({ children }) => {
-  const [user, setUser] = useState(supabase.auth.user());
+
+const ContextProvider = ({ mockData, children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState()
+  const [client, setClient] = useState(()=>process.env.NODE_ENV=='test'? new MockSupaClient(): new SupaClient())
+  const [user, setUser] = useState(client.supaCurrentUser());
+
 
   useEffect(() => {
     const getUserProfile = async () => {
       setIsLoading(true)
-      const sessionUser = supabase.auth.user();
+      const sessionUser = client.supaCurrentUser()
 
       if (sessionUser) {
-        const { data: user } = await supabase
-          .from("users")
-          .select("*")
-          .eq("id", sessionUser.id)
-          .single();
+        const { data: user } = await client.supaGetUserData(sessionUser.id)
 
         setUser({
           ...sessionUser,
@@ -31,49 +31,22 @@ const ContextProvider = ({ children }) => {
 
     getUserProfile();
 
-    supabase.auth.onAuthStateChange(() => {
-      getUserProfile();
-    });
-  }, []);
-
-
-  useEffect(() => {
-    if (user) {
-      const subscription = supabase
-        .from(`users:id=eq.${user.id}`)
-        .on("UPDATE", (payload) => {
-          setUser({ ...user, ...payload.new });
-        })
-        .subscribe();
-
-      return () => {
-        supabase.removeSubscription(subscription);
-      };
-    }
-  }, [user]);
+  }, [client]);
 
 
   const login = async (email, password) => {
     setIsLoading(true);
-    const authData = await supabase.auth.signIn({
-      email,
-      password
-    });
+    const authData = await client.supaSignIn(email, password)
     const { error } = authData
-    const sessionUser = authData.user
-
     if (error) {
       setError(error)
       setIsLoading(false);
       return error
     }
+    const sessionUser = authData.user
 
     if (sessionUser) {
-      const userData = await supabase
-        .from("users")
-        .select("*")
-        .eq("id", sessionUser.id)
-        .single();
+      const userData = await client.supaGetUserData(sessionUser.id)
       setUser({
         ...sessionUser,
         ...userData.data,
@@ -85,7 +58,7 @@ const ContextProvider = ({ children }) => {
 
   const logout = async () => {
     setIsLoading(true)
-    const { error } = await supabase.auth.signOut();
+    const { error } = await client.supaSignOut()
     if (!error) {
       setUser(null);
     }
@@ -93,14 +66,28 @@ const ContextProvider = ({ children }) => {
     return error
   };
 
-  const exposed = {
+  const refreshData = async () => {
+
+    if (user) {
+      setIsLoading(true)
+      const userData = await client.supaGetUserData(user.id)
+      setState(prevState => {
+        return { ...prevState, ...userData };
+      });
+      setIsLoading(false)
+    }
+  }
+
+  const exposed = mockData ? mockData : {
     user,
+    client,
     isLoading,
     error,
     login,
     logout,
     setError,
-    setIsLoading
+    setIsLoading,
+    refreshData
   };
 
   return <Context.Provider value={exposed}>{children}</Context.Provider>;
