@@ -80,6 +80,7 @@ const ContextProvider = ({ mockData, children }) => {
 
   const exposed = mockData ? mockData : {
     user,
+    client,
     isLoading,
     error,
     login,
