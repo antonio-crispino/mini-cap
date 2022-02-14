@@ -1,44 +1,150 @@
-import {Flex, Button, ButtonGroup} from "@chakra-ui/react";
-import NextLink from "next/link";
+import {useState} from 'react'
+import {
+    Flex,
+    Button,
+    IconButton,
+    ButtonGroup
+} from '@chakra-ui/react'
+import {HamburgerIcon, CloseIcon} from '@chakra-ui/icons'
+import NextLink from 'next/link'
+
 
 export const NavBar = () => {
+    const [display, changeDisplay] = useState('none')
     return (
-        <Flex>
+        <Flex
+            fontFamily="open-sans"
+        >
             <Flex
-                pos={"fixed"}
-                top={"1rem"}
-                right={"5rem"}
-                px={[0,10,20]}
+                position="fixed"
+                top="1rem"
+                right="1rem"
+                // align="center"
             >
-                <ButtonGroup >
-                    <NextLink href="/" passHref>
-                        <Button variant='ghost' fontFamily="open-sans" >
-                            Home
-                        </Button>
-                    </NextLink>
-                    <NextLink href="/" passHref>
-                        <Button variant='ghost'>
-                            QR-code
-                        </Button>
-                    </NextLink>
-                    <NextLink href="/" passHref>
-                        <Button variant='ghost'>
-                            Messages
-                        </Button>
-                    </NextLink>
-                    <NextLink href="/" passHref>
-                        <Button variant='ghost'>
-                            FAQ
-                        </Button>
-                    </NextLink>
-                    <NextLink href="/" passHref>
-                        <Button variant='ghost'>
-                            Sign In/Sign Up
-                        </Button>
-                    </NextLink>
-                </ButtonGroup>
+                {/* Desktop Version */}
+                <Flex
+                    display={['none', 'none', 'flex', 'flex']}
+                >
+                    <ButtonGroup>
+                        <NextLink href="/" passHref>
+                            <Button
+                                variant="ghost"
+                            >
+                                Home
+                            </Button>
+                        </NextLink>
+                        <NextLink href="/" passHref>
+                            <Button
+                                variant="ghost"
+                            >
+                                QR-code
+                            </Button>
+                        </NextLink>
+                        <NextLink href="/" passHref>
+                            <Button
+                                variant="ghost"
+                            >
+                                Messages
+                            </Button>
+                        </NextLink>
+                        <NextLink href="/" passHref>
+                            <Button
+                                variant="ghost"
+                            >
+                                FAQ
+                            </Button>
+                        </NextLink>
+                        <NextLink href="/" passHref>
+                            <Button
+                                variant="ghost"
+                            >
+                                Sign In/Sign Up
+                            </Button>
+                        </NextLink>
+                    </ButtonGroup>
+                </Flex>
+
+                {/* Mobile */}
+                <IconButton
+                    aria-label={"Hamburger Menu Icon"}
+                    size="lg"
+                    mr={2}
+                    icon={
+                        <HamburgerIcon/>
+                    }
+                    onClick={() => changeDisplay('flex')}
+                    display={['flex', 'flex', 'none', 'none']}
+                />
+
+            </Flex>
+
+            {/*Mobile Content */}
+            <Flex
+                w='100vw'
+                display={display}
+                h="100vh"
+                pos="fixed"
+                top="0"
+                left="0"
+                overflowY="auto"
+                flexDir="column"
+            >
+                <Flex justify="flex-end">
+                    <IconButton
+                        aria-label={"Close Hamburger Menu"}
+                        mt={4}
+                        mr={6}
+                        size="lg"
+                        icon={
+                            <CloseIcon/>
+                        }
+                        onClick={() => changeDisplay('none')}
+                    />
+                </Flex>
+
+                <Flex
+                    flexDir="column"
+                    align="center"
+                >
+                    <ButtonGroup flexDir="column">
+                        <NextLink href="/" passHref>
+                            <Button
+                                variant="ghost"
+                            >
+                                Home
+                            </Button>
+                        </NextLink>
+                        <NextLink href="/" passHref>
+                            <Button
+                                variant="ghost"
+                            >
+                                QR-code
+                            </Button>
+                        </NextLink>
+                        <NextLink href="/" passHref>
+                            <Button
+                                variant="ghost"
+                            >
+                                Messages
+                            </Button>
+                        </NextLink>
+                        <NextLink href="/" passHref>
+                            <Button
+                                variant="ghost"
+                            >
+                                FAQ
+                            </Button>
+                        </NextLink>
+                        <NextLink href="/" passHref>
+                            <Button
+                                variant="ghost"
+                            >
+                                Sign In/Sign Up
+                            </Button>
+                        </NextLink>
+                    </ButtonGroup>
+                </Flex>
             </Flex>
         </Flex>
-
     )
 }
