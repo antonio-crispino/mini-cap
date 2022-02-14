@@ -13,10 +13,9 @@ const LoginPage = () => {
           bg="blue.50"
           w="full"
           h="full"
-          spacing={10}
           alignItems="flex-start"
         ></VStack>
-        <VStack w="full" h="full" p={0} spacing={10} justifyContent="center">
+        <VStack w="full" h="full" p={0} justifyContent="center">
           <LoginForm />
         </VStack>
       </Flex>
