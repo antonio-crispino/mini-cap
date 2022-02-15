@@ -1,0 +1,11 @@
+.qrBtnIcon {
+  composes: loginIcon from "./LoginForm.module.css";
+}
+
+.sideStack{
+  background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25));
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
