@@ -43,7 +43,7 @@ function ContextProvider({ mockData, children }) {
       setIsLoading(true);
       const authData = await client.supaSignIn(email, password);
       const { error: loginError } = authData;
-      console.log(loginError)
+      console.log(loginError);
       if (loginError) {
         setError(loginError);
         setIsLoading(false);
@@ -51,7 +51,7 @@ function ContextProvider({ mockData, children }) {
       }
       const sessionUser = authData.user;
       if (sessionUser) {
-      const userData = await client.supaGetUserData(sessionUser.id);
+        const userData = await client.supaGetUserData(sessionUser.id);
         setUser({
           ...sessionUser,
           ...userData.data,
