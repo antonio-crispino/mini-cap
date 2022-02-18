@@ -8,8 +8,7 @@
     "lint": "next lint",
     "test": "NODE_ENV=test jest",
     "test:ci": "jest",
-    "prepare": "husky install",
-    "precommit": "lint-staged"
+    "prepare": "husky install"
   },
   "dependencies": {
     "@chakra-ui/react": "^1.7.4",
@@ -42,5 +41,11 @@
     "jest": "^27.4.7",
     "lint-staged": "^12.3.4",
     "prettier": "2.5.1"
+  },
+  "lint-staged": {
+    "*.js|*.jsx": [
+      "eslint --fix",
+      "prettier --write"
+       ]
   }
 }
