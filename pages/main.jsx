@@ -26,8 +26,6 @@ function Main() {
       });
     }
   };
-  console.log(user)
-
   return (
     <VStack gap={3} alignItems="center">
       <Heading as="h2">
