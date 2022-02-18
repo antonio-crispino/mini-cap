@@ -1,5 +1,5 @@
 {
   "hooks": {
-    "pre-commit": "eslint --fix && prettier --write && git add"
+    "pre-commit": "lint-staged"
   }
 }
