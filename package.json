@@ -42,17 +42,5 @@
     "jest": "^27.4.7",
     "lint-staged": "^12.3.4",
     "prettier": "2.5.1"
-  },
-  "lint-staged": {
-    "*.js": [
-      "eslint --fix",
-      "prettier --write",
-      "git add"
-    ],
-    "*.jsx": [
-      "eslint --fix",
-      "prettier --write",
-      "git add"
-    ]
   }
 }
