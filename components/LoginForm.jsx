@@ -4,31 +4,24 @@ import {
   Input,
   VStack,
   Heading,
-  Text,
   SimpleGrid,
   GridItem,
   Button,
-  useBreakpointValue,
-  HStack,
-  Link,
   createStandaloneToast,
   FormErrorMessage,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { useAppContext } from "../context/context";
-import NextLink from "next/link";
 import { useRouter } from "next/router";
+import { useAppContext } from "../context/context";
 
-const LoginForm = () => {
+function LoginForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm();
-  const { setError, login } = useAppContext();
+  const { login } = useAppContext();
   const router = useRouter();
-
-  const colSpan = useBreakpointValue({ base: 2, md: 1 });
 
   const signIn = async ({ email, password }) => {
     const error = await login(email, password);
@@ -52,7 +45,7 @@ const LoginForm = () => {
       onSubmit={handleSubmit((data) => {
         signIn(data);
       })}
-      style={{width:'100%'}}
+      style={{ width: "100%" }}
     >
       <VStack w="full" h="full" p={0} spacing={10} alignItems="center">
         <VStack spacing={3}>
@@ -60,7 +53,7 @@ const LoginForm = () => {
             Login
           </Heading>
         </VStack>
-        <SimpleGrid columns={2} columnGap={2} rowGap={2} w={'70%'}>
+        <SimpleGrid columns={2} columnGap={2} rowGap={2} w="70%">
           <GridItem w="100%" colSpan={2}>
             <FormControl isInvalid={errors.email}>
               <FormLabel color="white">Email</FormLabel>
@@ -84,7 +77,7 @@ const LoginForm = () => {
               <Input
                 id="password"
                 placeholder=""
-                type={"password"}
+                type="password"
                 {...register("password", {
                   required: "This is required",
                   minLength: {
@@ -113,6 +106,6 @@ const LoginForm = () => {
       </VStack>
     </form>
   );
-};
+}
 
 export default LoginForm;
