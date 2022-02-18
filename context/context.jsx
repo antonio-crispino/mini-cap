@@ -36,7 +36,7 @@ function ContextProvider({ mockData, children }) {
     };
 
     getUserProfile();
-  }, [client])    ;  
+  }, [client])     ;  
 
   const login = useCallback(
     async (email, password) => {
