@@ -16,17 +16,16 @@ import {
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
-import { useAppContext } from "../context/context";
 import NextLink from "next/link";
-import { supaSignUp } from "../utils/supabase";
+import { useAppContext } from "../context/context";
 
-const Signup = () => {
+function Signup() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm();
-  const { setError, setMessage, client } = useAppContext();
+  const { setError, client } = useAppContext();
   const colSpan = useBreakpointValue({ base: 2, md: 1 });
   const router = useRouter();
 
@@ -61,12 +60,12 @@ const Signup = () => {
           <Heading size="2xl">Your details</Heading>
           <Text>
             If you already have an account, click{" "}
-            <NextLink href={"/login"}>
-              <Link color={"blue.600"}>here to log in</Link>
+            <NextLink href="/login">
+              <Link color="blue.600">here to log in</Link>
             </NextLink>
-            .
           </Text>
         </VStack>
+
         <SimpleGrid columns={2} columnGap={3} rowGap={6} w="full">
           <GridItem colSpan={colSpan}>
             <FormControl isInvalid={errors.firstname}>
@@ -114,7 +113,7 @@ const Signup = () => {
               <Input
                 id="email"
                 placeholder="johndoe@test.com"
-                type={"email"}
+                type="email"
                 {...register("email", {
                   required: "This is required",
                 })}
@@ -131,7 +130,7 @@ const Signup = () => {
               <Input
                 id="password"
                 placeholder=""
-                type={"password"}
+                type="password"
                 {...register("password", {
                   required: "This is required",
                   minLength: {
@@ -147,14 +146,14 @@ const Signup = () => {
           </GridItem>
 
           <GridItem colSpan={2}>
-            <HStack gap={3} alignItems={"center"}>
+            <HStack gap={3} alignItems="center">
               <Button
                 variant="solid"
                 color="teal"
                 size="lg"
                 w="full"
                 type="submit"
-                maxWidth={"25%"}
+                maxWidth="25%"
               >
                 Sign Up
               </Button>
@@ -164,7 +163,7 @@ const Signup = () => {
                 colorScheme="teal"
                 size="lg"
                 w="full"
-                maxWidth={"25%"}
+                maxWidth="25%"
                 onClick={() => setError(new Error("yio"))}
               >
                 Create Error
@@ -175,6 +174,6 @@ const Signup = () => {
       </VStack>
     </form>
   );
-};
+}
 
 export default Signup;
