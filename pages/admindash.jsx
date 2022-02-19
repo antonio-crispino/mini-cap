@@ -1,8 +1,11 @@
-/* eslint-disable prettier/prettier */
-import { Container } from "@chakra-ui/react";
+import { Container, Flex } from "@chakra-ui/react";
 
 function AdminDash() {
-  return <Container />;
+  return (
+    <Container>
+      <Flex>Test</Flex>
+    </Container>
+  );
 }
 
 export default AdminDash;
