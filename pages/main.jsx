@@ -1,5 +1,3 @@
-import withAuth from "../components/WithAuth";
-import { useAppContext } from "../context/context";
 import {
   VStack,
   Button,
@@ -7,6 +5,8 @@ import {
   createStandaloneToast,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import withAuth from "../components/WithAuth";
+import { useAppContext } from "../context/context";
 
 function Main() {
   const { logout, user } = useAppContext();
@@ -26,28 +26,25 @@ function Main() {
       });
     }
   };
-
   return (
-    <>
-      <VStack gap={3} alignItems={"center"}>
-        <Heading as="h2">
-          {" "}
-          Hello {user.firstname} {user.lastname}
-        </Heading>
+    <VStack gap={3} alignItems="center">
+      <Heading as="h2">
+        {" "}
+        Hello {user.firstname} {user.lastname}
+      </Heading>
 
-        <Button
-          variant="solid"
-          color="teal"
-          size="lg"
-          w="full"
-          type="submit"
-          maxWidth={"25%"}
-          onClick={async () => signout()}
-        >
-          Logout
-        </Button>
-      </VStack>
-    </>
+      <Button
+        variant="solid"
+        color="teal"
+        size="lg"
+        w="full"
+        type="submit"
+        maxWidth="25%"
+        onClick={async () => signout()}
+      >
+        Logout
+      </Button>
+    </VStack>
   );
 }
 
