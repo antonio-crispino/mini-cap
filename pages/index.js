@@ -1,7 +1,7 @@
 import NextLink from "next/link"
 import { Container, Link, Flex, Box, Heading, Spacer, Button } from '@chakra-ui/react'
 import {NavBar} from "../components/nav/NavBar/NavBar";
-import {Footer} from "../components/nav/Footer/Footer";
+import {Footer} from "../components/Footer/Footer";
 
 
 export default function Home() {
