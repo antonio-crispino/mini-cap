@@ -1,8 +1,8 @@
-import { Container, VStack, Flex, Box } from "@chakra-ui/react";
+import { Container, VStack, Flex } from "@chakra-ui/react";
 import LoginForm from "../components/LoginForm";
 import SideSection from "../components/SideSection";
 
-const LoginPage = () => {
+function LoginPage() {
   return (
     <Container
       maxW="full"
@@ -12,7 +12,7 @@ const LoginPage = () => {
       backgroundPosition="center"
       backgroundRepeat="no-repeat"
     >
-      <Flex h="100vh"  w="100vw">
+      <Flex h="100vh" w="100vw">
         <VStack
           display={{ base: "none", lg: "block" }}
           w={{
@@ -37,6 +37,6 @@ const LoginPage = () => {
       </Flex>
     </Container>
   );
-};
+}
 
 export default LoginPage;

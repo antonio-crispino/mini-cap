@@ -1,25 +1,8 @@
-import {
-  FormControl,
-  FormLabel,
-  Input,
-  VStack,
-  Heading,
-  Text,
-  SimpleGrid,
-  GridItem,
-  Button,
-  useBreakpointValue,
-  HStack,
-  Link,
-  createStandaloneToast,
-  FormErrorMessage,
-  Box,
-  Flex,
-} from "@chakra-ui/react";
+import { VStack, Heading, Text, Button, Box, Flex } from "@chakra-ui/react";
 import { RightArrow } from "./CustomIcons";
 import styles from "../styles/SideSection.module.css";
 
-const SideSection = () => {
+function SideSection() {
   return (
     <VStack h="100%" w="full" py={20} px={10} className={styles.sideStack}>
       <Flex
@@ -29,7 +12,7 @@ const SideSection = () => {
         w="100%"
         h="100%"
       >
-        <Box m={0} p={0} h="0vh" w="0vw"></Box>
+        <Box m={0} p={0} h="0vh" w="0vw" />
 
         <Box justifySelf="end">
           <Heading
@@ -37,7 +20,6 @@ const SideSection = () => {
             size="4xl"
             fontFamily="opensans-extrabold"
             color="#fff"
-            
           >
             The
             <br /> Anti-Covid
@@ -61,6 +43,6 @@ const SideSection = () => {
       </Flex>
     </VStack>
   );
-};
+}
 
 export default SideSection;
