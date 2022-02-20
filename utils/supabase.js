@@ -37,7 +37,7 @@ export default class SupaClient {
     }
     const { error: createUserError } = await this.client
       .from("users")
-      .insert([{ firstname, lastname, id: user.id }]);
+      .insert([{ firstname, lastname, email, id: user.id }]);
     if (createUserError) {
       error = createAuthError;
     }
