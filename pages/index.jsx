@@ -8,12 +8,15 @@ import {
   Spacer,
   Button,
 } from "@chakra-ui/react";
+import { NavBar } from "../components/NavBar";
+
 import Sidebar from "../components/Sidebar";
 
 export default function Home() {
   return (
     <Container maxW="container.xl" centerContent>
       <Flex h="100vh" alignItems="center">
+        <NavBar />
         <Sidebar />
         <Box p="2">
           <Heading size="md">mini cap</Heading>
