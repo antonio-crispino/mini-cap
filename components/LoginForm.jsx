@@ -13,9 +13,12 @@ import {
   Center,
   Box,
   Flex,
+  Link,
+  Text,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
+import NextLink from "next/link";
 import { useAppContext } from "../context/context";
 import { RightArrow } from "./CustomIcons";
 import styles from "../styles/LoginForm.module.css";
@@ -55,7 +58,7 @@ function LoginForm() {
     >
       <VStack w="full" h="full" p={0} spacing={10} alignItems="center">
         <VStack spacing={3}>
-          <Heading size="xl" color="white">
+          <Heading size="2xl" color="white">
             Login
           </Heading>
         </VStack>
@@ -76,7 +79,7 @@ function LoginForm() {
                   id="email"
                   placeholder="johndoe@test.com"
                   type="email"
-                  bg="#fff"
+                  bg="white"
                   size="lg"
                   {...register("email", {
                     required: "This is required",
@@ -136,33 +139,23 @@ function LoginForm() {
             </Center>
           </GridItem>
           <GridItem w="full" colSpan={2}>
-            <Center>
-              <Divider
-                orientation="horizontal"
-                size="lg"
-                className={styles.line}
-              />
-            </Center>
+            <Divider
+              orientation="horizontal"
+              size="lg"
+              className={styles.line}
+            />
 
-            <Flex justifyContent="space-around">
-              <Button
-                variant="ghost"
-                _hover={{ textDecoration: "underline" }}
-                size="lg"
-                type="submit"
-                color="white"
-              >
-                Forgot My Password
-              </Button>
-              <Button
-                variant="ghost"
-                _hover={{ textDecoration: "underline" }}
-                size="lg"
-                type="submit"
-                color="white"
-              >
-                Sign Up
-              </Button>
+            <Flex justifyContent="space-around" mt={4}>
+              <Text color="white">
+                <NextLink href="/signup">
+                  <Link fontFamily="opensans-bold">Sign Up</Link>
+                </NextLink>
+              </Text>
+              <Text color="white">
+                <NextLink href="/login">
+                  <Link fontFamily="opensans-bold">Reset Password</Link>
+                </NextLink>
+              </Text>
             </Flex>
           </GridItem>
         </SimpleGrid>

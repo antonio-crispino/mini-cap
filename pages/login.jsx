@@ -28,7 +28,7 @@ function LoginPage() {
             lg: "55%",
           }}
           h="full"
-          p={0}
+          px={{ base: "0", xl: "20px" }}
           justifyContent="center"
           alignItems="center"
         >

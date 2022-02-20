@@ -1,0 +1,3 @@
+.formWidth {
+  composes: formWidth from "../styles/LoginForm.module.css";
+}
