@@ -4,8 +4,7 @@ import Router from "next/router";
 import Fonts from "../components/Fonts";
 import ContextProvider from "../context/context";
 import ErrorCatcher from "../components/ErrorCatcher";
-import "../styles/nprogress.css";
-import "../styles/sidebar.css";
+import "../styles/global.css";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());

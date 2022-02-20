@@ -1,6 +1,6 @@
 import { VStack, Heading, Text, Button, Box, Flex } from "@chakra-ui/react";
 import { RightArrow } from "./CustomIcons";
-import styles from "../styles/SideSection.module.css";
+import styles from "../styles/sideSection.module.css";
 
 function SideSection() {
   return (

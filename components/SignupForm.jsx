@@ -22,7 +22,7 @@ import NextLink from "next/link";
 import { RightArrow } from "./CustomIcons";
 
 import { useAppContext } from "../context/context";
-import styles from "../styles/LoginForm.module.css";
+import styles from "../styles/authForms.module.css";
 
 function SignupForm() {
   const {

@@ -1,8 +1,8 @@
 .qrBtnIcon {
-  composes: loginIcon from "./LoginForm.module.css";
+  composes: loginIcon from "./authForms.module.css";
 }
 
-.sideStack{
+.sideStack {
   background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25));
   height: 100%;
   background-position: center;
