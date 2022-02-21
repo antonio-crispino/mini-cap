@@ -1,220 +1,74 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/mouse-events-have-key-events */
-import {
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  Button,
-  Input,
-} from "@chakra-ui/react";
-import { useState } from "react";
+import { Table, Thead, Tbody, Tr, Th, Td, Box } from "@chakra-ui/react";
 
-export default function AdminListItem() {
-  const [edit, setEdit] = useState([true, true, true, true]);
-  const editClickHandler = (i) => {
-    const arr = [...edit];
-    const bool = edit[i];
-    arr[i] = !bool;
-    setEdit(arr);
-  };
+function AdminTableRow(props) {
+  const { id, fullName, email, phone, address, dateOfBirth, gender } = props;
   return (
-    <Table
-      backgroundColor="whitesmoke"
-      width="100%"
-      variant="striped"
-      colorScheme="linkedin"
-      borderRadius="1rem"
+    <Tr>
+      <Td borderStyle="none">{id}</Td>
+      <Td borderStyle="none">{fullName}</Td>
+      <Td borderStyle="none">{email}</Td>
+      <Td borderStyle="none">{phone}</Td>
+      <Td borderStyle="none">{address}</Td>
+      <Td borderStyle="none">{dateOfBirth}</Td>
+      <Td borderStyle="none">{gender}</Td>
+    </Tr>
+  );
+}
+
+export default function AdminUserTable(props) {
+  const { users, visible } = props;
+
+  return (
+    <Box
+      /* display={visible ? "block" : "none"} */
+      opacity={visible ? "1" : "0"}
+      transition="opacity 0.5s"
+      position="relative"
+      /* transform={`translateX(${visible ? "0" : "110%"})`}
+      transition="transform 0.5s" */
     >
-      <Thead>
-        <Tr>
-          <Th />
-          <Th>ID</Th>
-          <Th>Full Name</Th>
-          <Th>Email</Th>
-          <Th>Phone</Th>
-          <Th>Address</Th>
-          <Th>Date of Birth</Th>
-          <Th>Gender</Th>
-        </Tr>
-      </Thead>
-      <Tbody>
-        <Tr>
-          <Td padding="0 0.5rem">
-            <Button
-              colorScheme="linkedin"
-              variant="ghost"
-              marginX="0"
-              marginY="0.25rem"
-              width="4rem"
-              borderRadius="50rem"
-              onClick={() => editClickHandler(0)}
-            >
-              {edit[0] ? "Edit" : "Save"}
-            </Button>
-          </Td>
-          <Td paddingY="0">
-            {edit[0] ? (
-              "null"
-            ) : (
-              <Input
-                value="null"
-                width="100%"
-                backgroundColor="white"
-                borderRadius="50rem"
-                size="sm"
-              />
-            )}
-          </Td>
-          <Td paddingY="0">
-            {edit[0] ? (
-              "null"
-            ) : (
-              <Input
-                value="null"
-                width="100%"
-                backgroundColor="white"
-                borderRadius="50rem"
-                size="sm"
-              />
-            )}
-          </Td>
-          <Td paddingY="0">
-            {edit[0] ? (
-              "null"
-            ) : (
-              <Input
-                value="null"
-                width="100%"
-                backgroundColor="white"
-                borderRadius="50rem"
-                size="sm"
-              />
-            )}
-          </Td>
-          <Td paddingY="0">
-            {edit[0] ? (
-              "null"
-            ) : (
-              <Input
-                value="null"
-                width="100%"
-                backgroundColor="white"
-                borderRadius="50rem"
-                size="sm"
-              />
-            )}
-          </Td>
-          <Td paddingY="0">
-            {edit[0] ? (
-              "null"
-            ) : (
-              <Input
-                value="null"
-                width="100%"
-                backgroundColor="white"
-                borderRadius="50rem"
-                size="sm"
-              />
-            )}
-          </Td>
-          <Td paddingY="0">
-            {edit[0] ? (
-              "null"
-            ) : (
-              <Input
-                value="null"
-                width="100%"
-                backgroundColor="white"
-                borderRadius="50rem"
-                size="sm"
-              />
-            )}
-          </Td>
-          <Td paddingY="0">
-            {edit[0] ? (
-              "null"
-            ) : (
-              <Input
-                value="null"
-                width="100%"
-                backgroundColor="white"
-                borderRadius="50rem"
-                size="sm"
-              />
-            )}
-          </Td>
-        </Tr>
-        <Tr>
-          <Td padding="0 0.5rem">
-            <Button
-              colorScheme="linkedin"
-              variant="ghost"
-              marginX="0"
-              marginY="0.25rem"
-              width="4rem"
-              borderRadius="50rem"
-              onClick={() => editClickHandler(1)}
-            >
-              {edit[1] ? "Edit" : "Save"}
-            </Button>
-          </Td>
-          <Td>null</Td>
-          <Td>null</Td>
-          <Td>null</Td>
-          <Td>null</Td>
-          <Td>null</Td>
-          <Td>null</Td>
-          <Td>null</Td>
-        </Tr>
-        <Tr>
-          <Td padding="0 0.5rem">
-            <Button
-              colorScheme="linkedin"
-              variant="ghost"
-              marginX="0"
-              marginY="0.25rem"
-              width="4rem"
-              borderRadius="50rem"
-              onClick={() => editClickHandler(2)}
-            >
-              {edit[2] ? "Edit" : "Save"}
-            </Button>
-          </Td>
-          <Td>null</Td>
-          <Td>null</Td>
-          <Td>null</Td>
-          <Td>null</Td>
-          <Td>null</Td>
-          <Td>null</Td>
-          <Td>null</Td>
-        </Tr>
-        <Tr>
-          <Td borderBottomStyle="none" padding="0 0.5rem">
-            <Button
-              colorScheme="linkedin"
-              variant="ghost"
-              marginX="0"
-              marginY="0.25rem"
-              width="4rem"
-              borderRadius="50rem"
-              onClick={() => editClickHandler(3)}
-            >
-              {edit[3] ? "Edit" : "Save"}
-            </Button>
-          </Td>
-          <Td borderBottomStyle="none">null</Td>
-          <Td borderBottomStyle="none">null</Td>
-          <Td borderBottomStyle="none">null</Td>
-          <Td borderBottomStyle="none">null</Td>
-          <Td borderBottomStyle="none">null</Td>
-          <Td borderBottomStyle="none">null</Td>
-          <Td borderBottomStyle="none">null</Td>
-        </Tr>
-      </Tbody>
-    </Table>
+      <Table
+        backgroundColor="whitesmoke"
+        width="100%"
+        variant="striped"
+        colorScheme="linkedin"
+        borderRadius="1rem"
+        position="absolute"
+      >
+        <Thead>
+          <Tr>
+            <Th borderStyle="none">ID</Th>
+            <Th borderStyle="none">Full Name</Th>
+            <Th borderStyle="none">Email</Th>
+            <Th borderStyle="none">Phone</Th>
+            <Th borderStyle="none">Address</Th>
+            <Th borderStyle="none">Date of Birth</Th>
+            <Th borderStyle="none">Gender</Th>
+          </Tr>
+        </Thead>
+        <Tbody>
+          {users.map((user) => (
+            <AdminTableRow
+              id={user.id || "None"}
+              fullName={
+                user.firstname
+                  ? `${user.firstname || ""} ${user.middlename || ""} ${
+                      user.lastname || ""
+                    }`
+                  : "None"
+              }
+              email={user.email || "None"}
+              phone={user.phone || "None"}
+              address={user.address || "None"}
+              dateOfBirth={user.dateOfBirth || "None"}
+              gender={user.sex || "None"}
+            />
+          ))}
+        </Tbody>
+      </Table>
+    </Box>
   );
 }

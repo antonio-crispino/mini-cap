@@ -8,9 +8,11 @@ export default function AdminListItem(props) {
     icon,
     name,
     outline,
+    showTable,
     index,
     outlineOverHandler,
     outlineLeaveHandler,
+    tableClickHandler,
   } = props;
   return (
     <ListItem
@@ -26,8 +28,13 @@ export default function AdminListItem(props) {
       }}
       onMouseOver={() => outlineOverHandler(index)}
       onMouseLeave={() => outlineLeaveHandler(index)}
+      onClick={() => tableClickHandler(index)}
     >
-      <div className={`material-icons${outline[index] ? "-outlined" : ""}`}>
+      <div
+        className={`material-icons${
+          outline[index] && !showTable[index] ? "-outlined" : ""
+        }`}
+      >
         {icon}
       </div>
       <div>{name}</div>
