@@ -18,6 +18,10 @@ export default class SupaClient {
     return this.client.from("users").select("*").eq("id", id).single();
   }
 
+  async supaGetUserUsers() {
+    return this.client.from("users").select("*");
+  }
+
   async supaSignOut() {
     return this.client.auth.signOut();
   }
