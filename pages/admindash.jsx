@@ -22,7 +22,7 @@ export default function AdminDashboard() {
     const { data: medicalDoctorArray } = await client.supaGetMedicalDoctors();
     const { data: patientArray } = await client.supaGetPatients();
 
-    console.log(
+    /* console.log(
       userArray,
       administratorArray,
       healthOfficialArray,
@@ -30,15 +30,15 @@ export default function AdminDashboard() {
       businessArray,
       medicalDoctorArray,
       patientArray
-    );
+    ); */
 
-    /* setUsers(userArray);
+    setUsers(userArray);
     setAdministrators(administratorArray);
     setHealthOfficials(healthOfficialArray);
     setImmigrationOfficers(immigrationOfficerArray);
     setBusinesses(businessArray);
     setMedicalDoctors(medicalDoctorArray);
-    setPatients(patientArray); */
+    setPatients(patientArray);
   }
 
   useEffect(() => {
