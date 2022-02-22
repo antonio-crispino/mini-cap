@@ -1,57 +1,90 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/mouse-events-have-key-events */
-import { Table, Thead, Tbody, Tr, Th, Td, Box } from "@chakra-ui/react";
+import { Table, Thead, Tbody, Tr, Th, Td, Box, Button } from "@chakra-ui/react";
 
 function AdminTableRow(props) {
-  const { id, fullName, email, phone, address, dateOfBirth, gender } = props;
+  const {
+    user,
+    id,
+    fullName,
+    email,
+    phone,
+    address,
+    dateOfBirth,
+    gender,
+    setUser,
+    setShowUser,
+    setShowTable,
+  } = props;
+
+  const userClickHandler = () => {
+    setUser(user);
+    setShowUser(true);
+    setShowTable([
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+    ]);
+  };
+
   return (
     <Tr>
-      <Td borderStyle="none">{id}</Td>
-      <Td borderStyle="none">{fullName}</Td>
-      <Td borderStyle="none">{email}</Td>
-      <Td borderStyle="none">{phone}</Td>
-      <Td borderStyle="none">{address}</Td>
-      <Td borderStyle="none">{dateOfBirth}</Td>
-      <Td borderStyle="none">{gender}</Td>
+      <Td>
+        <Button
+          onClick={userClickHandler}
+          backgroundColor="lightgrey"
+          _hover={{
+            backgroundColor: "grey",
+          }}
+        >
+          View
+        </Button>
+      </Td>
+      <Td>{id}</Td>
+      <Td>{fullName}</Td>
+      <Td>{email}</Td>
+      <Td>{phone}</Td>
+      <Td>{address}</Td>
+      <Td>{dateOfBirth}</Td>
+      <Td>{gender}</Td>
     </Tr>
   );
 }
 
 export default function AdminUserTable(props) {
-  const { users, visible } = props;
-
+  const { users, visible, setUser, setShowUser, setShowTable } = props;
   return (
-    <Box
-      /* display={visible ? "block" : "none"} */
-      opacity={visible ? "1" : "0"}
-      transition="opacity 0.5s"
-      position="relative"
-      /* transform={`translateX(${visible ? "0" : "110%"})`}
-      transition="transform 0.5s" */
-    >
+    <Box>
       <Table
         backgroundColor="whitesmoke"
         width="100%"
         variant="striped"
         colorScheme="linkedin"
-        borderRadius="1rem"
-        position="absolute"
+        display={visible ? "table" : "none"}
       >
         <Thead>
           <Tr>
-            <Th borderStyle="none">ID</Th>
-            <Th borderStyle="none">Full Name</Th>
-            <Th borderStyle="none">Email</Th>
-            <Th borderStyle="none">Phone</Th>
-            <Th borderStyle="none">Address</Th>
-            <Th borderStyle="none">Date of Birth</Th>
-            <Th borderStyle="none">Gender</Th>
+            <Th />
+            <Th>ID</Th>
+            <Th>Full Name</Th>
+            <Th>Email</Th>
+            <Th>Phone</Th>
+            <Th>Address</Th>
+            <Th>Date of Birth</Th>
+            <Th>Gender</Th>
           </Tr>
         </Thead>
         <Tbody>
           {users.map((user) => (
             <AdminTableRow
+              user={user}
               id={user.id || "None"}
               fullName={
                 user.firstname
@@ -65,6 +98,9 @@ export default function AdminUserTable(props) {
               address={user.address || "None"}
               dateOfBirth={user.dateOfBirth || "None"}
               gender={user.sex || "None"}
+              setUser={setUser}
+              setShowUser={setShowUser}
+              setShowTable={setShowTable}
             />
           ))}
         </Tbody>

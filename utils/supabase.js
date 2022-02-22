@@ -88,4 +88,10 @@ export default class SupaClient {
   async supaGetPatients() {
     return this.client.from("patients").select("*");
   }
+
+  async supaSetUserInfo(id, attr, val) {
+    const obj = {};
+    obj[attr] = val;
+    return this.client.from("users").update(obj).match({ id });
+  }
 }

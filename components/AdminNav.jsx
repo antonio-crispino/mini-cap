@@ -7,6 +7,7 @@ import { useState } from "react";
 import AdminNavMenu from "./administrator/AdminNavMenu";
 import AdminNavSidebar from "./administrator/AdminNavSidebar";
 import AdminUserTable from "./administrator/AdminUserTable";
+import AdminIndividualUser from "./administrator/AdminIndividualUser";
 // import styles from "../styles/adminnav.module.css";
 // className={styles.formWidth}
 
@@ -57,10 +58,14 @@ export default function AdminNav(props) {
     false,
   ]);
 
+  const [user, setUser] = useState({});
+  const [showUser, setShowUser] = useState(false);
+
   const tableClickHandler = (i) => {
     const arr = [false, false, false, false, false, false, false, false, false];
     arr[i] = !showTable[i];
     setShowTable(arr);
+    setShowUser(false);
   };
 
   const [menuView, setMenuView] = useState(false);
@@ -114,15 +119,62 @@ export default function AdminNav(props) {
           transition="width 0.5s"
           overflow="auto"
           height="calc(100vh - 4.075rem)"
-          position="relative"
+          /* position="relative" */
         >
-          <AdminUserTable visible={showTable[0]} users={users} />
-          <AdminUserTable visible={showTable[1]} users={administrators} />
-          <AdminUserTable visible={showTable[2]} users={healthOfficials} />
-          <AdminUserTable visible={showTable[3]} users={immigrationOfficers} />
-          <AdminUserTable visible={showTable[4]} users={businesses} />
-          <AdminUserTable visible={showTable[5]} users={medicalDoctors} />
-          <AdminUserTable visible={showTable[6]} users={patients} />
+          <AdminUserTable
+            visible={showTable[0]}
+            users={users}
+            setUser={setUser}
+            setShowUser={setShowUser}
+            setShowTable={setShowTable}
+          />
+          <AdminUserTable
+            visible={showTable[1]}
+            users={administrators}
+            setUser={setUser}
+            setShowUser={setShowUser}
+            setShowTable={setShowTable}
+          />
+          <AdminUserTable
+            visible={showTable[2]}
+            users={healthOfficials}
+            setUser={setUser}
+            setShowUser={setShowUser}
+            setShowTable={setShowTable}
+          />
+          <AdminUserTable
+            visible={showTable[3]}
+            users={immigrationOfficers}
+            setUser={setUser}
+            setShowUser={setShowUser}
+            setShowTable={setShowTable}
+          />
+          <AdminUserTable
+            visible={showTable[4]}
+            users={businesses}
+            setUser={setUser}
+            setShowUser={setShowUser}
+            setShowTable={setShowTable}
+          />
+          <AdminUserTable
+            visible={showTable[5]}
+            users={medicalDoctors}
+            setUser={setUser}
+            setShowUser={setShowUser}
+            setShowTable={setShowTable}
+          />
+          <AdminUserTable
+            visible={showTable[6]}
+            users={patients}
+            setUser={setUser}
+            setShowUser={setShowUser}
+            setShowTable={setShowTable}
+          />
+          <AdminIndividualUser
+            user={user}
+            /* add user type */
+            visible={showUser}
+          />
         </Box>
       </Box>
     </Box>
