@@ -27,7 +27,7 @@ export default function AdminNavSidebar(props) {
       opacity="1"
       padding="5.25rem 2rem 2rem 2rem"
       color="black"
-      transform={`translateX(${menuView ? "0" : "-30rem"})`}
+      transform={`translateX(${menuView ? "0" : "-110%"})`}
       transition="transform 0.5s"
     >
       <AdminList
