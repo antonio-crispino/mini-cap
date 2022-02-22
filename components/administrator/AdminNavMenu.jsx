@@ -2,8 +2,10 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/mouse-events-have-key-events */
 import { Box } from "@chakra-ui/react";
+import { useAppContext } from "../../context/context";
+import withAuth from "../WithAuth";
 
-export default function AdminNavMenu(props) {
+function AdminNavMenu(props) {
   const {
     outline,
     outlineOverHandler,
@@ -11,6 +13,9 @@ export default function AdminNavMenu(props) {
     menuView,
     setMenuView,
   } = props;
+
+  const { user } = useAppContext();
+
   return (
     <Box
       width="100%"
@@ -58,8 +63,12 @@ export default function AdminNavMenu(props) {
         <div className={`material-icons${outline[7] ? "-outlined" : ""}`}>
           {`${"account_circle"}`}
         </div>
-        <div>John Doe</div>
+        <div>
+          {user.firstname} {user.lastname}
+        </div>
       </Box>
     </Box>
   );
 }
+
+export default withAuth(AdminNavMenu);
