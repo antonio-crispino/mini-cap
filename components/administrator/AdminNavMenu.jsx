@@ -3,7 +3,7 @@
 /* eslint-disable jsx-a11y/mouse-events-have-key-events */
 import { Box } from "@chakra-ui/react";
 import { useAppContext } from "../../context/context";
-import withAuth from "../WithAuth";
+import withAdminAuth from "../WithAdminAuth";
 
 function AdminNavMenu(props) {
   const {
@@ -71,4 +71,4 @@ function AdminNavMenu(props) {
   );
 }
 
-export default withAuth(AdminNavMenu);
+export default withAdminAuth(AdminNavMenu);
