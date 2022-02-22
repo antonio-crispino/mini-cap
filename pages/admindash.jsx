@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import AdminNav from "../components/AdminNav";
 import SupaClient from "../utils/supabase";
+import withAdminAuth from "../components/WithAdminAuth";
 
-export default function AdminDashboard() {
+function AdminDashboard() {
   const [users, setUsers] = useState([]);
   const [administrators, setAdministrators] = useState([]);
   const [healthOfficials, setHealthOfficials] = useState([]);
@@ -57,3 +58,5 @@ export default function AdminDashboard() {
     />
   );
 }
+
+export default withAdminAuth(AdminDashboard);

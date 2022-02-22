@@ -14,11 +14,18 @@ async function isAdmin(adminID) {
     throw new Error(error);
   }
 
+  // if (!administratorArray) return false;
+
   for (let index = 0; index < administratorArray.length; index += 1) {
+    // console.log(administratorArray[index].id);
+    // console.log(adminID);
+
     if (administratorArray[index].id === adminID) {
+      console.log("isTrue");
       return true;
     }
   }
+  console.log("isFalse");
 
   return false;
 }
@@ -29,10 +36,17 @@ const withAdminAuth = (WrappedComponent) =>
     const router = useRouter();
 
     if (isLoading) {
+      console.log("isLoading");
+
       return "";
     }
 
-    if (isAdmin(user.id)) {
+    console.log("result", isAdmin(user.id));
+
+    const val = isAdmin(user.id).then(() => true);
+    if (val) {
+      console.log(val);
+
       return (
         <ErrorCatcher
           message="You need to be an admin to view this page!!!"
