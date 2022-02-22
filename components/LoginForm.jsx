@@ -70,6 +70,7 @@ function LoginForm() {
                 style={{
                   margin: "5px 45px 0px 0px",
                 }}
+                htmlFor="email"
               >
                 Email
               </FormLabel>
@@ -85,7 +86,7 @@ function LoginForm() {
                     required: "This is required",
                   })}
                 />
-                <FormErrorMessage>
+                <FormErrorMessage data-testid="login-error-msg">
                   {errors.email && errors.email.message}
                 </FormErrorMessage>
               </Box>
@@ -99,6 +100,7 @@ function LoginForm() {
                 style={{
                   margin: "5px 20px 0px 0px",
                 }}
+                htmlFor="password"
               >
                 Password
               </FormLabel>
@@ -118,7 +120,7 @@ function LoginForm() {
                   })}
                 />
 
-                <FormErrorMessage>
+                <FormErrorMessage data-testid="login-error-msg">
                   {errors.password && errors.password.message}
                 </FormErrorMessage>
               </Box>
@@ -132,6 +134,7 @@ function LoginForm() {
                 size="lg"
                 type="submit"
                 color="white"
+                data-testid="submitBtn"
               >
                 <Box>Sign In</Box>
                 <RightArrow className={styles.loginIcon} />
