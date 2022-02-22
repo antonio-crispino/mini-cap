@@ -34,12 +34,13 @@ function SignupForm() {
 
   const router = useRouter();
 
-  const signup = async ({ email, password, firstname, lastname }) => {
+  const signup = async ({ email, password, firstname, lastname, business }) => {
     const error = await client.supaSignUp({
       email,
       password,
       firstname,
       lastname,
+      business,
     });
     if (error) {
       setError(error);
@@ -163,10 +164,10 @@ function SignupForm() {
               alignItems="center"
               justifyContent="center"
             >
-              <FormLabel htmlFor="email-alerts" mb="0" color="white">
+              <FormLabel htmlFor="business" mb="0" color="white">
                 Registering for a business?
               </FormLabel>
-              <Switch id="email-alerts" size="lg" />
+              <Switch id="business" size="lg" {...register("business")} />
             </FormControl>
           </GridItem>
 

@@ -26,7 +26,7 @@ export default class SupaClient {
     return this.client.auth.user();
   }
 
-  async supaSignUp({ email, password, firstname, lastname }) {
+  async supaSignUp({ email, password, firstname, lastname, business }) {
     let error;
     const { user, error: createAuthError } = await this.client.auth.signUp({
       email,
@@ -39,8 +39,18 @@ export default class SupaClient {
       .from("users")
       .insert([{ firstname, lastname, email, id: user.id }]);
     if (createUserError) {
-      error = createAuthError;
+      return createAuthError;
     }
+    if (business) {
+      const { error: insertionError } = await this.client
+        .from("businesses")
+        .insert([{ owner_id: user.id }]);
+
+      if (insertionError) {
+        return insertionError;
+      }
+    }
+
     return error;
   }
 
