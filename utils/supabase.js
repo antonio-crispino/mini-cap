@@ -43,4 +43,49 @@ export default class SupaClient {
     }
     return error;
   }
+
+  /* async supaGetAllUsers() {
+    const obj = await {
+      users: this.client.from("users").select("*"),
+      administrators: this.client.from("administrators").select("*"),
+      healthOfficials: this.client.from("health_officials").select("*"),
+      immigrationOfficers: this.client.from("immigration_officers").select("*"),
+      businesses: this.client.from("businesses").select("*"),
+      medicalDoctors: this.client.from("medical_doctors").select("*"),
+      patients: this.client.from("patients").select("*"),
+    };
+    return obj;
+  } */
+
+  async supaGetUsers() {
+    return this.client.from("users").select("*");
+  }
+
+  async supaGetAdministrators() {
+    // ?
+    return this.client
+      .from("administrators", "users")
+      .select("*")
+      .eq("administrators.id", "users.id");
+  }
+
+  async supaGetHealthOfficials() {
+    return this.client.from("health_officials").select("*");
+  }
+
+  async supaGetImmigrationOfficers() {
+    return this.client.from("immigration_officers").select("*");
+  }
+
+  async supaGetBusinesses() {
+    return this.client.from("businesses").select("*");
+  }
+
+  async supaGetMedicalDoctors() {
+    return this.client.from("medical_doctors").select("*");
+  }
+
+  async supaGetPatients() {
+    return this.client.from("patients").select("*");
+  }
 }

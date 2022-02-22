@@ -5,7 +5,14 @@ import { Box } from "@chakra-ui/react";
 import AdminList from "./AdminList";
 
 export default function AdminNavSidebar(props) {
-  const { outline, outlineOverHandler, outlineLeaveHandler, menuView } = props;
+  const {
+    outline,
+    showTable,
+    outlineOverHandler,
+    outlineLeaveHandler,
+    tableClickHandler,
+    menuView,
+  } = props;
   return (
     <Box
       width="25%"
@@ -25,8 +32,10 @@ export default function AdminNavSidebar(props) {
     >
       <AdminList
         outline={outline}
+        showTable={showTable}
         outlineOverHandler={outlineOverHandler}
         outlineLeaveHandler={outlineLeaveHandler}
+        tableClickHandler={tableClickHandler}
       />
     </Box>
   );

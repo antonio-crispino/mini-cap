@@ -10,8 +10,17 @@ import AdminUserTable from "./administrator/AdminUserTable";
 // import styles from "../styles/adminnav.module.css";
 // className={styles.formWidth}
 
-export default function AdminNav() {
-  // const { name } = props;
+export default function AdminNav(props) {
+  const {
+    users,
+    administrators,
+    healthOfficials,
+    immigrationOfficers,
+    businesses,
+    medicalDoctors,
+    patients,
+  } = props;
+
   const [outline, setOutline] = useState([
     true,
     true,
@@ -23,16 +32,37 @@ export default function AdminNav() {
     true,
     true,
   ]);
+
   const outlineOnHandler = (i) => {
     const arr = [...outline];
     arr[i] = false;
     setOutline(arr);
   };
+
   const outlineLeaveHandler = (i) => {
     const arr = [...outline];
     arr[i] = true;
     setOutline(arr);
   };
+
+  const [showTable, setShowTable] = useState([
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
+
+  const tableClickHandler = (i) => {
+    const arr = [false, false, false, false, false, false, false, false, false];
+    arr[i] = !showTable[i];
+    setShowTable(arr);
+  };
+
   const [menuView, setMenuView] = useState(false);
 
   return (
@@ -71,8 +101,10 @@ export default function AdminNav() {
         >
           <AdminNavSidebar
             outline={outline}
+            showTable={showTable}
             outlineOverHandler={outlineOnHandler}
             outlineLeaveHandler={outlineLeaveHandler}
+            tableClickHandler={tableClickHandler}
             menuView={menuView}
           />
         </Box>
@@ -82,8 +114,15 @@ export default function AdminNav() {
           transition="width 0.5s"
           overflow="auto"
           height="calc(100vh - 4.075rem)"
+          position="relative"
         >
-          <AdminUserTable />
+          <AdminUserTable visible={showTable[0]} users={users} />
+          <AdminUserTable visible={showTable[1]} users={administrators} />
+          <AdminUserTable visible={showTable[2]} users={healthOfficials} />
+          <AdminUserTable visible={showTable[3]} users={immigrationOfficers} />
+          <AdminUserTable visible={showTable[4]} users={businesses} />
+          <AdminUserTable visible={showTable[5]} users={medicalDoctors} />
+          <AdminUserTable visible={showTable[6]} users={patients} />
         </Box>
       </Box>
     </Box>
