@@ -32,13 +32,13 @@ export default function AdminDashboard() {
       patientArray
     );
 
-    setUsers(userArray);
+    /* setUsers(userArray);
     setAdministrators(administratorArray);
     setHealthOfficials(healthOfficialArray);
     setImmigrationOfficers(immigrationOfficerArray);
     setBusinesses(businessArray);
     setMedicalDoctors(medicalDoctorArray);
-    setPatients(patientArray);
+    setPatients(patientArray); */
   }
 
   useEffect(() => {
