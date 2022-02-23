@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/mouse-events-have-key-events */
 import { Table, Thead, Tbody, Tr, Th, Td, Box, Button } from "@chakra-ui/react";
+import { useState } from "react";
 
 function AdminTableRow(props) {
   const {
@@ -18,6 +19,8 @@ function AdminTableRow(props) {
     setShowUser,
     setShowTable,
   } = props;
+
+  const [dropDownValue, setDropDownValue] = useState("");
 
   const userClickHandler = () => {
     setUser(user);
@@ -71,10 +74,15 @@ function AdminTableRow(props) {
           {/* <label htmlFor="choice-of-doctors">All Doctors</label> */}
           <label htmlFor="choice-of-doctors">
             All Docs
+            {console.log("drop", dropDownValue)}
             <input
               list="doctor-select"
               id="choice-of-doctors"
               name="choice-of-doctors"
+              value={dropDownValue}
+              onChange={(e) => {
+                setDropDownValue(e.target.value);
+              }}
             />
           </label>
 
