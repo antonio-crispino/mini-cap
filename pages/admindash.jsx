@@ -10,6 +10,7 @@ export default function AdminDashboard() {
   const [businesses, setBusinesses] = useState([]);
   const [medicalDoctors, setMedicalDoctors] = useState([]);
   const [patients, setPatients] = useState([]);
+  const [doctorsPatients, setDoctorsPatients] = useState([]);
 
   async function fetchAllUsers() {
     const client = new SupaClient();
@@ -21,6 +22,7 @@ export default function AdminDashboard() {
     const { data: businessArray } = await client.supaGetBusinesses();
     const { data: medicalDoctorArray } = await client.supaGetMedicalDoctors();
     const { data: patientArray } = await client.supaGetPatients();
+    const { data: doctorsPatientArray } = await client.supaGetDoctorsPatients();
 
     /* console.log(
       userArray,
@@ -39,12 +41,21 @@ export default function AdminDashboard() {
     setBusinesses(businessArray);
     setMedicalDoctors(medicalDoctorArray);
     setPatients(patientArray);
+    setDoctorsPatients(doctorsPatientArray);
+    // setDoctorsPatients([
+    //   {
+    //     doctor_id: "c2ea4438-1826-4035-a50d-0fdcee3b3e0d",
+    //     patient_id: "8ca5febc-fada-4d74-8fb5-371f7f2c1703",
+    //   },
+    // ]);
   }
 
   useEffect(() => {
     fetchAllUsers();
   }, []);
 
+  // console.log("dash-admin", administrators);
+  console.log("dash", doctorsPatients);
   return (
     <AdminNav
       users={users}
@@ -54,6 +65,7 @@ export default function AdminDashboard() {
       businesses={businesses}
       medicalDoctors={medicalDoctors}
       patients={patients}
+      doctorsPatients={doctorsPatients}
     />
   );
 }

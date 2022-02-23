@@ -18,6 +18,7 @@ function AdminTableRow(props) {
     setUser,
     setShowUser,
     setShowTable,
+    // userDoctor,
   } = props;
 
   const [dropDownValue, setDropDownValue] = useState("");
@@ -87,7 +88,7 @@ function AdminTableRow(props) {
           </label>
 
           <datalist id="doctor-select">
-            <option value="Doc 1"> </option>
+            {/* <option value={doctorsPatient.doctor_id}> </option> */}
             <option value="Doc 2"> </option>
             <option value="Doc 3"> </option>
             <option value="Doc 4"> </option>
@@ -102,9 +103,25 @@ function AdminTableRow(props) {
 }
 
 export default function AdminUserTable(props) {
-  const { users, userType, visible, setUser, setShowUser, setShowTable } =
-    props;
+  const {
+    users,
+    userType,
+    visible,
+    setUser,
+    setShowUser,
+    setShowTable,
+    doctorsPatients,
+  } = props;
   // console.log("header", userType);
+
+  // console.log("CHECK", doctorsPatients);
+  // function getLogic(user, data) {
+  //   for (let index = 0; index < doctorsPatients.size(); index++) {
+  //     const element = doctorsPatients[index];
+  //   }
+  //   return null;
+  // }
+
   return (
     <Box>
       <Table
@@ -148,6 +165,18 @@ export default function AdminUserTable(props) {
               setUser={setUser}
               setShowUser={setShowUser}
               setShowTable={setShowTable}
+              // userDoctor={getLogic(user, doctorsPatients)}
+              // userDoctor={for (let index = 0; index < doctorsPatients.length; index++) {
+              //   const element = doctorsPatients[index];
+
+              // }}
+              userDoctor={
+                doctorsPatients[
+                  doctorsPatients.find(
+                    (element) => element.patient_id === user.id
+                  )
+                ]
+              }
             />
           ))}
         </Tbody>
