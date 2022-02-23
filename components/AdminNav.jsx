@@ -124,6 +124,7 @@ export default function AdminNav(props) {
           <AdminUserTable
             visible={showTable[0]}
             users={users}
+            userType="users"
             setUser={setUser}
             setShowUser={setShowUser}
             setShowTable={setShowTable}
@@ -131,6 +132,7 @@ export default function AdminNav(props) {
           <AdminUserTable
             visible={showTable[1]}
             users={administrators}
+            userType="administrators"
             setUser={setUser}
             setShowUser={setShowUser}
             setShowTable={setShowTable}
@@ -138,6 +140,7 @@ export default function AdminNav(props) {
           <AdminUserTable
             visible={showTable[2]}
             users={healthOfficials}
+            userType="healthOfficials"
             setUser={setUser}
             setShowUser={setShowUser}
             setShowTable={setShowTable}
@@ -145,6 +148,7 @@ export default function AdminNav(props) {
           <AdminUserTable
             visible={showTable[3]}
             users={immigrationOfficers}
+            userType="immigrationOfficers"
             setUser={setUser}
             setShowUser={setShowUser}
             setShowTable={setShowTable}
@@ -152,6 +156,7 @@ export default function AdminNav(props) {
           <AdminUserTable
             visible={showTable[4]}
             users={businesses}
+            userType="businesses"
             setUser={setUser}
             setShowUser={setShowUser}
             setShowTable={setShowTable}
@@ -159,6 +164,7 @@ export default function AdminNav(props) {
           <AdminUserTable
             visible={showTable[5]}
             users={medicalDoctors}
+            userType="medicalDoctors"
             setUser={setUser}
             setShowUser={setShowUser}
             setShowTable={setShowTable}
@@ -166,6 +172,7 @@ export default function AdminNav(props) {
           <AdminUserTable
             visible={showTable[6]}
             users={patients}
+            userType="patient"
             setUser={setUser}
             setShowUser={setShowUser}
             setShowTable={setShowTable}

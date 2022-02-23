@@ -13,6 +13,7 @@ function AdminTableRow(props) {
     address,
     dateOfBirth,
     gender,
+    userType,
     setUser,
     setShowUser,
     setShowTable,
@@ -54,12 +55,29 @@ function AdminTableRow(props) {
       <Td>{address}</Td>
       <Td>{dateOfBirth}</Td>
       <Td>{gender}</Td>
+      {userType === "patient" ? (
+        <Td>
+          <Button
+            onClick={userClickHandler}
+            backgroundColor="lightgrey"
+            _hover={{
+              backgroundColor: "grey",
+            }}
+          >
+            Assign doctor
+          </Button>
+        </Td>
+      ) : (
+        ""
+      )}
     </Tr>
   );
 }
 
 export default function AdminUserTable(props) {
-  const { users, visible, setUser, setShowUser, setShowTable } = props;
+  const { users, userType, visible, setUser, setShowUser, setShowTable } =
+    props;
+  // console.log("header", userType);
   return (
     <Box>
       <Table
@@ -79,6 +97,7 @@ export default function AdminUserTable(props) {
             <Th>Address</Th>
             <Th>Date of Birth</Th>
             <Th>Gender</Th>
+            {userType === "patient" ? <Th>My Doctor</Th> : ""}
           </Tr>
         </Thead>
         <Tbody>
@@ -98,6 +117,7 @@ export default function AdminUserTable(props) {
               address={user.address || "None"}
               dateOfBirth={user.dateOfBirth || "None"}
               gender={user.sex || "None"}
+              userType={userType || "None"}
               setUser={setUser}
               setShowUser={setShowUser}
               setShowTable={setShowTable}
