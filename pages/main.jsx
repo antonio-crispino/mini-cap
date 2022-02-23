@@ -107,8 +107,8 @@ function Main() {
             </PopoverTrigger>
             <PopoverContent
               color="white"
-              bgGradient="linear(to-br, blue.600, purple.700)"
-              borderColor="blue.600"
+              bg="blue.600"
+              borderColor="purple.700"
             >
               <PopoverHeader pt={4} fontWeight="bold" border="0">
                 Comfirm Account Deletion
