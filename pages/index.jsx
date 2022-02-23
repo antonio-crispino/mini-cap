@@ -8,11 +8,14 @@ import {
   Spacer,
   Button,
 } from "@chakra-ui/react";
+import { NavBar } from "../components/NavBar";
+import { Footer } from "../components/Footer";
 import Sidebar from "../components/Sidebar";
 
 export default function Home() {
   return (
     <Container maxW="container.xl" centerContent>
+      <NavBar />
       <Flex h="100vh" alignItems="center">
         <Sidebar />
         <Box p="2">
@@ -32,6 +35,7 @@ export default function Home() {
           </Button>
         </Box>
       </Flex>
+      <Footer />
     </Container>
   );
 }
