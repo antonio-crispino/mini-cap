@@ -54,6 +54,17 @@ export default class SupaClient {
     return error;
   }
 
+  async supaUpdate(email, newfirstname, newlastname) {
+    const data = this.client
+      .from("users")
+      .update({
+        firstname: newfirstname,
+        lastname: newlastname,
+      })
+      .match({ email });
+    return data;
+  }
+
   /* async supaGetAllUsers() {
     const obj = await {
       users: this.client.from("users").select("*"),
