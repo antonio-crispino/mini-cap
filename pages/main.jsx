@@ -108,7 +108,7 @@ function Main() {
             <PopoverContent
               color="white"
               bgGradient="linear(to-br, blue.600, purple.700)"
-              borderColor="linear(to-br, blue.600, purple.700)"
+              borderColor="blue.600"
             >
               <PopoverHeader pt={4} fontWeight="bold" border="0">
                 Comfirm Account Deletion
