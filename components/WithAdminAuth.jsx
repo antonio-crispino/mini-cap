@@ -22,8 +22,7 @@ fetchAdministrators(); // Call the above function to store the administratorIds 
  * Validates administrator.
  */
 function isAdmin(adminID) {
-  const exists = administratorIds.includes(adminID);
-  return exists;
+  return administratorIds.includes(adminID);
 }
 
 /**
