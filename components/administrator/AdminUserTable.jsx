@@ -57,7 +57,7 @@ function AdminTableRow(props) {
       <Td>{gender}</Td>
       {userType === "patient" ? (
         <Td>
-          <Button
+          {/* <Button
             onClick={userClickHandler}
             backgroundColor="lightgrey"
             _hover={{
@@ -65,7 +65,26 @@ function AdminTableRow(props) {
             }}
           >
             Assign doctor
-          </Button>
+          </Button> */}
+
+          {/* could not find a chakra component, so used normal JS one */}
+          {/* <label htmlFor="choice-of-doctors">All Doctors</label> */}
+          <label htmlFor="choice-of-doctors">
+            All Docs
+            <input
+              list="doctor-select"
+              id="choice-of-doctors"
+              name="choice-of-doctors"
+            />
+          </label>
+
+          <datalist id="doctor-select">
+            <option value="Doc 1"> </option>
+            <option value="Doc 2"> </option>
+            <option value="Doc 3"> </option>
+            <option value="Doc 4"> </option>
+            <option value="Doc 5"> </option>
+          </datalist>
         </Td>
       ) : (
         ""
