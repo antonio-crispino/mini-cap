@@ -38,28 +38,29 @@ function ContextProvider({ mockData, children }) {
     getUserProfile();
   }, [client]);
 
-  const login = useCallback(
-    async (email, password) => {
-      setIsLoading(true);
-      const authData = await client.supaSignIn(email, password);
-      const { error: loginError } = authData;
-      if (loginError) {
-        setError(loginError);
-        setIsLoading(false);
-        return loginError;
-      }
-      const sessionUser = authData.user;
-      if (sessionUser) {
-        const userData = await client.supaGetUserData(sessionUser.id);
-        setUser({
-          ...sessionUser,
-          ...userData.data,
-        });
-      }
+  const login = useCallback(async (email, password) => {
+    setIsLoading(true);
+    const authData = await client.supaSignIn(email, password);
+    const { error: loginError } = authData;
+    if (loginError) {
+      setError(loginError);
       setIsLoading(false);
-    },
-    [client]
-  );
+      return loginError;
+    }
+    const sessionUser = authData.user;
+    if (sessionUser) {
+      const userData = await client.supaGetUserData(sessionUser.id);
+      setUser({
+        ...sessionUser,
+        ...userData.data,
+      });
+    }
+    setIsLoading(false);
+  });
+
+  const update = useCallback(async (email, newfirstname, newlastname) => {
+    await client.supaUpdate(email, newfirstname, newlastname);
+  });
 
   const logout = useCallback(async () => {
     setIsLoading(true);
@@ -92,6 +93,7 @@ function ContextProvider({ mockData, children }) {
       setError,
       setIsLoading,
       refreshData,
+      update,
     };
     return ctxExposed;
   }, [
@@ -105,6 +107,7 @@ function ContextProvider({ mockData, children }) {
     setError,
     setIsLoading,
     refreshData,
+    update,
   ]);
 
   return <Context.Provider value={exposed}>{children}</Context.Provider>;
