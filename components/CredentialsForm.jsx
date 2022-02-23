@@ -8,6 +8,7 @@ import {
   GridItem,
   Button,
   FormErrorMessage,
+  Center,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import Router from "next/router";
@@ -44,8 +45,8 @@ function CredentialsForm() {
             <FormControl isInvalid={errors.firstname}>
               <FormLabel color="white">Change First Name</FormLabel>
               <Input
+                bg="white"
                 id="newfirstname"
-                color="white"
                 placeholder={user.firstname}
                 defaultValue={user.firstname}
                 {...register("newfirstname", {
@@ -66,8 +67,8 @@ function CredentialsForm() {
             <FormControl isInvalid={errors.lastname}>
               <FormLabel color="white">Change Last Name</FormLabel>
               <Input
+                bg="white"
                 id="newlastname"
-                color="white"
                 placeholder={user.lastname}
                 defaultValue={user.lastname}
                 {...register("newlastname", {
@@ -90,6 +91,7 @@ function CredentialsForm() {
                 Before Submiting, enter your current password.
               </FormLabel>
               <Input
+                bg="white"
                 id="password"
                 placeholder="Enter your password"
                 type="password"
@@ -108,15 +110,17 @@ function CredentialsForm() {
           </GridItem>
 
           <GridItem w="100%" colSpan={2}>
-            <Button
-              variant="ghost"
-              _hover={{ textDecoration: "underline" }}
-              size="lg"
-              type="submit"
-              color="white"
-            >
-              Submit
-            </Button>
+            <Center>
+              <Button
+                variant="ghost"
+                _hover={{ textDecoration: "underline" }}
+                size="lg"
+                type="submit"
+                color="white"
+              >
+                Submit
+              </Button>
+            </Center>
           </GridItem>
         </SimpleGrid>
       </VStack>
