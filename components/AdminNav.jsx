@@ -13,6 +13,7 @@ import AdminIndividualUser from "./administrator/AdminIndividualUser";
 
 export default function AdminNav(props) {
   const {
+    currentUser,
     users,
     administrators,
     healthOfficials,
@@ -92,6 +93,7 @@ export default function AdminNav(props) {
         />
       </Head>
       <AdminNavMenu
+        currentUser={currentUser}
         outline={outline}
         outlineOverHandler={outlineOnHandler}
         outlineLeaveHandler={outlineLeaveHandler}

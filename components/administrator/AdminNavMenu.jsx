@@ -5,6 +5,7 @@ import { Box } from "@chakra-ui/react";
 
 export default function AdminNavMenu(props) {
   const {
+    currentUser,
     outline,
     outlineOverHandler,
     outlineLeaveHandler,
@@ -35,9 +36,6 @@ export default function AdminNavMenu(props) {
           onMouseLeave={() => outlineLeaveHandler(8)}
           onClick={() => setMenuView(!menuView)}
         >
-          {/* {(outline[8] && !menuView) || (!outline[8] && menuView)
-            ? "menu"
-          : "menu_open"} */}
           {menuView ? "menu_open" : "menu"}
         </div>
         <div style={{ fontWeight: "bold" }}>ANTI-COVID</div>
@@ -58,7 +56,9 @@ export default function AdminNavMenu(props) {
         <div className={`material-icons${outline[7] ? "-outlined" : ""}`}>
           {`${"account_circle"}`}
         </div>
-        <div>John Doe</div>
+        <div>{`${currentUser.firstname} ${currentUser.middlename || ""} ${
+          currentUser.lastname
+        }`}</div>
       </Box>
     </Box>
   );
