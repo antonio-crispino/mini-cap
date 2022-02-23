@@ -38,8 +38,8 @@ function ContextProvider({ mockData, children }) {
     getUserProfile();
   }, [client]);
 
-  const setToInactive = useCallback(async (email, intable) =>
-    client.supaSetToInactive(email, intable)
+  const setToInactive = useCallback(
+    async (email, intable) => client.supaSetToInactive(email, intable)[client]
   );
 
   const login = useCallback(
