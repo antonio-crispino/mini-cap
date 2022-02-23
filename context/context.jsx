@@ -38,6 +38,10 @@ function ContextProvider({ mockData, children }) {
     getUserProfile();
   }, [client]);
 
+  const setToInactive = useCallback(async (email, intable) =>
+    client.supaSetToInactive(email, intable)
+  );
+
   const login = useCallback(
     async (email, password) => {
       setIsLoading(true);
@@ -92,6 +96,7 @@ function ContextProvider({ mockData, children }) {
       setError,
       setIsLoading,
       refreshData,
+      setToInactive,
     };
     return ctxExposed;
   }, [
@@ -105,6 +110,7 @@ function ContextProvider({ mockData, children }) {
     setError,
     setIsLoading,
     refreshData,
+    setToInactive,
   ]);
 
   return <Context.Provider value={exposed}>{children}</Context.Provider>;

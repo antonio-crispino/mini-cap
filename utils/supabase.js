@@ -7,6 +7,13 @@ export default class SupaClient {
     this.client = createClient(supabaseUrl, supabaseAnonKey);
   }
 
+  async supaSetToInactive(email, intable) {
+    return this.client
+      .from(intable)
+      .update({ inactive: true })
+      .match({ email });
+  }
+
   async supaSignIn(email, password) {
     return this.client.auth.signIn({
       email,
