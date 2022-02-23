@@ -54,7 +54,6 @@ export default class SupaClient {
     return error;
   }
 
-
   async supaUpdate(email, newfirstname, newlastname) {
     const data = this.client
       .from("users")
@@ -64,6 +63,7 @@ export default class SupaClient {
       })
       .match({ email });
     return data;
+  }
 
   /* async supaGetAllUsers() {
     const obj = await {
@@ -114,6 +114,5 @@ export default class SupaClient {
     const obj = {};
     obj[attr] = val;
     return this.client.from("users").update(obj).match({ id });
-
   }
 }
