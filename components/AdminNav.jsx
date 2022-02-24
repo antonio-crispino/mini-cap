@@ -1,13 +1,14 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/mouse-events-have-key-events */
-import { Box } from "@chakra-ui/react";
+import { Box, Button } from "@chakra-ui/react";
 import Head from "next/head";
 import { useState } from "react";
 import AdminNavMenu from "./administrator/AdminNavMenu";
 import AdminNavSidebar from "./administrator/AdminNavSidebar";
 import AdminUserTable from "./administrator/AdminUserTable";
 import AdminIndividualUser from "./administrator/AdminIndividualUser";
+import AdminCreateUser from "./administrator/AdminCreateUser";
 // import styles from "../styles/adminnav.module.css";
 // className={styles.formWidth}
 
@@ -61,12 +62,20 @@ export default function AdminNav(props) {
 
   const [user, setUser] = useState({});
   const [showUser, setShowUser] = useState(false);
+  const [createUser, setCreateUser] = useState(false);
 
   const tableClickHandler = (i) => {
     const arr = [false, false, false, false, false, false, false, false, false];
     arr[i] = !showTable[i];
     setShowTable(arr);
     setShowUser(false);
+    setCreateUser(false);
+  };
+
+  const createClickHandler = () => {
+    const arr = [false, false, false, false, false, false, false, false, false];
+    setShowTable(arr);
+    setCreateUser(true);
   };
 
   const [menuView, setMenuView] = useState(false);
@@ -123,6 +132,14 @@ export default function AdminNav(props) {
           height="calc(100vh - 4.075rem)"
           /* position="relative" */
         >
+          <Button
+            display={showTable[0] ? "block" : "none"}
+            marginBottom="1rem"
+            onClick={createClickHandler}
+          >
+            + Create New User
+          </Button>
+          <AdminCreateUser visible={createUser} setVisible={setCreateUser} />
           <AdminUserTable
             visible={showTable[0]}
             users={users}
@@ -176,6 +193,7 @@ export default function AdminNav(props) {
             user={user}
             /* add user type */
             visible={showUser}
+            /* setVisible={setShowUser} */
           />
         </Box>
       </Box>
