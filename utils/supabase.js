@@ -104,4 +104,46 @@ export default class SupaClient {
     obj[attr] = val;
     return this.client.from("users").update(obj).match({ id });
   }
+
+  async supaAddUser(type, firstname, middlename, lastname, email, password) {
+    const { user, error } = await this.client.auth.signUp({
+      email,
+      password,
+    });
+
+    if (error) {
+      return error;
+    }
+
+    await this.client
+      .from("users")
+      .insert([{ firstname, middlename, lastname, email, id: user.id }]);
+
+    switch (type) {
+      case "administrator":
+        await this.client.from("administrators").insert([{ id: user.id }]);
+        break;
+      case "health_official":
+        await this.client.from("health_officials").insert([{ id: user.id }]);
+        break;
+      case "immigration_officer":
+        await this.client
+          .from("immigration_officers")
+          .insert([{ id: user.id }]);
+        break;
+      case "business":
+        await this.client.from("businesses").insert([{ id: user.id }]);
+        break;
+      case "medical_doctor":
+        await this.client.from("medical_doctors").insert([{ id: user.id }]);
+        break;
+      case "patient":
+        await this.client.from("patients").insert([{ id: user.id }]);
+        break;
+      default:
+        return new Error("Invalid user type.");
+    }
+
+    return error;
+  }
 }

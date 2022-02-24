@@ -12,8 +12,8 @@ import {
   Button,
   Input,
 } from "@chakra-ui/react";
-
 import { useState } from "react";
+import SupaClient from "../../utils/supabase";
 
 export default function AdminCreateUser(props) {
   const { visible, setVisible } = props;
@@ -23,6 +23,7 @@ export default function AdminCreateUser(props) {
   const [userMiddleName, setUserMiddleName] = useState("");
   const [userLastName, setUserLastName] = useState("");
   const [userEmail, setUserEmail] = useState("");
+  const [userPassword, setUserPassword] = useState("");
 
   const handleCancelButton = () => {
     setVisible(false);
@@ -31,6 +32,40 @@ export default function AdminCreateUser(props) {
     setUserMiddleName("");
     setUserLastName("");
     setUserEmail("");
+    setUserPassword("");
+  };
+
+  // Function to update a specified user's info in the database
+  async function addUser(
+    type,
+    firstName,
+    middleName,
+    lastName,
+    email,
+    password
+  ) {
+    const client = new SupaClient();
+    return client.supaAddUser(
+      type,
+      firstName,
+      middleName,
+      lastName,
+      email,
+      password
+    );
+  }
+
+  // Function to close create user and to send updated user data to the database
+  const handleCreateClick = async () => {
+    await addUser(
+      userType,
+      userFirstName,
+      userMiddleName,
+      userLastName,
+      userEmail,
+      userPassword
+    );
+    handleCancelButton();
   };
 
   return (
@@ -49,12 +84,15 @@ export default function AdminCreateUser(props) {
         </Thead>
         <Tbody backgroundColor="lightgray">
           <Tr>
-            <Th>User Type</Th>
+            <Th minWidth="16rem" width="20%">
+              User Type
+            </Th>
             <Td>
               <Input
                 value={userType}
                 onChange={(e) => setUserType(e.target.value)}
                 backgroundColor="white"
+                minWidth="16rem"
               />
             </Td>
           </Tr>
@@ -99,14 +137,25 @@ export default function AdminCreateUser(props) {
             </Td>
           </Tr>
           <Tr>
+            <Th>Temporary Password</Th>
+            <Td>
+              <Input
+                value={userPassword}
+                onChange={(e) => setUserPassword(e.target.value)}
+                backgroundColor="white"
+              />
+            </Td>
+          </Tr>
+          <Tr>
             <Td>
               <Button
+                onClick={handleCreateClick}
                 backgroundColor="#80c904"
                 _hover={{
                   backgroundColor: "#66a103",
                 }}
               >
-                Save
+                Create
               </Button>
               <Button
                 onClick={handleCancelButton}

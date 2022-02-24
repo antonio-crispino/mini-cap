@@ -137,7 +137,7 @@ export default function AdminNav(props) {
             marginBottom="1rem"
             onClick={createClickHandler}
           >
-            Create New User
+            + Create New User
           </Button>
           <AdminCreateUser visible={createUser} setVisible={setCreateUser} />
           <AdminUserTable
