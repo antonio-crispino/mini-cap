@@ -6,20 +6,11 @@ import {
   createStandaloneToast,
   Text,
 } from "@chakra-ui/react";
-// import { useForm } from "react-hook-form";
-// import { useRouter } from "next/router";
+
 import { useAppContext } from "../context/context";
-// import styles from "../styles/sideSection.module.css";
 
 function PasswordResetForm() {
-  /* const {
-    // register,
-    // handleSubmit,
-    // formState: { errors },
-  } = useForm();
-  */
   const { sendRestToEmail, user } = useAppContext();
-  // const router = useRouter();
 
   const resetPassword = async () => {
     const response = await sendRestToEmail(user.email);
@@ -35,8 +26,6 @@ function PasswordResetForm() {
   };
 
   return (
-    // <form style={{ width: "100%" }}>
-
     <VStack h="100%" w="full" py={20} px={10}>
       <Flex
         flexDirection="column"
@@ -65,8 +54,6 @@ function PasswordResetForm() {
         </Box>
       </Flex>
     </VStack>
-
-    // </form>
   );
 }
 
