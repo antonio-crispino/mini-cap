@@ -146,4 +146,21 @@ export default class SupaClient {
 
     return error;
   }
+
+  /*
+  async supaDeleteUser(id) {
+    await this.client.from("administrators").delete().match([{ id }]);
+    await this.client.from("health_officials").delete().match([{ id }]);
+    await this.client.from("immigration_officers").delete().match([{ id }]);
+    await this.client.from("businesses").delete().match([{ id }]);
+    await this.client.from("medical_doctors").delete().match([{ id }]);
+    await this.client.from("patients").delete().match([{ id }]);
+    await this.client.from("users").delete().match([{ id }]);
+    const { error } = await this.client.auth.api.deleteUser(
+      id,
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJvbGUiOiJzZXJ2aWNlX3JvbGUiLCJpYXQiOjE2NDIzNjMzMzMsImV4cCI6MTk1NzkzOTMzM30.Z_cyBnzAp5ygBB0_jU2AkRSPc64mi3J3U3oq5dR2OR0"
+    );
+    return error;
+  }
+  */
 }

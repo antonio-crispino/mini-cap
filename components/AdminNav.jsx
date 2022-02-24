@@ -193,6 +193,7 @@ export default function AdminNav(props) {
             user={user}
             /* add user type */
             visible={showUser}
+            /* setVisible={setShowUser} */
           />
         </Box>
       </Box>
