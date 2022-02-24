@@ -45,6 +45,13 @@ function ContextProvider({ mockData, children }) {
     [client]
   );
 
+  const sendRestToEmail = useCallback(
+    async (email) => {
+      client.supaSendRestToEmail(email);
+    },
+    [client]
+  );
+
   const login = useCallback(
     async (email, password) => {
       setIsLoading(true);
@@ -108,7 +115,7 @@ function ContextProvider({ mockData, children }) {
       refreshData,
       setToInactive,
       update,
-
+      sendRestToEmail,
     };
     return ctxExposed;
   }, [
@@ -124,7 +131,7 @@ function ContextProvider({ mockData, children }) {
     refreshData,
     setToInactive,
     update,
-
+    sendRestToEmail,
   ]);
 
   return <Context.Provider value={exposed}>{children}</Context.Provider>;
