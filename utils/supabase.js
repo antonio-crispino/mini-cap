@@ -91,7 +91,6 @@ export default class SupaClient {
 
   async supaGetDoctorsPatients() {
     const testing = this.client.from("doctor_patient").select("*");
-    console.log("testing", testing);
     return testing;
   }
 

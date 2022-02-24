@@ -19,6 +19,7 @@ function AdminTableRow(props) {
     setShowUser,
     setShowTable,
     // userDoctor,
+    doctorsPatientsCount,
   } = props;
 
   const [dropDownValue, setDropDownValue] = useState("");
@@ -59,6 +60,13 @@ function AdminTableRow(props) {
       <Td>{address}</Td>
       <Td>{dateOfBirth}</Td>
       <Td>{gender}</Td>
+
+      {userType === "medicalDoctors" ? (
+        <Td>{doctorsPatientsCount[user.id]}</Td>
+      ) : (
+        ""
+      )}
+
       {userType === "patient" ? (
         <Td>
           {/* <Button
@@ -75,7 +83,6 @@ function AdminTableRow(props) {
           {/* <label htmlFor="choice-of-doctors">All Doctors</label> */}
           <label htmlFor="choice-of-doctors">
             All Docs
-            {console.log("drop", dropDownValue)}
             <input
               list="doctor-select"
               id="choice-of-doctors"
@@ -100,6 +107,21 @@ function AdminTableRow(props) {
       )}
     </Tr>
   );
+}
+
+function getDoctorObj(doctorsPatients) {
+  const doctorsObjs = {};
+
+  for (let index = 0; index < doctorsPatients.length; index += 1) {
+    const element = doctorsPatients[index];
+    if (element.doctor_id in doctorsObjs) {
+      doctorsObjs[element.doctor_id] += 1;
+    } else {
+      doctorsObjs[element.doctor_id] = 1;
+    }
+  }
+
+  return doctorsObjs;
 }
 
 export default function AdminUserTable(props) {
@@ -142,6 +164,7 @@ export default function AdminUserTable(props) {
             <Th>Date of Birth</Th>
             <Th>Gender</Th>
             {userType === "patient" ? <Th>My Doctor</Th> : ""}
+            {userType === "medicalDoctors" ? <Th>Number of Patients</Th> : ""}
           </Tr>
         </Thead>
         <Tbody>
@@ -170,6 +193,7 @@ export default function AdminUserTable(props) {
               //   const element = doctorsPatients[index];
 
               // }}
+              doctorsPatientsCount={getDoctorObj(doctorsPatients)}
               userDoctor={
                 doctorsPatients[
                   doctorsPatients.find(
