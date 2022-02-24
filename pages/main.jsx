@@ -40,7 +40,7 @@ function Main() {
 
   const deleteAccount = async () => {
     const response = await setToInactive(user.email, "users");
-    if (!response.error) {
+    if (!response) {
       const toast = createStandaloneToast();
       toast({
         title: "Account set for deletion. Will be deleted in 14 days.",

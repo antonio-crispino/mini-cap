@@ -39,7 +39,10 @@ function ContextProvider({ mockData, children }) {
   }, [client]);
 
   const setToInactive = useCallback(
-    async (email, intable) => client.supaSetToInactive(email, intable)[client]
+    async (email, intable) => {
+      client.supaSetToInactive(email, intable);
+    },
+    [client]
   );
 
   const login = useCallback(
