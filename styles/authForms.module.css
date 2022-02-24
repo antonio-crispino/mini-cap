@@ -1,0 +1,17 @@
+.line {
+  height: 4px;
+  border: none;
+  color: #fff;
+  background-color: #fff;
+  border-radius: 2px;
+  width: 80%;
+}
+
+.formWidth {
+  width: 70%;
+}
+
+.loginIcon {
+  font-size: 25px;
+  margin: 5px;
+}

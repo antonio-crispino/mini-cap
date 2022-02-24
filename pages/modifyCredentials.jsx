@@ -1,8 +1,12 @@
-import { Container, VStack, Flex } from "@chakra-ui/react";
-import LoginForm from "../components/LoginForm";
+import { Container, VStack, Flex, Button, Link } from "@chakra-ui/react";
+import NextLink from "next/link";
 import SideSection from "../components/SideSection";
+import CredentialsForm from "../components/CredentialsForm";
+import withAuth from "../components/WithAuth";
+import { RightArrow } from "../components/CustomIcons";
+import styles from "../styles/authForms.module.css";
 
-function LoginPage() {
+function ModifyCredentials() {
   return (
     <Container
       maxW="full"
@@ -32,11 +36,23 @@ function LoginPage() {
           justifyContent="center"
           alignItems="center"
         >
-          <LoginForm />
+          <CredentialsForm />
+          <Button
+            variant="ghost"
+            _hover={{ textDecoration: "underline" }}
+            size="lg"
+            type="submit"
+            color="white"
+          >
+            <NextLink href="/main">
+              <Link>Back</Link>
+            </NextLink>
+            <RightArrow className={styles.loginIcon} />
+          </Button>
         </VStack>
       </Flex>
     </Container>
   );
 }
 
-export default LoginPage;
+export default withAuth(ModifyCredentials);

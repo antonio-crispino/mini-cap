@@ -1,12 +1,6 @@
 import React from "react";
 
-const content = [
-  "LOGO",
-  "The Anti-Covid Web App",
-  "QR-code",
-  "ICON",
-  "www.anti-covid.com",
-];
+const content = ["LOGO", "The Anti-Covid Web App", "QR-code", "ICON"];
 
 function Sidebar() {
   return (
@@ -23,7 +17,7 @@ function Sidebar() {
           <img src={content[3]} alt="ICON" />
         </section>
       </article>
-      <section>{content[4]}</section>
+      <section />
     </aside>
   );
 }

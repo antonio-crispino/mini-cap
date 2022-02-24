@@ -68,6 +68,13 @@ function ContextProvider({ mockData, children }) {
     [client]
   );
 
+  const update = useCallback(
+    async (email, newfirstname, newlastname) => {
+      await client.supaUpdate(email, newfirstname, newlastname);
+    },
+    [client]
+  );
+
   const logout = useCallback(async () => {
     setIsLoading(true);
     const { error: signoutError } = await client.supaSignOut();
@@ -100,6 +107,8 @@ function ContextProvider({ mockData, children }) {
       setIsLoading,
       refreshData,
       setToInactive,
+      update,
+
     };
     return ctxExposed;
   }, [
@@ -114,6 +123,8 @@ function ContextProvider({ mockData, children }) {
     setIsLoading,
     refreshData,
     setToInactive,
+    update,
+
   ]);
 
   return <Context.Provider value={exposed}>{children}</Context.Provider>;

@@ -60,7 +60,17 @@ function Main() {
         {" "}
         Hello {user.firstname} {user.lastname}
       </Heading>
-
+      <Button
+        variant="solid"
+        color="teal"
+        size="lg"
+        w="full"
+        type="submit"
+        maxWidth="25%"
+        onClick={() => router.push("/admindash")}
+      >
+        Admin Dashboard
+      </Button>
       <Button
         variant="solid"
         color="teal"
