@@ -56,6 +56,14 @@ export default class SupaClient {
       if (insertionError) {
         return insertionError;
       }
+    } else {
+      const { error: insertionError } = await this.client
+        .from("patients")
+        .insert([{ id: user.id }]);
+
+      if (insertionError) {
+        return insertionError;
+      }
     }
 
     return error;
@@ -90,7 +98,6 @@ export default class SupaClient {
   }
 
   async supaGetAdministrators() {
-    // ?
     return this.client
       .from("administrators", "users")
       .select("*")
