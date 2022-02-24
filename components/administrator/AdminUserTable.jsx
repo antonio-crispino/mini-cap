@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/mouse-events-have-key-events */
 import { Table, Thead, Tbody, Tr, Th, Td, Box, Button } from "@chakra-ui/react";
+import { useState } from "react";
 
 function AdminTableRow(props) {
   const {
@@ -13,10 +14,15 @@ function AdminTableRow(props) {
     address,
     dateOfBirth,
     gender,
+    userType,
     setUser,
     setShowUser,
     setShowTable,
+    // userDoctor,
+    doctorsPatientsCount,
   } = props;
+
+  const [dropDownValue, setDropDownValue] = useState("");
 
   const userClickHandler = () => {
     setUser(user);
@@ -54,12 +60,90 @@ function AdminTableRow(props) {
       <Td>{address}</Td>
       <Td>{dateOfBirth}</Td>
       <Td>{gender}</Td>
+
+      {userType === "medicalDoctors" ? (
+        <Td>{doctorsPatientsCount[user.id]}</Td>
+      ) : (
+        ""
+      )}
+
+      {userType === "patient" ? (
+        <Td>
+          {/* <Button
+            onClick={userClickHandler}
+            backgroundColor="lightgrey"
+            _hover={{
+              backgroundColor: "grey",
+            }}
+          >
+            Assign doctor
+          </Button> */}
+
+          {/* could not find a chakra component, so used normal JS one */}
+          {/* <label htmlFor="choice-of-doctors">All Doctors</label> */}
+          <label htmlFor="choice-of-doctors">
+            All Docs
+            <input
+              list="doctor-select"
+              id="choice-of-doctors"
+              name="choice-of-doctors"
+              value={dropDownValue}
+              onChange={(e) => {
+                setDropDownValue(e.target.value);
+              }}
+            />
+          </label>
+
+          <datalist id="doctor-select">
+            {/* <option value={doctorsPatient.doctor_id}> </option> */}
+            <option value="Doc 2"> </option>
+            <option value="Doc 3"> </option>
+            <option value="Doc 4"> </option>
+            <option value="Doc 5"> </option>
+          </datalist>
+        </Td>
+      ) : (
+        ""
+      )}
     </Tr>
   );
 }
 
+function getDoctorObj(doctorsPatients) {
+  const doctorsObjs = {};
+
+  for (let index = 0; index < doctorsPatients.length; index += 1) {
+    const element = doctorsPatients[index];
+    if (element.doctor_id in doctorsObjs) {
+      doctorsObjs[element.doctor_id] += 1;
+    } else {
+      doctorsObjs[element.doctor_id] = 1;
+    }
+  }
+
+  return doctorsObjs;
+}
+
 export default function AdminUserTable(props) {
-  const { users, visible, setUser, setShowUser, setShowTable } = props;
+  const {
+    users,
+    userType,
+    visible,
+    setUser,
+    setShowUser,
+    setShowTable,
+    doctorsPatients,
+  } = props;
+  // console.log("header", userType);
+
+  // console.log("CHECK", doctorsPatients);
+  // function getLogic(user, data) {
+  //   for (let index = 0; index < doctorsPatients.size(); index++) {
+  //     const element = doctorsPatients[index];
+  //   }
+  //   return null;
+  // }
+
   return (
     <Box>
       <Table
@@ -79,6 +163,8 @@ export default function AdminUserTable(props) {
             <Th>Address</Th>
             <Th>Date of Birth</Th>
             <Th>Gender</Th>
+            {userType === "patient" ? <Th>My Doctor</Th> : ""}
+            {userType === "medicalDoctors" ? <Th>Number of Patients</Th> : ""}
           </Tr>
         </Thead>
         <Tbody>
@@ -98,9 +184,23 @@ export default function AdminUserTable(props) {
               address={user.address || "None"}
               dateOfBirth={user.dateOfBirth || "None"}
               gender={user.sex || "None"}
+              userType={userType || "None"}
               setUser={setUser}
               setShowUser={setShowUser}
               setShowTable={setShowTable}
+              // userDoctor={getLogic(user, doctorsPatients)}
+              // userDoctor={for (let index = 0; index < doctorsPatients.length; index++) {
+              //   const element = doctorsPatients[index];
+
+              // }}
+              doctorsPatientsCount={getDoctorObj(doctorsPatients)}
+              userDoctor={
+                doctorsPatients[
+                  doctorsPatients.find(
+                    (element) => element.patient_id === user.id
+                  )
+                ]
+              }
             />
           ))}
         </Tbody>

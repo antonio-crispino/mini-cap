@@ -13,6 +13,7 @@ function AdminDashboard() {
   const [businesses, setBusinesses] = useState([]);
   const [medicalDoctors, setMedicalDoctors] = useState([]);
   const [patients, setPatients] = useState([]);
+  const [doctorsPatients, setDoctorsPatients] = useState([]);
 
   async function fetchAllUsers() {
     const client = new SupaClient();
@@ -24,6 +25,7 @@ function AdminDashboard() {
     const { data: businessArray } = await client.supaGetBusinesses();
     const { data: medicalDoctorArray } = await client.supaGetMedicalDoctors();
     const { data: patientArray } = await client.supaGetPatients();
+    const { data: doctorsPatientArray } = await client.supaGetDoctorsPatients();
 
     setUsers(userArray);
     setAdministrators(administratorArray);
@@ -32,6 +34,7 @@ function AdminDashboard() {
     setBusinesses(businessArray);
     setMedicalDoctors(medicalDoctorArray);
     setPatients(patientArray);
+    setDoctorsPatients(doctorsPatientArray);
   }
 
   useEffect(() => {
@@ -48,6 +51,7 @@ function AdminDashboard() {
       businesses={businesses}
       medicalDoctors={medicalDoctors}
       patients={patients}
+      doctorsPatients={doctorsPatients}
     />
   );
 }
