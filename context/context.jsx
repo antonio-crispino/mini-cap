@@ -38,6 +38,20 @@ function ContextProvider({ mockData, children }) {
     getUserProfile();
   }, [client]);
 
+  const setToInactive = useCallback(
+    async (email, intable) => {
+      client.supaSetToInactive(email, intable);
+    },
+    [client]
+  );
+
+  const sendRestToEmail = useCallback(
+    async (email) => {
+      client.supaSendRestToEmail(email);
+    },
+    [client]
+  );
+
   const login = useCallback(
     async (email, password) => {
       setIsLoading(true);
@@ -57,6 +71,13 @@ function ContextProvider({ mockData, children }) {
         });
       }
       setIsLoading(false);
+    },
+    [client]
+  );
+
+  const update = useCallback(
+    async (email, newfirstname, newlastname) => {
+      await client.supaUpdate(email, newfirstname, newlastname);
     },
     [client]
   );
@@ -92,6 +113,9 @@ function ContextProvider({ mockData, children }) {
       setError,
       setIsLoading,
       refreshData,
+      setToInactive,
+      update,
+      sendRestToEmail,
     };
     return ctxExposed;
   }, [
@@ -105,6 +129,9 @@ function ContextProvider({ mockData, children }) {
     setError,
     setIsLoading,
     refreshData,
+    setToInactive,
+    update,
+    sendRestToEmail,
   ]);
 
   return <Context.Provider value={exposed}>{children}</Context.Provider>;

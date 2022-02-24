@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import AdminNav from "../components/AdminNav";
 import SupaClient from "../utils/supabase";
+import withAdminAuth from "../components/WithAdminAuth";
+import { useAppContext } from "../context/context";
 
-export default function AdminDashboard() {
+function AdminDashboard() {
+  const { user: currentUser } = useAppContext();
   const [users, setUsers] = useState([]);
   const [administrators, setAdministrators] = useState([]);
   const [healthOfficials, setHealthOfficials] = useState([]);
@@ -24,16 +27,6 @@ export default function AdminDashboard() {
     const { data: patientArray } = await client.supaGetPatients();
     const { data: doctorsPatientArray } = await client.supaGetDoctorsPatients();
 
-    /* console.log(
-      userArray,
-      administratorArray,
-      healthOfficialArray,
-      immigrationOfficerArray,
-      businessArray,
-      medicalDoctorArray,
-      patientArray
-    ); */
-
     setUsers(userArray);
     setAdministrators(administratorArray);
     setHealthOfficials(healthOfficialArray);
@@ -50,6 +43,7 @@ export default function AdminDashboard() {
 
   return (
     <AdminNav
+      currentUser={currentUser}
       users={users}
       administrators={administrators}
       healthOfficials={healthOfficials}
@@ -61,3 +55,5 @@ export default function AdminDashboard() {
     />
   );
 }
+
+export default withAdminAuth(AdminDashboard);
