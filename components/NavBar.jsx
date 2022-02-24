@@ -12,19 +12,54 @@ export function NavBar() {
         <Flex display={["none", "none", "flex", "flex"]}>
           <ButtonGroup>
             <NextLink href="/" passHref>
-              <Button variant="ghost">Home</Button>
+              <Button
+                variant="ghost"
+                _hover={{ textDecoration: "underline" }}
+                color="white"
+                fontFamily="opensans-bold"
+              >
+                Home
+              </Button>
             </NextLink>
             <NextLink href="/" passHref>
-              <Button variant="ghost">QR-code</Button>
+              <Button
+                variant="ghost"
+                _hover={{ textDecoration: "underline" }}
+                color="white"
+                fontFamily="opensans-bold"
+              >
+                QR-code
+              </Button>
             </NextLink>
             <NextLink href="/" passHref>
-              <Button variant="ghost">Messages</Button>
+              <Button
+                variant="ghost"
+                _hover={{ textDecoration: "underline" }}
+                color="white"
+                fontFamily="opensans-bold"
+              >
+                Messages
+              </Button>
             </NextLink>
             <NextLink href="/" passHref>
-              <Button variant="ghost">FAQ</Button>
+              <Button
+                variant="ghost"
+                _hover={{ textDecoration: "underline" }}
+                color="white"
+                fontFamily="opensans-bold"
+              >
+                FAQ
+              </Button>
             </NextLink>
-            <NextLink href="/" passHref>
-              <Button variant="ghost">Sign In/Sign Up</Button>
+            <NextLink href="/signup" passHref>
+              <Button
+                variant="ghost"
+                _hover={{ textDecoration: "underline", outline: "none" }}
+                color="white"
+                fontFamily="opensans-bold"
+              >
+                Sign In/Sign Up
+              </Button>
             </NextLink>
           </ButtonGroup>
         </Flex>
@@ -65,19 +100,54 @@ export function NavBar() {
         <Flex flexDir="column" align="center">
           <ButtonGroup flexDir="column">
             <NextLink href="/" passHref>
-              <Button variant="ghost">Home</Button>
+              <Button
+                variant="ghost"
+                _hover={{ textDecoration: "underline" }}
+                color="white"
+                fontFamily="opensans-bold"
+              >
+                Home
+              </Button>
             </NextLink>
             <NextLink href="/" passHref>
-              <Button variant="ghost">QR-code</Button>
+              <Button
+                variant="ghost"
+                _hover={{ textDecoration: "underline" }}
+                color="white"
+                fontFamily="opensans-bold"
+              >
+                QR-code
+              </Button>
             </NextLink>
             <NextLink href="/" passHref>
-              <Button variant="ghost">Messages</Button>
+              <Button
+                variant="ghost"
+                _hover={{ textDecoration: "underline" }}
+                color="white"
+                fontFamily="opensans-bold"
+              >
+                Messages
+              </Button>
             </NextLink>
             <NextLink href="/" passHref>
-              <Button variant="ghost">FAQ</Button>
+              <Button
+                variant="ghost"
+                _hover={{ textDecoration: "underline" }}
+                color="white"
+                fontFamily="opensans-bold"
+              >
+                FAQ
+              </Button>
             </NextLink>
             <NextLink href="/" passHref>
-              <Button variant="ghost">Sign In/Sign Up</Button>
+              <Button
+                variant="ghost"
+                _hover={{ textDecoration: "underline" }}
+                color="white"
+                fontFamily="opensans-bold"
+              >
+                Sign In/Sign Up
+              </Button>
             </NextLink>
           </ButtonGroup>
         </Flex>
