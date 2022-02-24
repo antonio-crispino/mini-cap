@@ -14,6 +14,10 @@ export default class SupaClient {
       .match({ email });
   }
 
+  async supaSendRestToEmail(email) {
+    return this.client.auth.api.resetPasswordForEmail(email);
+  }
+
   async supaSignIn(email, password) {
     return this.client.auth.signIn({
       email,

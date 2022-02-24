@@ -2,6 +2,7 @@ import { Container, VStack, Flex, Button, Link } from "@chakra-ui/react";
 import NextLink from "next/link";
 import SideSection from "../components/SideSection";
 import CredentialsForm from "../components/CredentialsForm";
+import PasswordResetForm from "../components/PasswordResetForm";
 import withAuth from "../components/WithAuth";
 import { RightArrow } from "../components/CustomIcons";
 import styles from "../styles/authForms.module.css";
@@ -49,6 +50,18 @@ function ModifyCredentials() {
             </NextLink>
             <RightArrow className={styles.loginIcon} />
           </Button>
+        </VStack>
+        <VStack
+          w={{
+            base: "100%", // 0-48em
+            lg: "55%",
+          }}
+          h="full"
+          px={{ base: "0", xl: "20px" }}
+          justifyContent="center"
+          alignItems="center"
+        >
+          <PasswordResetForm />
         </VStack>
       </Flex>
     </Container>
