@@ -8,8 +8,6 @@ import AdminNavMenu from "./administrator/AdminNavMenu";
 import AdminNavSidebar from "./administrator/AdminNavSidebar";
 import AdminUserTable from "./administrator/AdminUserTable";
 import AdminIndividualUser from "./administrator/AdminIndividualUser";
-// import styles from "../styles/adminnav.module.css";
-// className={styles.formWidth}
 
 export default function AdminNav(props) {
   const {

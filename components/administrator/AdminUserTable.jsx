@@ -1,106 +1,8 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/mouse-events-have-key-events */
-import { Table, Thead, Tbody, Tr, Th, Td, Box, Button } from "@chakra-ui/react";
-import { useState } from "react";
-
-function AdminTableRow(props) {
-  const {
-    user,
-    id,
-    fullName,
-    email,
-    phone,
-    address,
-    dateOfBirth,
-    gender,
-    userType,
-    setUser,
-    setShowUser,
-    setShowTable,
-    // userDoctor,
-  } = props;
-
-  const [dropDownValue, setDropDownValue] = useState("");
-
-  const userClickHandler = () => {
-    setUser(user);
-    setShowUser(true);
-    setShowTable([
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-    ]);
-  };
-
-  return (
-    <Tr>
-      <Td>
-        <Button
-          onClick={userClickHandler}
-          backgroundColor="lightgrey"
-          _hover={{
-            backgroundColor: "grey",
-          }}
-        >
-          View
-        </Button>
-      </Td>
-      <Td>{id}</Td>
-      <Td>{fullName}</Td>
-      <Td>{email}</Td>
-      <Td>{phone}</Td>
-      <Td>{address}</Td>
-      <Td>{dateOfBirth}</Td>
-      <Td>{gender}</Td>
-      {userType === "patient" ? (
-        <Td>
-          {/* <Button
-            onClick={userClickHandler}
-            backgroundColor="lightgrey"
-            _hover={{
-              backgroundColor: "grey",
-            }}
-          >
-            Assign doctor
-          </Button> */}
-
-          {/* could not find a chakra component, so used normal JS one */}
-          {/* <label htmlFor="choice-of-doctors">All Doctors</label> */}
-          <label htmlFor="choice-of-doctors">
-            All Docs
-            {console.log("drop", dropDownValue)}
-            <input
-              list="doctor-select"
-              id="choice-of-doctors"
-              name="choice-of-doctors"
-              value={dropDownValue}
-              onChange={(e) => {
-                setDropDownValue(e.target.value);
-              }}
-            />
-          </label>
-
-          <datalist id="doctor-select">
-            {/* <option value={doctorsPatient.doctor_id}> </option> */}
-            <option value="Doc 2"> </option>
-            <option value="Doc 3"> </option>
-            <option value="Doc 4"> </option>
-            <option value="Doc 5"> </option>
-          </datalist>
-        </Td>
-      ) : (
-        ""
-      )}
-    </Tr>
-  );
-}
+import { Table, Thead, Tbody, Tr, Th, Box } from "@chakra-ui/react";
+import AdminTableRow from "./AdminTableRow";
 
 export default function AdminUserTable(props) {
   const {
@@ -112,15 +14,21 @@ export default function AdminUserTable(props) {
     setShowTable,
     doctorsPatients,
   } = props;
-  // console.log("header", userType);
 
-  // console.log("CHECK", doctorsPatients);
-  // function getLogic(user, data) {
-  //   for (let index = 0; index < doctorsPatients.size(); index++) {
-  //     const element = doctorsPatients[index];
-  //   }
-  //   return null;
-  // }
+  const findDocName = (patientId) => {
+    let docId;
+    for (let i = 0; i < doctorsPatients.length; i += 1) {
+      if (doctorsPatients[i].patient_id === patientId) {
+        docId = doctorsPatients[i].doctor_id;
+      }
+    }
+
+    for (let i = 0; i < users.length; i += 1) {
+      if (users[i].id === docId) {
+        return users[i].userInfo.firstname;
+      }
+    }
+  };
 
   return (
     <Box>
@@ -149,13 +57,9 @@ export default function AdminUserTable(props) {
             <AdminTableRow
               user={user}
               id={user.id || "None"}
-              fullName={
-                user.firstname
-                  ? `${user.firstname || ""} ${user.middlename || ""} ${
-                      user.lastname || ""
-                    }`
-                  : "None"
-              }
+              fullName={`${user.userInfo?.firstname || user.firstname} ${
+                user.userInfo?.lastname || user.lastname
+              }`}
               email={user.email || "None"}
               phone={user.phone || "None"}
               address={user.address || "None"}
@@ -165,18 +69,7 @@ export default function AdminUserTable(props) {
               setUser={setUser}
               setShowUser={setShowUser}
               setShowTable={setShowTable}
-              // userDoctor={getLogic(user, doctorsPatients)}
-              // userDoctor={for (let index = 0; index < doctorsPatients.length; index++) {
-              //   const element = doctorsPatients[index];
-
-              // }}
-              userDoctor={
-                doctorsPatients[
-                  doctorsPatients.find(
-                    (element) => element.patient_id === user.id
-                  )
-                ]
-              }
+              userDoctor={userType === "patient" ? findDocName(user.id) : ""}
             />
           ))}
         </Tbody>

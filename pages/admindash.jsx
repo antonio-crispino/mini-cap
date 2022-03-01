@@ -42,20 +42,12 @@ export default function AdminDashboard() {
     setMedicalDoctors(medicalDoctorArray);
     setPatients(patientArray);
     setDoctorsPatients(doctorsPatientArray);
-    // setDoctorsPatients([
-    //   {
-    //     doctor_id: "c2ea4438-1826-4035-a50d-0fdcee3b3e0d",
-    //     patient_id: "8ca5febc-fada-4d74-8fb5-371f7f2c1703",
-    //   },
-    // ]);
   }
 
   useEffect(() => {
     fetchAllUsers();
   }, []);
 
-  // console.log("dash-admin", administrators);
-  console.log("dash", doctorsPatients);
   return (
     <AdminNav
       users={users}
