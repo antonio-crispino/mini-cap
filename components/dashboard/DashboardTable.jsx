@@ -67,7 +67,6 @@ function AdminTableRow(props) {
 
 function getDoctorObj(doctorsPatients) {
   const doctorsObjs = {};
-
   for (let index = 0; index < doctorsPatients.length; index += 1) {
     const element = doctorsPatients[index];
     if (element.doctor_id in doctorsObjs) {

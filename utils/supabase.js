@@ -143,11 +143,7 @@ export default class SupaClient {
   }
 
   async supaGetDoctorsPatients() {
-    const testing = this.client.from("doctor_patient").select(
-      `doctor: doctor_id(firstname, lastname, email, address, phonenumber, dateofbirth, sex, id),
-       patient: patient_id(firstname, lastname, email, address, phonenumber, dateofbirth, sex, id)"
-      `
-    );
+    const testing = this.client.from("doctor_patient").select(`*`);
     return testing;
   }
 

@@ -1,7 +1,6 @@
 import { Box, Button } from "@chakra-ui/react";
-import Head from "next/head";
 import { useState } from "react";
-import AdminNavMenu from "./dashboard/AdminNavMenu";
+import AdminNavMenu from "./dashboard/DashboardTopBar";
 import AdminNavSidebar from "./dashboard/AdminNavSidebar";
 import AdminUserTable from "./dashboard/DashboardTable";
 import AdminIndividualUser from "./administrator/AdminIndividualUser";
@@ -87,16 +86,6 @@ export default function AdminNav(props) {
       minHeight="100vh"
       fontSize="1rem"
     >
-      <Head>
-        <link
-          href="https://fonts.googleapis.com/icon?family=Material+Icons"
-          rel="stylesheet"
-        />
-        <link
-          href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
-          rel="stylesheet"
-        />
-      </Head>
       <AdminNavMenu
         currentUser={currentUser}
         outline={outline}

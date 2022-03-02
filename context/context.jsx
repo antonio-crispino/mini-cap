@@ -6,12 +6,15 @@ import {
   useMemo,
   useCallback,
 } from "react";
+import { createStandaloneToast } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 import { MockSupaClient } from "../mocks/supabase";
 import SupaClient from "../utils/supabase";
 
 export const Context = createContext();
 
 function ContextProvider({ mockData, children }) {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState();
   const [client] = useState(() =>
@@ -84,13 +87,25 @@ function ContextProvider({ mockData, children }) {
 
   const logout = useCallback(async () => {
     setIsLoading(true);
+    router.push("/");
+
     const { error: signoutError } = await client.supaSignOut();
-    if (!signoutError) {
-      setUser(null);
+    if (signoutError) {
+      setError(signoutError);
+      setIsLoading(false);
+      return;
     }
+    setUser(null);
     setIsLoading(false);
-    return error;
-  }, [client, error]);
+    const toast = createStandaloneToast();
+    toast({
+      title: "logout successful.",
+      description: "redirecting you to home page",
+      status: "success",
+      duration: 6000,
+      isClosable: true,
+    });
+  }, [client, router]);
 
   const refreshData = useCallback(async () => {
     if (user) {
