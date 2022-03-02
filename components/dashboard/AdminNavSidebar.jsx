@@ -1,5 +1,5 @@
 import { Box } from "@chakra-ui/react";
-import AdminList from "./AdminList";
+import AdminList from "./DashboardList";
 
 export default function AdminNavSidebar(props) {
   const {

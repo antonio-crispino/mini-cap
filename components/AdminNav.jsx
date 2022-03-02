@@ -1,9 +1,9 @@
 import { Box, Button } from "@chakra-ui/react";
 import Head from "next/head";
 import { useState } from "react";
-import AdminNavMenu from "./administrator/AdminNavMenu";
-import AdminNavSidebar from "./administrator/AdminNavSidebar";
-import AdminUserTable from "./administrator/AdminUserTable";
+import AdminNavMenu from "./dashboard/AdminNavMenu";
+import AdminNavSidebar from "./dashboard/AdminNavSidebar";
+import AdminUserTable from "./dashboard/DashboardTable";
 import AdminIndividualUser from "./administrator/AdminIndividualUser";
 import AdminCreateUser from "./administrator/AdminCreateUser";
 

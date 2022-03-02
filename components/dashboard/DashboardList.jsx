@@ -1,5 +1,5 @@
 import { List } from "@chakra-ui/react";
-import AdminListItem from "./AdminListItem";
+import AdminListItem from "./DashboardListItem";
 
 export default function AdminList(props) {
   const {

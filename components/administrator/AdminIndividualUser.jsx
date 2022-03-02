@@ -26,14 +26,6 @@ export default function AdminIndividualUser(props) {
     gender,
   } = user;
 
-  /*
-  async function deleteUser(userid) {
-    const client = new SupaClient();
-    setVisible(false);
-    return client.supaDeleteUser(userid);
-  }
-  */
-
   return (
     <Box position="relative">
       <Table
