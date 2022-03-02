@@ -1,8 +1,4 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 import { Table, Thead, Tbody, Tr, Th, Td, Box, Button } from "@chakra-ui/react";
-import { useState } from "react";
 
 function AdminTableRow(props) {
   const {
@@ -18,11 +14,8 @@ function AdminTableRow(props) {
     setUser,
     setShowUser,
     setShowTable,
-    // userDoctor,
     doctorsPatientsCount,
   } = props;
-
-  const [dropDownValue, setDropDownValue] = useState("");
 
   const userClickHandler = () => {
     setUser(user);
@@ -67,44 +60,7 @@ function AdminTableRow(props) {
         ""
       )}
 
-      {userType === "patient" ? (
-        <Td>
-          {/* <Button
-            onClick={userClickHandler}
-            backgroundColor="lightgrey"
-            _hover={{
-              backgroundColor: "grey",
-            }}
-          >
-            Assign doctor
-          </Button> */}
-
-          {/* could not find a chakra component, so used normal JS one */}
-          {/* <label htmlFor="choice-of-doctors">All Doctors</label> */}
-          <label htmlFor="choice-of-doctors">
-            All Docs
-            <input
-              list="doctor-select"
-              id="choice-of-doctors"
-              name="choice-of-doctors"
-              value={dropDownValue}
-              onChange={(e) => {
-                setDropDownValue(e.target.value);
-              }}
-            />
-          </label>
-
-          <datalist id="doctor-select">
-            {/* <option value={doctorsPatient.doctor_id}> </option> */}
-            <option value="Doc 2"> </option>
-            <option value="Doc 3"> </option>
-            <option value="Doc 4"> </option>
-            <option value="Doc 5"> </option>
-          </datalist>
-        </Td>
-      ) : (
-        ""
-      )}
+      {userType === "patient" ? <Td>hi</Td> : ""}
     </Tr>
   );
 }
@@ -134,15 +90,6 @@ export default function AdminUserTable(props) {
     setShowTable,
     doctorsPatients,
   } = props;
-  // console.log("header", userType);
-
-  // console.log("CHECK", doctorsPatients);
-  // function getLogic(user, data) {
-  //   for (let index = 0; index < doctorsPatients.size(); index++) {
-  //     const element = doctorsPatients[index];
-  //   }
-  //   return null;
-  // }
 
   return (
     <Box>
@@ -188,11 +135,6 @@ export default function AdminUserTable(props) {
               setUser={setUser}
               setShowUser={setShowUser}
               setShowTable={setShowTable}
-              // userDoctor={getLogic(user, doctorsPatients)}
-              // userDoctor={for (let index = 0; index < doctorsPatients.length; index++) {
-              //   const element = doctorsPatients[index];
-
-              // }}
               doctorsPatientsCount={getDoctorObj(doctorsPatients)}
               userDoctor={
                 doctorsPatients[

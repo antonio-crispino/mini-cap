@@ -14,7 +14,6 @@ import SupaClient from "../../utils/supabase";
 
 export default function AdminIndividualUser(props) {
   const { user, visible } = props;
-  // const { user, visible, setVisible } = props;
   const {
     id,
     firstname,
@@ -38,10 +37,6 @@ export default function AdminIndividualUser(props) {
   return (
     <Box position="relative">
       <Table
-        /* backgroundColor="#e5e5e5"
-        width="100%"
-        position="absolute"
-        display={visible ? "table" : "none"} */
         backgroundColor="whitesmoke"
         width="100%"
         variant="striped"
@@ -88,11 +83,6 @@ export default function AdminIndividualUser(props) {
             value={dateOfBirth}
           />
           <TableRow id={id} attr="sex" title="Gender" value={gender} />
-          {/* <Tr>
-            <Th colSpan={3} backgroundColor="lightgray">
-              <Button onClick={() => deleteUser(id)}>Delete User</Button>
-            </Th>
-          </Tr> */}
         </Tbody>
       </Table>
     </Box>

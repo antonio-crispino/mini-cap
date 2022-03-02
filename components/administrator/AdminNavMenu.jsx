@@ -1,6 +1,3 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 import { Box } from "@chakra-ui/react";
 
 export default function AdminNavMenu(props) {
@@ -29,7 +26,7 @@ export default function AdminNavMenu(props) {
       color="black"
     >
       <Box display="flex" gap="1.9rem">
-        <div
+        <Box
           style={{ cursor: "pointer" }}
           className="material-icons"
           onMouseOver={() => outlineOverHandler(8)}
@@ -37,8 +34,8 @@ export default function AdminNavMenu(props) {
           onClick={() => setMenuView(!menuView)}
         >
           {menuView ? "menu_open" : "menu"}
-        </div>
-        <div style={{ fontWeight: "bold" }}>ANTI-COVID</div>
+        </Box>
+        <Box style={{ fontWeight: "bold" }}>ANTI-COVID</Box>
       </Box>
       <Box
         cursor="pointer"
@@ -53,12 +50,12 @@ export default function AdminNavMenu(props) {
         onMouseOver={() => outlineOverHandler(7)}
         onMouseLeave={() => outlineLeaveHandler(7)}
       >
-        <div className={`material-icons${outline[7] ? "-outlined" : ""}`}>
+        <Box className={`material-icons${outline[7] ? "-outlined" : ""}`}>
           {`${"account_circle"}`}
-        </div>
-        <div>{`${currentUser.firstname} ${currentUser.middlename || ""} ${
+        </Box>
+        <Box>{`${currentUser.firstname} ${currentUser.middlename || ""} ${
           currentUser.lastname
-        }`}</div>
+        }`}</Box>
       </Box>
     </Box>
   );

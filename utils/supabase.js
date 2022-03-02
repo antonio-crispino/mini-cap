@@ -14,7 +14,7 @@ export default class SupaClient {
       .match({ email });
   }
 
-  async supaSendRestToEmail(email) {
+  async supaSendResetPassEmail(email) {
     return this.client.auth.api.resetPasswordForEmail(email);
   }
 
@@ -46,9 +46,15 @@ export default class SupaClient {
     if (createAuthError) {
       return createAuthError;
     }
-    const { error: createUserError } = await this.client
-      .from("users")
-      .insert([{ firstname, lastname, email, id: user.id }]);
+    const { error: createUserError } = await this.client.from("users").insert([
+      {
+        firstname,
+        lastname,
+        email,
+        id: user.id,
+        user_type: business ? "business" : "patient",
+      },
+    ]);
     if (createUserError) {
       return createAuthError;
     }
@@ -84,52 +90,64 @@ export default class SupaClient {
     return data;
   }
 
-  /* async supaGetAllUsers() {
-    const obj = await {
-      users: this.client.from("users").select("*"),
-      administrators: this.client.from("administrators").select("*"),
-      healthOfficials: this.client.from("health_officials").select("*"),
-      immigrationOfficers: this.client.from("immigration_officers").select("*"),
-      businesses: this.client.from("businesses").select("*"),
-      medicalDoctors: this.client.from("medical_doctors").select("*"),
-      patients: this.client.from("patients").select("*"),
-    };
-    return obj;
-  } */
-
   async supaGetUsers() {
     return this.client.from("users").select("*");
   }
 
   async supaGetAdministrators() {
     return this.client
-      .from("administrators", "users")
-      .select("*")
-      .eq("administrators.id", "users.id");
+      .from("administrators")
+      .select(
+        "*, userInfo: users(firstname, lastname, email, address, phonenumber, dateofbirth, sex)"
+      );
   }
 
   async supaGetHealthOfficials() {
-    return this.client.from("health_officials").select("*");
+    return this.client
+      .from("health_officials")
+      .select(
+        "*, userInfo: users(firstname, lastname, email, address, phonenumber, dateofbirth, sex)"
+      );
   }
 
   async supaGetImmigrationOfficers() {
-    return this.client.from("immigration_officers").select("*");
+    return this.client
+      .from("immigration_officers")
+      .select(
+        "*, userInfo: users(firstname, lastname, email, address, phonenumber, dateofbirth, sex)"
+      );
   }
 
   async supaGetBusinesses() {
-    return this.client.from("businesses").select("*");
+    return this.client
+      .from("businesses")
+      .select(
+        "*, userInfo: users(firstname, lastname, email, address, phonenumber, dateofbirth, sex)"
+      );
   }
 
   async supaGetMedicalDoctors() {
-    return this.client.from("medical_doctors").select("*");
+    return this.client
+      .from("medical_doctors")
+      .select(
+        "*, userInfo: users(firstname, lastname, email, address, phonenumber, dateofbirth, sex)"
+      );
   }
 
   async supaGetPatients() {
-    return this.client.from("patients").select("*");
+    return this.client
+      .from("patients")
+      .select(
+        "*, userInfo: users(firstname, lastname, email, address, phonenumber, dateofbirth, sex)"
+      );
   }
 
   async supaGetDoctorsPatients() {
-    const testing = this.client.from("doctor_patient").select("*");
+    const testing = this.client.from("doctor_patient").select(
+      `doctor: doctor_id(firstname, lastname, email, address, phonenumber, dateofbirth, sex, id),
+       patient: patient_id(firstname, lastname, email, address, phonenumber, dateofbirth, sex, id)"
+      `
+    );
     return testing;
   }
 
@@ -149,9 +167,16 @@ export default class SupaClient {
       return error;
     }
 
-    await this.client
-      .from("users")
-      .insert([{ firstname, middlename, lastname, email, id: user.id }]);
+    await this.client.from("users").insert([
+      {
+        firstname,
+        middlename,
+        lastname,
+        email,
+        id: user.id,
+        user_type: type,
+      },
+    ]);
 
     switch (type) {
       case "administrator":
@@ -180,21 +205,4 @@ export default class SupaClient {
 
     return error;
   }
-
-  /*
-  async supaDeleteUser(id) {
-    await this.client.from("administrators").delete().match([{ id }]);
-    await this.client.from("health_officials").delete().match([{ id }]);
-    await this.client.from("immigration_officers").delete().match([{ id }]);
-    await this.client.from("businesses").delete().match([{ id }]);
-    await this.client.from("medical_doctors").delete().match([{ id }]);
-    await this.client.from("patients").delete().match([{ id }]);
-    await this.client.from("users").delete().match([{ id }]);
-    const { error } = await this.client.auth.api.deleteUser(
-      id,
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJvbGUiOiJzZXJ2aWNlX3JvbGUiLCJpYXQiOjE2NDIzNjMzMzMsImV4cCI6MTk1NzkzOTMzM30.Z_cyBnzAp5ygBB0_jU2AkRSPc64mi3J3U3oq5dR2OR0"
-    );
-    return error;
-  }
-  */
 }

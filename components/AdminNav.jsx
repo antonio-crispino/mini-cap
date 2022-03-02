@@ -1,6 +1,3 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 import { Box, Button } from "@chakra-ui/react";
 import Head from "next/head";
 import { useState } from "react";
@@ -9,8 +6,6 @@ import AdminNavSidebar from "./administrator/AdminNavSidebar";
 import AdminUserTable from "./administrator/AdminUserTable";
 import AdminIndividualUser from "./administrator/AdminIndividualUser";
 import AdminCreateUser from "./administrator/AdminCreateUser";
-// import styles from "../styles/adminnav.module.css";
-// className={styles.formWidth}
 
 export default function AdminNav(props) {
   const {
@@ -24,8 +19,6 @@ export default function AdminNav(props) {
     patients,
     doctorsPatients,
   } = props;
-
-  // console.log("hello", doctorsPatients);
 
   const [outline, setOutline] = useState([
     true,
