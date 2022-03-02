@@ -11,6 +11,7 @@ export default function AdminUserTable(props) {
     setShowTable,
     doctorsPatients,
     allUsers,
+    allDoctors,
   } = props;
 
   const findDocName = (patientId) => {
@@ -26,6 +27,23 @@ export default function AdminUserTable(props) {
         return allUsers[i].firstname;
       }
     }
+  };
+
+  const findDocs = (doctorsFromTable) => {
+    const doctors = [];
+    for (let i = 0; i < doctorsFromTable.length; i += 1) {
+      const doctor = doctorsFromTable[i];
+
+      for (let index = 0; index < allUsers.length; index += 1) {
+        const user = allUsers[index];
+
+        if (user.id === doctor.id) {
+          doctors[i] = user;
+        }
+      }
+    }
+
+    return doctors;
   };
 
   return (
@@ -68,6 +86,7 @@ export default function AdminUserTable(props) {
               setShowUser={setShowUser}
               setShowTable={setShowTable}
               userDoctor={userType === "patient" ? findDocName(user.id) : ""}
+              allDoctors={userType === "patient" ? findDocs(allDoctors) : ""}
             />
           ))}
         </Tbody>

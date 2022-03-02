@@ -185,6 +185,7 @@ export default function AdminNav(props) {
             setShowUser={setShowUser}
             setShowTable={setShowTable}
             doctorsPatients={doctorsPatients}
+            allDoctors={medicalDoctors}
           />
           <AdminIndividualUser
             user={user}

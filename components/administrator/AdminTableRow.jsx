@@ -15,8 +15,22 @@ export default function AdminTableRow(props) {
     setShowUser,
     setShowTable,
     userDoctor,
+    allDoctors,
   } = props;
 
+  const displayDoctors = (allDoctorsInfo) => (
+    // console.log("DOCTORS", allDoctorsInfo);
+    // for (let i = 0; i < allDoctorsInfo.length; i += 1) {
+    //   const doctor = allDoctorsInfo[i];
+    //   <option value={doctor.id}> </option>;
+    // }
+
+    <>
+      {allDoctorsInfo.map((doc) => (
+        <option value={`${doc.firstname} ${doc.lastname}`}> </option>
+      ))}
+    </>
+  );
   const userClickHandler = () => {
     setUser(user);
     setShowUser(true);
@@ -53,7 +67,26 @@ export default function AdminTableRow(props) {
       <Td>{address}</Td>
       <Td>{dateOfBirth}</Td>
       <Td>{gender}</Td>
+
       {userType === "patient" ? <Td>{userDoctor}</Td> : ""}
+      {/* {userType === "patient" ? <Td>{userDoctor}</Td> : ""} */}
+      {/* {userType === "patient" ? displayDoctors(allDoctors) : ""} */}
+      {userType === "patient" && userDoctor === "undefined" ? (
+        <Td>
+          <label htmlFor="choice-of-doctors">
+            All Docs
+            <input
+              list="doctor-select"
+              id="choice-of-doctors"
+              name="choice-of-doctors"
+            />
+          </label>
+
+          <datalist id="doctor-select">{displayDoctors(allDoctors)}</datalist>
+        </Td>
+      ) : (
+        ""
+      )}
     </Tr>
   );
 }
