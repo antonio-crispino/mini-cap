@@ -179,6 +179,7 @@ export default function AdminNav(props) {
           <AdminUserTable
             visible={showTable[6]}
             users={patients}
+            allUsers={users}
             userType="patient"
             setUser={setUser}
             setShowUser={setShowUser}

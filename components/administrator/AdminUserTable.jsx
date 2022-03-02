@@ -1,6 +1,3 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 import { Table, Thead, Tbody, Tr, Th, Box } from "@chakra-ui/react";
 import AdminTableRow from "./AdminTableRow";
 
@@ -13,7 +10,7 @@ export default function AdminUserTable(props) {
     setShowUser,
     setShowTable,
     doctorsPatients,
-    // medicalDoctors,
+    allUsers,
   } = props;
 
   const findDocName = (patientId) => {
@@ -22,19 +19,12 @@ export default function AdminUserTable(props) {
       if (doctorsPatients[i].patient_id === patientId) {
         docId = doctorsPatients[i].doctor_id;
       }
-      // console.log("1st loop docID", i, docId);
-      // This loop itterates 3 times which corresponds to the length of the doctorsPatients table
     }
 
-    for (let i = 0; i < users.length; i += 1) {
-      if (users[i].id === docId) {
-        return users[i].userInfo.firstname;
+    for (let i = 0; i < allUsers.length; i += 1) {
+      if (allUsers[i].id === docId) {
+        return allUsers[i].firstname;
       }
-      // console.log("2nd loop", i);
-      // console.log("2nd loop name", users[i].userInfo.firstname);
-      // This loop itterates 4 times which corresponds to the length of the Patients table therefore the "users.length" is "patients.length"
-      // When it was successfully displaying "hello" as a doctor, that was bc user "hello den" was both a patient and doctor, and user "pop pop" had hello den as their doc
-      // so it was checking patient[i].id === docID which was TRUE when helloden === helloden, and it was returning patient[i].id.userInfo.firstname (hello)
     }
   };
 
