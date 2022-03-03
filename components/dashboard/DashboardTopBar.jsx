@@ -11,14 +11,16 @@ import {
   Icon,
 } from "@chakra-ui/react";
 import { MdAccountCircle, MdOutlineAccountCircle } from "react-icons/md";
+import { useRouter } from "next/router";
 import { useAppContext } from "../../context/AppContext";
 
-import DashboardMenu from "./DashboardMenu";
+import DashboardDrawer from "./DashboardDrawer";
 import useHover from "../../hooks/useHover";
 
 export default function DashboardTopBar() {
   const { user, logout } = useAppContext();
   const [accountIconRef, isAccountIconHovered] = useHover();
+  const router = useRouter();
 
   return (
     <Flex
@@ -32,7 +34,7 @@ export default function DashboardTopBar() {
       alignItems="center"
       justifyContent="center"
     >
-      <DashboardMenu />
+      <DashboardDrawer />
       <Box marginLeft={3}>ANTI COVID</Box>
 
       <Spacer />
@@ -59,6 +61,12 @@ export default function DashboardTopBar() {
         <MenuList>
           <MenuItem justifyContent="center" onClick={async () => logout()}>
             Logout
+          </MenuItem>
+          <MenuItem
+            justifyContent="center"
+            onClick={() => router.push("/account")}
+          >
+            Account
           </MenuItem>
         </MenuList>
       </Menu>

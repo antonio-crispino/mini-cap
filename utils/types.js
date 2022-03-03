@@ -1,0 +1,3 @@
+export const ALL_USERS_TABLE = "ALL_USERS_TABLE";
+
+export const PATIENTS_TABLE = "PATIENTS_TABLE";

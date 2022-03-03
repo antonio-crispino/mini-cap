@@ -30,10 +30,11 @@ import {
 import React from "react";
 import useHover from "../../hooks/useHover";
 import { useAppContext } from "../../context/AppContext";
+import { ALL_USERS_TABLE } from "../../utils/types";
 
-export default function DashboardMenu() {
+export default function DashboardDrawer() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { user } = useAppContext();
+  const { user, setComponentInView } = useAppContext();
   const [allUsersRef, isAllUsersHovered] = useHover();
   const [patientsRef, isPatientsHovered] = useHover();
   const [doctorsRef, isDoctorsHovered] = useHover();
@@ -50,6 +51,7 @@ export default function DashboardMenu() {
       hoverIcon: MdPersonOutline,
       ref: allUsersRef,
       hovered: isAllUsersHovered,
+      onClick: () => setComponentInView(ALL_USERS_TABLE),
     },
     {
       name: "Patients",
@@ -57,6 +59,7 @@ export default function DashboardMenu() {
       hoverIcon: MdOutlineFace,
       ref: patientsRef,
       hovered: isPatientsHovered,
+      onClick: () => setComponentInView(""),
     },
     {
       name: "Doctors",
@@ -64,6 +67,7 @@ export default function DashboardMenu() {
       hoverIcon: MdOutlineMedication,
       ref: doctorsRef,
       hovered: isDoctorsHovered,
+      onClick: () => setComponentInView(""),
     },
     {
       name: "Health Officials",
@@ -71,6 +75,7 @@ export default function DashboardMenu() {
       hoverIcon: MdOutlineHealthAndSafety,
       ref: healthOfficialsRef,
       hovered: isHealthOfficialsHovered,
+      onClick: () => setComponentInView(ALL_USERS_TABLE),
     },
     {
       name: "Immigration Officers",
@@ -78,6 +83,7 @@ export default function DashboardMenu() {
       hoverIcon: MdOutlineLocalPolice,
       ref: immigrationOfficerRef,
       hovered: isImmigrationOfficerHovered,
+      onClick: () => setComponentInView(ALL_USERS_TABLE),
     },
     {
       name: "Adminstrators",
@@ -85,6 +91,7 @@ export default function DashboardMenu() {
       hoverIcon: MdOutlineAdminPanelSettings,
       ref: adminRef,
       hovered: isAdminHovered,
+      onClick: () => setComponentInView(ALL_USERS_TABLE),
     },
   ];
 
@@ -110,14 +117,19 @@ export default function DashboardMenu() {
 
           <DrawerBody>
             <List spacing={3}>
-              {user.user_type !== "patient"
+              {user?.user_type !== "patient"
                 ? options.map((option, idx) => (
                     <ListItem
                       key={idx}
                       borderRadius="30px"
                       p={2}
-                      _hover={{ background: "lightgrey", fontWeight: "bold" }}
+                      _hover={{
+                        background: "lightgrey",
+                        fontWeight: "bold",
+                        cursor: "pointer",
+                      }}
                       ref={option.ref}
+                      onClick={option.onClick}
                     >
                       <ListIcon
                         as={option.hovered ? option.hoverIcon : option.icon}
@@ -128,7 +140,7 @@ export default function DashboardMenu() {
                     </ListItem>
                   ))
                 : ""}
-              {user.user_type !== "patient" ? (
+              {user?.user_type !== "patient" ? (
                 <Divider height="2px" background="gray.700" />
               ) : (
                 ""

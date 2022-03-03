@@ -1,31 +1,27 @@
-import AdminNav from "../components/AdminNav";
+import { Grid, GridItem } from "@chakra-ui/react";
+import DashboardTopBar from "../components/dashboard/DashboardTopBar";
+import MainDashView from "../components/dashboard/MainDashView";
 import withAdminAuth from "../components/WithAdminAuth";
-import { useAppContext } from "../context/AppContext";
-import { useDataContext } from "../context/DataContext";
 
 function AdminDashboard() {
-  const { user: currentUser } = useAppContext();
-  const {
-    users,
-    administrators,
-    healthOfficials,
-    patients,
-    businesses,
-    immigrationOfficers,
-    doctors,
-  } = useDataContext();
-
   return (
-    <AdminNav
-      currentUser={currentUser}
-      users={users}
-      administrators={administrators}
-      healthOfficials={healthOfficials}
-      immigrationOfficers={immigrationOfficers}
-      businesses={businesses}
-      medicalDoctors={doctors}
-      patients={patients}
-    />
+    <Grid
+      backgroundImage="url('/images/Background_Light.png')"
+      backgroundPosition="center"
+      backgroundRepeat="no-repeat"
+      backgroundAttachment="fixed"
+      backgroundSize="cover"
+      minHeight="100vh"
+      fontSize="1rem"
+      gridTemplateColumns="23% auto"
+    >
+      <GridItem>
+        <DashboardTopBar />
+      </GridItem>
+      <GridItem marginTop="5rem" marginRight="3rem">
+        <MainDashView />
+      </GridItem>
+    </Grid>
   );
 }
 
