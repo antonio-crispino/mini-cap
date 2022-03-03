@@ -32,7 +32,7 @@ export default function DashboardTopBar() {
       alignItems="center"
       justifyContent="center"
     >
-      {user.user_type === "patient" ? "" : <DashboardMenu />}
+      <DashboardMenu />
       <Box marginLeft={3}>ANTI COVID</Box>
 
       <Spacer />

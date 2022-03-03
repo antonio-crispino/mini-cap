@@ -1,7 +1,6 @@
 import { Box, Button } from "@chakra-ui/react";
 import { useState } from "react";
 import AdminNavMenu from "./dashboard/DashboardTopBar";
-import AdminNavSidebar from "./dashboard/AdminNavSidebar";
 import AdminIndividualUser from "./administrator/AdminIndividualUser";
 import AdminCreateUser from "./administrator/AdminCreateUser";
 
@@ -45,16 +44,8 @@ export default function AdminNav(props) {
   ]);
 
   const [user] = useState({});
-  const [showUser, setShowUser] = useState(false);
+  const [showUser] = useState(false);
   const [createUser, setCreateUser] = useState(false);
-
-  const tableClickHandler = (i) => {
-    const arr = [false, false, false, false, false, false, false, false, false];
-    arr[i] = !showTable[i];
-    setShowTable(arr);
-    setShowUser(false);
-    setCreateUser(false);
-  };
 
   const createClickHandler = () => {
     const arr = [false, false, false, false, false, false, false, false, false];
@@ -88,16 +79,7 @@ export default function AdminNav(props) {
           width={menuView ? "25%" : "0"}
           minWidth={menuView ? "19rem" : "0"}
           transition="width 0.5s, min-width 0.5s"
-        >
-          <AdminNavSidebar
-            outline={outline}
-            showTable={showTable}
-            outlineOverHandler={outlineOnHandler}
-            outlineLeaveHandler={outlineLeaveHandler}
-            tableClickHandler={tableClickHandler}
-            menuView={menuView}
-          />
-        </Box>
+        />
         <Box
           padding="2rem"
           width={menuView ? "75%" : "100%"}
