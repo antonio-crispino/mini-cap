@@ -21,7 +21,7 @@ import { useRouter } from "next/router";
 import NextLink from "next/link";
 import { RightArrow } from "./CustomIcons";
 
-import { useAppContext } from "../context/context";
+import { useAppContext } from "../context/AppContext";
 import styles from "../styles/authForms.module.css";
 
 function SignupForm() {
@@ -30,12 +30,12 @@ function SignupForm() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { setError, client } = useAppContext();
+  const { setError, supabase } = useAppContext();
 
   const router = useRouter();
 
   const signup = async ({ email, password, firstname, lastname, business }) => {
-    const error = await client.supaSignUp({
+    const error = await supabase.supaSignUp({
       email,
       password,
       firstname,

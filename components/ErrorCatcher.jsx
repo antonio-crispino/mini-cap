@@ -10,7 +10,7 @@ import {
   Button,
   Text,
 } from "@chakra-ui/react";
-import { useAppContext } from "../context/context";
+import { useAppContext } from "../context/AppContext";
 
 export default function ErrorCatcher(props) {
   const { error, setError } = useAppContext();

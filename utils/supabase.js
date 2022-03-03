@@ -135,16 +135,10 @@ export default class SupaClient {
   }
 
   async supaGetPatients() {
-    return this.client
-      .from("patients")
-      .select(
-        "*, userInfo: users(firstname, lastname, email, address, phonenumber, dateofbirth, sex)"
-      );
-  }
-
-  async supaGetDoctorsPatients() {
-    const testing = this.client.from("doctor_patient").select(`*`);
-    return testing;
+    return this.client.from("patients").select(
+      `patientInfo: users!patients_patient_id_fkey (firstname, lastname, email, address, phonenumber, dateofbirth, sex),
+       doctorInfo: doctor_id (firstname, lastname, email, address, phonenumber, dateofbirth, sex)`
+    );
   }
 
   async supaSetUserInfo(id, attr, val) {

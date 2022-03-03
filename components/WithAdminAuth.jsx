@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useAppContext } from "../context/context";
+import { useAppContext } from "../context/AppContext";
 import ErrorCatcher from "./ErrorCatcher";
 
 /**

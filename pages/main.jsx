@@ -17,7 +17,7 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import withAuth from "../components/WithAuth";
-import { useAppContext } from "../context/context";
+import { useAppContext } from "../context/AppContext";
 
 function Main() {
   const { logout, user, setToInactive } = useAppContext();

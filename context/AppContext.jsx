@@ -11,24 +11,26 @@ import { useRouter } from "next/router";
 import { MockSupaClient } from "../mocks/supabase";
 import SupaClient from "../utils/supabase";
 
-export const Context = createContext();
+export const AppContext = createContext();
 
-function ContextProvider({ mockData, children }) {
+function AppContextProvider({ mockData, children }) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState();
-  const [client] = useState(() =>
+  const [supabase] = useState(() =>
     process.env.NODE_ENV === "test" ? new MockSupaClient() : new SupaClient()
   );
-  const [user, setUser] = useState(client.supaCurrentUser());
+  const [user, setUser] = useState(supabase.supaCurrentUser());
 
   useEffect(() => {
     const getUserProfile = async () => {
       setIsLoading(true);
-      const sessionUser = client.supaCurrentUser();
+      const sessionUser = supabase.supaCurrentUser();
 
       if (sessionUser) {
-        const { data: userData } = await client.supaGetUserData(sessionUser.id);
+        const { data: userData } = await supabase.supaGetUserData(
+          sessionUser.id
+        );
 
         setUser({
           ...sessionUser,
@@ -39,26 +41,41 @@ function ContextProvider({ mockData, children }) {
     };
 
     getUserProfile();
-  }, [client]);
+  }, [supabase]);
+
+  useEffect(() => {
+    if (user) {
+      const subscription = supabase.client
+        .from(`user:id=eq.${user.id}`)
+        .on("UPDATE", (payload) => {
+          setUser({ ...user, ...payload.new });
+        })
+        .subscribe();
+
+      return () => {
+        supabase.client.removeSubscription(subscription);
+      };
+    }
+  }, [user, supabase]);
 
   const setToInactive = useCallback(
     async (email, intable) => {
-      client.supaSetToInactive(email, intable);
+      supabase.supaSetToInactive(email, intable);
     },
-    [client]
+    [supabase]
   );
 
   const sendResetPassEmail = useCallback(
     async (email) => {
-      client.supaSendResetPassEmail(email);
+      supabase.supaSendResetPassEmail(email);
     },
-    [client]
+    [supabase]
   );
 
   const login = useCallback(
     async (email, password) => {
       setIsLoading(true);
-      const authData = await client.supaSignIn(email, password);
+      const authData = await supabase.supaSignIn(email, password);
       const { error: loginError } = authData;
       if (loginError) {
         setError(loginError);
@@ -67,7 +84,7 @@ function ContextProvider({ mockData, children }) {
       }
       const sessionUser = authData.user;
       if (sessionUser) {
-        const userData = await client.supaGetUserData(sessionUser.id);
+        const userData = await supabase.supaGetUserData(sessionUser.id);
         setUser({
           ...sessionUser,
           ...userData.data,
@@ -75,21 +92,21 @@ function ContextProvider({ mockData, children }) {
       }
       setIsLoading(false);
     },
-    [client]
+    [supabase]
   );
 
   const update = useCallback(
     async (email, newfirstname, newlastname) => {
-      await client.supaUpdate(email, newfirstname, newlastname);
+      await supabase.supaUpdate(email, newfirstname, newlastname);
     },
-    [client]
+    [supabase]
   );
 
   const logout = useCallback(async () => {
     setIsLoading(true);
     router.push("/");
 
-    const { error: signoutError } = await client.supaSignOut();
+    const { error: signoutError } = await supabase.supaSignOut();
     if (signoutError) {
       setError(signoutError);
       setIsLoading(false);
@@ -105,29 +122,19 @@ function ContextProvider({ mockData, children }) {
       duration: 6000,
       isClosable: true,
     });
-  }, [client, router]);
-
-  const refreshData = useCallback(async () => {
-    if (user) {
-      setIsLoading(true);
-      const userData = await client.supaGetUserData(user.id);
-      setUser((prevState) => ({ ...prevState, ...userData }));
-      setIsLoading(false);
-    }
-  }, [client, user]);
+  }, [supabase, router]);
 
   const exposed = useMemo(() => {
     if (mockData) return mockData;
     const ctxExposed = {
       user,
-      client,
+      supabase,
       isLoading,
       error,
       login,
       logout,
       setError,
       setIsLoading,
-      refreshData,
       setToInactive,
       update,
       sendResetPassEmail,
@@ -136,22 +143,21 @@ function ContextProvider({ mockData, children }) {
   }, [
     mockData,
     user,
-    client,
+    supabase,
     isLoading,
     error,
     login,
     logout,
     setError,
     setIsLoading,
-    refreshData,
     setToInactive,
     update,
     sendResetPassEmail,
   ]);
 
-  return <Context.Provider value={exposed}>{children}</Context.Provider>;
+  return <AppContext.Provider value={exposed}>{children}</AppContext.Provider>;
 }
 
-export const useAppContext = () => useContext(Context);
+export const useAppContext = () => useContext(AppContext);
 
-export default ContextProvider;
+export default AppContextProvider;

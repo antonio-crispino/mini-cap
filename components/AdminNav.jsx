@@ -2,22 +2,11 @@ import { Box, Button } from "@chakra-ui/react";
 import { useState } from "react";
 import AdminNavMenu from "./dashboard/DashboardTopBar";
 import AdminNavSidebar from "./dashboard/AdminNavSidebar";
-import AdminUserTable from "./dashboard/DashboardTable";
 import AdminIndividualUser from "./administrator/AdminIndividualUser";
 import AdminCreateUser from "./administrator/AdminCreateUser";
 
 export default function AdminNav(props) {
-  const {
-    currentUser,
-    users,
-    administrators,
-    healthOfficials,
-    immigrationOfficers,
-    businesses,
-    medicalDoctors,
-    patients,
-    doctorsPatients,
-  } = props;
+  const { currentUser } = props;
 
   const [outline, setOutline] = useState([
     true,
@@ -55,7 +44,7 @@ export default function AdminNav(props) {
     false,
   ]);
 
-  const [user, setUser] = useState({});
+  const [user] = useState({});
   const [showUser, setShowUser] = useState(false);
   const [createUser, setCreateUser] = useState(false);
 
@@ -125,69 +114,7 @@ export default function AdminNav(props) {
             + Create New User
           </Button>
           <AdminCreateUser visible={createUser} setVisible={setCreateUser} />
-          <AdminUserTable
-            visible={showTable[0]}
-            users={users}
-            userType="users"
-            setUser={setUser}
-            setShowUser={setShowUser}
-            setShowTable={setShowTable}
-            doctorsPatients={doctorsPatients}
-          />
-          <AdminUserTable
-            visible={showTable[1]}
-            users={administrators}
-            userType="administrators"
-            setUser={setUser}
-            setShowUser={setShowUser}
-            setShowTable={setShowTable}
-            doctorsPatients={doctorsPatients}
-          />
-          <AdminUserTable
-            visible={showTable[2]}
-            users={healthOfficials}
-            userType="healthOfficials"
-            setUser={setUser}
-            setShowUser={setShowUser}
-            setShowTable={setShowTable}
-            doctorsPatients={doctorsPatients}
-          />
-          <AdminUserTable
-            visible={showTable[3]}
-            users={immigrationOfficers}
-            userType="immigrationOfficers"
-            setUser={setUser}
-            setShowUser={setShowUser}
-            setShowTable={setShowTable}
-            doctorsPatients={doctorsPatients}
-          />
-          <AdminUserTable
-            visible={showTable[4]}
-            users={businesses}
-            userType="businesses"
-            setUser={setUser}
-            setShowUser={setShowUser}
-            setShowTable={setShowTable}
-            doctorsPatients={doctorsPatients}
-          />
-          <AdminUserTable
-            visible={showTable[5]}
-            users={medicalDoctors}
-            userType="medicalDoctors"
-            setUser={setUser}
-            setShowUser={setShowUser}
-            setShowTable={setShowTable}
-            doctorsPatients={doctorsPatients}
-          />
-          <AdminUserTable
-            visible={showTable[6]}
-            users={patients}
-            userType="patient"
-            setUser={setUser}
-            setShowUser={setShowUser}
-            setShowTable={setShowTable}
-            doctorsPatients={doctorsPatients}
-          />
+
           <AdminIndividualUser
             user={user}
             /* add user type */

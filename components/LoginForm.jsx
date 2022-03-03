@@ -19,7 +19,7 @@ import {
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import NextLink from "next/link";
-import { useAppContext } from "../context/context";
+import { useAppContext } from "../context/AppContext";
 import { RightArrow } from "./CustomIcons";
 import styles from "../styles/authForms.module.css";
 
