@@ -32,7 +32,6 @@ function DataContextProvider({ mockData, children }) {
       const subscription = supabase.client
         .from("users")
         .on("*", (payload) => {
-          console.log("p ", payload);
           setUsers([...users, ...payload.new]);
         })
         .subscribe();
@@ -51,7 +50,6 @@ function DataContextProvider({ mockData, children }) {
           setError(error);
           return;
         }
-        console.log(loadedAdmins);
         setAdministrators([...loadedAdmins]);
       }
     };
@@ -63,7 +61,6 @@ function DataContextProvider({ mockData, children }) {
       const subscription = supabase.client
         .from("adminstrators")
         .on("*", (payload) => {
-          console.log("p ", payload);
           setAdministrators([...administrators, ...payload.new]);
         })
         .subscribe();
@@ -94,7 +91,6 @@ function DataContextProvider({ mockData, children }) {
       const subscription = supabase.client
         .from("health_officials")
         .on("*", (payload) => {
-          console.log("p ", payload);
           setHealthOfficials([...healthOfficials, ...payload.new]);
         })
         .subscribe();
@@ -125,7 +121,6 @@ function DataContextProvider({ mockData, children }) {
       const subscription = supabase.client
         .from("medical_doctors")
         .on("*", (payload) => {
-          console.log("p ", payload);
           setDoctors([...doctors, ...payload.new]);
         })
         .subscribe();
@@ -156,7 +151,6 @@ function DataContextProvider({ mockData, children }) {
       const subscription = supabase.client
         .from("businesses")
         .on("*", (payload) => {
-          console.log("p ", payload);
           setBusinesses([...businesses, ...payload.new]);
         })
         .subscribe();
@@ -176,7 +170,7 @@ function DataContextProvider({ mockData, children }) {
           setError(error);
           return;
         }
-        console.log(loadedPatients);
+
         setPatients([...loadedPatients]);
       }
     };
@@ -188,7 +182,6 @@ function DataContextProvider({ mockData, children }) {
       const subscription = supabase.client
         .from("patients")
         .on("*", (payload) => {
-          console.log("p ", payload);
           setPatients([...patients, ...payload.new]);
         })
         .subscribe();
@@ -219,7 +212,6 @@ function DataContextProvider({ mockData, children }) {
       const subscription = supabase.client
         .from("immigration_officers")
         .on("*", (payload) => {
-          console.log("p ", payload);
           setImmigrationOfficers([...immigrationOfficers, ...payload.new]);
         })
         .subscribe();

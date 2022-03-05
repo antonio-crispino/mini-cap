@@ -14,7 +14,7 @@ const withAdminAuth = (WrappedComponent) =>
       return "";
     }
 
-    if (!user?.user_type === "administrator") {
+    if (!user?.userType === "admin") {
       return (
         <ErrorCatcher
           message="You must be an administrator to view this page!"

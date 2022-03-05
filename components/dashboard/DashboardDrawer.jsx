@@ -26,11 +26,21 @@ import {
   MdOutlineLocalPolice,
   MdAdminPanelSettings,
   MdOutlineAdminPanelSettings,
+  MdOutlineAddBusiness,
+  MdAddBusiness,
 } from "react-icons/md";
 import React from "react";
 import useHover from "../../hooks/useHover";
 import { useAppContext } from "../../context/AppContext";
-import { ALL_USERS_TABLE } from "../../utils/types";
+import {
+  ALL_USERS_TABLE,
+  PATIENTS_TABLE,
+  DOCTORS_TABLE,
+  HEALTH_OFFICIALS_TABLE,
+  IMMIGRATION_OFFICERS_TABLE,
+  ADMINS_TABLE,
+  BUSINESSES_TABLE,
+} from "../../utils/types";
 
 export default function DashboardDrawer() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -40,6 +50,7 @@ export default function DashboardDrawer() {
   const [doctorsRef, isDoctorsHovered] = useHover();
   const [healthOfficialsRef, isHealthOfficialsHovered] = useHover();
   const [immigrationOfficerRef, isImmigrationOfficerHovered] = useHover();
+  const [businessRef, isBusinessRef] = useHover();
   const [adminRef, isAdminHovered] = useHover();
 
   const btnRef = React.useRef();
@@ -59,7 +70,7 @@ export default function DashboardDrawer() {
       hoverIcon: MdOutlineFace,
       ref: patientsRef,
       hovered: isPatientsHovered,
-      onClick: () => setComponentInView(""),
+      onClick: () => setComponentInView(PATIENTS_TABLE),
     },
     {
       name: "Doctors",
@@ -67,7 +78,7 @@ export default function DashboardDrawer() {
       hoverIcon: MdOutlineMedication,
       ref: doctorsRef,
       hovered: isDoctorsHovered,
-      onClick: () => setComponentInView(""),
+      onClick: () => setComponentInView(DOCTORS_TABLE),
     },
     {
       name: "Health Officials",
@@ -75,7 +86,15 @@ export default function DashboardDrawer() {
       hoverIcon: MdOutlineHealthAndSafety,
       ref: healthOfficialsRef,
       hovered: isHealthOfficialsHovered,
-      onClick: () => setComponentInView(ALL_USERS_TABLE),
+      onClick: () => setComponentInView(HEALTH_OFFICIALS_TABLE),
+    },
+    {
+      name: "Businesses",
+      icon: MdAddBusiness,
+      hoverIcon: MdOutlineAddBusiness,
+      ref: businessRef,
+      hovered: isBusinessRef,
+      onClick: () => setComponentInView(BUSINESSES_TABLE),
     },
     {
       name: "Immigration Officers",
@@ -83,7 +102,7 @@ export default function DashboardDrawer() {
       hoverIcon: MdOutlineLocalPolice,
       ref: immigrationOfficerRef,
       hovered: isImmigrationOfficerHovered,
-      onClick: () => setComponentInView(ALL_USERS_TABLE),
+      onClick: () => setComponentInView(IMMIGRATION_OFFICERS_TABLE),
     },
     {
       name: "Adminstrators",
@@ -91,7 +110,7 @@ export default function DashboardDrawer() {
       hoverIcon: MdOutlineAdminPanelSettings,
       ref: adminRef,
       hovered: isAdminHovered,
-      onClick: () => setComponentInView(ALL_USERS_TABLE),
+      onClick: () => setComponentInView(ADMINS_TABLE),
     },
   ];
 
@@ -117,7 +136,7 @@ export default function DashboardDrawer() {
 
           <DrawerBody>
             <List spacing={3}>
-              {user?.user_type !== "patient"
+              {user?.userType !== "patient"
                 ? options.map((option, idx) => (
                     <ListItem
                       key={idx}
@@ -140,7 +159,7 @@ export default function DashboardDrawer() {
                     </ListItem>
                   ))
                 : ""}
-              {user?.user_type !== "patient" ? (
+              {user?.userType !== "patient" ? (
                 <Divider height="2px" background="gray.700" />
               ) : (
                 ""

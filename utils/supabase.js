@@ -52,7 +52,7 @@ export default class SupaClient {
         lastname,
         email,
         id: user.id,
-        user_type: business ? "business" : "patient",
+        userType: business ? "business" : "patient",
       },
     ]);
     if (createUserError) {
@@ -69,7 +69,7 @@ export default class SupaClient {
     } else {
       const { error: insertionError } = await this.client
         .from("patients")
-        .insert([{ id: user.id }]);
+        .insert([{ patient_id: user.id }]);
 
       if (insertionError) {
         return insertionError;
@@ -98,7 +98,7 @@ export default class SupaClient {
     return this.client
       .from("administrators")
       .select(
-        "*, userInfo: users(firstname, lastname, email, address, phonenumber, dateofbirth, sex)"
+        "*, userInfo: users(firstname, lastname, email, address, phonenumber, dateofbirth, sex, userType)"
       );
   }
 
@@ -106,7 +106,7 @@ export default class SupaClient {
     return this.client
       .from("health_officials")
       .select(
-        "*, userInfo: users(firstname, lastname, email, address, phonenumber, dateofbirth, sex)"
+        "*, userInfo: users(firstname, lastname, email, address, phonenumber, dateofbirth, sex, userType)"
       );
   }
 
@@ -114,7 +114,7 @@ export default class SupaClient {
     return this.client
       .from("immigration_officers")
       .select(
-        "*, userInfo: users(firstname, lastname, email, address, phonenumber, dateofbirth, sex)"
+        "*, userInfo: users(firstname, lastname, email, address, phonenumber, dateofbirth, sex, userType)"
       );
   }
 
@@ -122,7 +122,7 @@ export default class SupaClient {
     return this.client
       .from("businesses")
       .select(
-        "*, userInfo: users(firstname, lastname, email, address, phonenumber, dateofbirth, sex)"
+        "*, userInfo: users(firstname, lastname, email, address, phonenumber, dateofbirth, sex, userType)"
       );
   }
 
@@ -130,14 +130,14 @@ export default class SupaClient {
     return this.client
       .from("medical_doctors")
       .select(
-        "*, userInfo: users(firstname, lastname, email, address, phonenumber, dateofbirth, sex)"
+        "*, userInfo: users(firstname, lastname, email, address, phonenumber, dateofbirth, sex, userType)"
       );
   }
 
   async supaGetPatients() {
     return this.client.from("patients").select(
-      `patientInfo: users!patients_patient_id_fkey (firstname, lastname, email, address, phonenumber, dateofbirth, sex),
-       doctorInfo: doctor_id (firstname, lastname, email, address, phonenumber, dateofbirth, sex)`
+      `userInfo: users!patients_patient_id_fkey (firstname, lastname, email, address, phonenumber, dateofbirth, sex, userType), symptoms,
+       doctorInfo: doctor_id (id, firstname, lastname, email, address, phonenumber, dateofbirth, sex)`
     );
   }
 
@@ -164,7 +164,7 @@ export default class SupaClient {
         lastname,
         email,
         id: user.id,
-        user_type: type,
+        userType: type,
       },
     ]);
 

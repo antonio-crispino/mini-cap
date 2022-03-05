@@ -23,6 +23,7 @@ function AppContextProvider({ mockData, children }) {
   );
   const [user, setUser] = useState(supabase.supaCurrentUser());
   const [componentInView, setComponentInView] = useState(ALL_USERS_TABLE);
+  const [expandedCard, setExpandedCard] = useState({});
 
   useEffect(() => {
     const getUserProfile = async () => {
@@ -134,6 +135,8 @@ function AppContextProvider({ mockData, children }) {
       isLoading,
       error,
       componentInView,
+      expandedCard,
+      setExpandedCard,
       setComponentInView,
       login,
       logout,
@@ -151,6 +154,8 @@ function AppContextProvider({ mockData, children }) {
     isLoading,
     error,
     componentInView,
+    expandedCard,
+    setExpandedCard,
     setComponentInView,
     login,
     logout,
