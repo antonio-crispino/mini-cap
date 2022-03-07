@@ -13,12 +13,17 @@ import {
   HStack,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/router";
 
 import { useAppContext } from "../context/AppContext";
-import styles from "../styles/authForms.module.css";
+import { DOCTORS_TABLE } from "../utils/types";
 
-function DoctorForm() {
+function DoctorForm({ doctorData }) {
+  const { setComponentInView, setExpandedCard } = useAppContext();
+
+  const moveBackHandler = () => {
+    setExpandedCard({});
+    setComponentInView(DOCTORS_TABLE);
+  };
   const {
     register,
     handleSubmit,
@@ -26,27 +31,18 @@ function DoctorForm() {
   } = useForm();
   const { setError, supabase } = useAppContext();
 
-  const router = useRouter();
-
-  const signup = async ({ email, password, firstname, lastname, business }) => {
-    const error = await supabase.supaSignUp({
-      email,
-      password,
-      firstname,
-      lastname,
-      business,
-    });
-    if (error) {
-      setError(error);
+  const updateDoctorInfo = async (data) => {
+    const answer = await supabase.updateTableById("medical_doctors", data);
+    if (answer.error) {
+      setError(answer.error);
       return;
     }
-    await router.push("/login");
 
     const toast = createStandaloneToast();
 
     toast({
-      title: "Account created.",
-      description: "You can now login",
+      title: "Update Successful!",
+      description: "Doctor info has been updated!",
       status: "success",
       duration: 9000,
       isClosable: true,
@@ -55,11 +51,8 @@ function DoctorForm() {
 
   return (
     <form
-      onSubmit={handleSubmit((data) => signup(data))}
-      style={{
-        maxWidth: "70%",
-        width: "60%",
-      }}
+      onSubmit={handleSubmit((data) => updateDoctorInfo(data))}
+      style={{ maxWidth: "100%", width: "65%", marginTop: "25px" }}
     >
       <VStack w="full" h="full" p={0} spacing={10} alignItems="center">
         <VStack spacing={3}>
@@ -72,13 +65,14 @@ function DoctorForm() {
           <GridItem w="full" colSpan={2}>
             <FormControl>
               <FormLabel color="white">Doctor ID</FormLabel>
-
               <Input
                 id="id"
                 placeholder="Id string"
                 bg="white"
                 size="lg"
-                disabled
+                value={doctorData.id}
+                readOnly
+                {...register("id")}
               />
             </FormControl>
           </GridItem>
@@ -93,6 +87,7 @@ function DoctorForm() {
                 placeholder="EX. 56584878"
                 bg="white"
                 size="lg"
+                defaultValue={doctorData.minc}
                 {...register("minc", {
                   required: "Must enter MINC number",
                   minLength: {
@@ -107,26 +102,30 @@ function DoctorForm() {
             </FormControl>
           </GridItem>
           <GridItem w="full" colSpan={2}>
+            <Divider orientation="horizontal" size="lg" className="line" />
+          </GridItem>
+          <GridItem w="full" colSpan={2}>
             <HStack justifyContent="center" gap={3}>
               <Button
                 variant="solid"
                 size="lg"
                 color="white"
                 colorScheme="green"
+                type="submit"
               >
                 Update
               </Button>
-              <Button variant="solid" size="lg" color="white" colorScheme="red">
-                Cancel
+              <Button
+                variant="solid"
+                size="lg"
+                color="white"
+                colorScheme="red"
+                px={9}
+                onClick={() => moveBackHandler()}
+              >
+                Back
               </Button>
             </HStack>
-          </GridItem>
-          <GridItem w="full" colSpan={2}>
-            <Divider
-              orientation="horizontal"
-              size="lg"
-              className={styles.line}
-            />
           </GridItem>
         </SimpleGrid>
       </VStack>

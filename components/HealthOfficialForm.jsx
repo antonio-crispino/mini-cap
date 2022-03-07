@@ -13,12 +13,16 @@ import {
   HStack,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/router";
-
 import { useAppContext } from "../context/AppContext";
-import styles from "../styles/authForms.module.css";
+import { HEALTH_OFFICIALS_TABLE } from "../utils/types";
 
-function HealthOfficialForm() {
+function HealthOfficialForm({ healthOfficialData }) {
+  const { setComponentInView, setExpandedCard } = useAppContext();
+
+  const moveBackHandler = () => {
+    setExpandedCard({});
+    setComponentInView(HEALTH_OFFICIALS_TABLE);
+  };
   const {
     register,
     handleSubmit,
@@ -26,27 +30,18 @@ function HealthOfficialForm() {
   } = useForm();
   const { setError, supabase } = useAppContext();
 
-  const router = useRouter();
-
-  const signup = async ({ email, password, firstname, lastname, business }) => {
-    const error = await supabase.supaSignUp({
-      email,
-      password,
-      firstname,
-      lastname,
-      business,
-    });
-    if (error) {
-      setError(error);
+  const updateHealthOfficialInfo = async (data) => {
+    const answer = await supabase.updateTableById("health_officials", data);
+    if (answer.error) {
+      setError(answer.error);
       return;
     }
-    await router.push("/login");
 
     const toast = createStandaloneToast();
 
     toast({
-      title: "Account created.",
-      description: "You can now login",
+      title: "Update Successful!",
+      description: "Health Official data updated!",
       status: "success",
       duration: 9000,
       isClosable: true,
@@ -55,11 +50,8 @@ function HealthOfficialForm() {
 
   return (
     <form
-      onSubmit={handleSubmit((data) => signup(data))}
-      style={{
-        maxWidth: "70%",
-        width: "60%",
-      }}
+      onSubmit={handleSubmit((data) => updateHealthOfficialInfo(data))}
+      style={{ maxWidth: "100%", width: "65%", marginTop: "25px" }}
     >
       <VStack w="full" h="full" p={0} spacing={10} alignItems="center">
         <VStack spacing={3}>
@@ -78,7 +70,9 @@ function HealthOfficialForm() {
                 placeholder="Id string"
                 bg="white"
                 size="lg"
-                disabled
+                value={healthOfficialData.id}
+                readOnly
+                {...register("id")}
               />
             </FormControl>
           </GridItem>
@@ -91,6 +85,7 @@ function HealthOfficialForm() {
                 placeholder="EX. 56584878"
                 bg="white"
                 size="lg"
+                defaultValue={healthOfficialData.licenseNumber}
                 {...register("licenseNumber", {
                   required: "Must enter license number",
                   minLength: {
@@ -105,26 +100,30 @@ function HealthOfficialForm() {
             </FormControl>
           </GridItem>
           <GridItem w="full" colSpan={2}>
+            <Divider orientation="horizontal" size="lg" className="line" />
+          </GridItem>
+          <GridItem w="full" colSpan={2}>
             <HStack justifyContent="center" gap={3}>
               <Button
                 variant="solid"
                 size="lg"
                 color="white"
                 colorScheme="green"
+                type="submit"
               >
                 Update
               </Button>
-              <Button variant="solid" size="lg" color="white" colorScheme="red">
-                Cancel
+              <Button
+                variant="solid"
+                size="lg"
+                color="white"
+                colorScheme="red"
+                px={9}
+                onClick={() => moveBackHandler()}
+              >
+                Back
               </Button>
             </HStack>
-          </GridItem>
-          <GridItem w="full" colSpan={2}>
-            <Divider
-              orientation="horizontal"
-              size="lg"
-              className={styles.line}
-            />
           </GridItem>
         </SimpleGrid>
       </VStack>

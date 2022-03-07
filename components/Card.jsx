@@ -7,9 +7,9 @@ function Card({ fullObj }) {
   const { setExpandedCard, setComponentInView } = useAppContext();
   const { userInfo } = fullObj;
   const { userType, firstname, lastname, email } = userInfo || fullObj;
-  const { symptoms, doctorInfo } = fullObj || {
+  const { symptoms, doctorId } = fullObj || {
     symptoms: false,
-    doctorInfo: false,
+    doctorId: false,
   };
 
   const viewDetailsHandler = (userObj) => {
@@ -54,7 +54,7 @@ function Card({ fullObj }) {
           px={2}
           colorScheme="purple"
           rounded="full"
-          display={doctorInfo ? "default" : "none"}
+          display={doctorId ? "default" : "none"}
         >
           has doc
         </Badge>

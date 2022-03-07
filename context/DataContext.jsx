@@ -13,25 +13,8 @@ function DataContextProvider({ mockData, children }) {
   const [doctors, setDoctors] = useState([]);
   const [patients, setPatients] = useState([]);
 
-  /**
- * {
-    "schema": "public",
-    "table": "patients",
-    "commit_timestamp": "2022-03-07T01:02:19.234391+00:00",
-    "eventType": "UPDATE",
-    "new": {
-        "doctorId": null,
-        "id": "07ea5931-ac6c-48c8-b640-416b740164b4",
-        "medicalCardNum": 53226879,
-        "symptoms": true
-    },
-    "old": {
-        "id": "07ea5931-ac6c-48c8-b640-416b740164b4"
-    },
-    "errors": null
-}
- */
   const subscribeHandler = (eventPayload, state) => {
+    // TODO: Implement the subscription handler for INSERT and DELETE
     const { eventType, errors } = eventPayload;
     if (errors) {
       setError(errors);
@@ -40,8 +23,6 @@ function DataContextProvider({ mockData, children }) {
     let changeIndex;
     let result;
     const newArray = [...state];
-
-    console.log("current", newArray);
     switch (eventType) {
       case "UPDATE":
         changeIndex = newArray.findIndex(
@@ -53,7 +34,6 @@ function DataContextProvider({ mockData, children }) {
             newArray[changeIndex][key] = eventPayload.new[key];
           }
         }
-        console.log("current AFTER!!", newArray);
         result = newArray;
         break;
 
@@ -83,7 +63,7 @@ function DataContextProvider({ mockData, children }) {
       const subscription = supabase.client
         .from("users")
         .on("*", (payload) => {
-          setUsers([...users, ...payload.new]);
+          setUsers(subscribeHandler(payload, users));
         })
         .subscribe();
       return () => {
@@ -93,7 +73,7 @@ function DataContextProvider({ mockData, children }) {
   }, [currentUser?.id, users, supabase.client]);
 
   useEffect(() => {
-    const getAdminstrators = async () => {
+    const getAdministrators = async () => {
       if (currentUser) {
         const { data: loadedAdmins, error } =
           await supabase.supaGetAdministrators();
@@ -104,7 +84,7 @@ function DataContextProvider({ mockData, children }) {
         setAdministrators([...loadedAdmins]);
       }
     };
-    getAdminstrators();
+    getAdministrators();
   }, [currentUser?.id]);
 
   useEffect(() => {
@@ -125,13 +105,13 @@ function DataContextProvider({ mockData, children }) {
   useEffect(() => {
     const getHealthOfficials = async () => {
       if (currentUser) {
-        const { data: loadedHealthOffcials, error } =
+        const { data: loadedHealthOfficials, error } =
           await supabase.supaGetHealthOfficials();
         if (error) {
           setError(error);
           return;
         }
-        setHealthOfficials([...loadedHealthOffcials]);
+        setHealthOfficials([...loadedHealthOfficials]);
       }
     };
     getHealthOfficials();
@@ -142,7 +122,7 @@ function DataContextProvider({ mockData, children }) {
       const subscription = supabase.client
         .from("health_officials")
         .on("*", (payload) => {
-          setHealthOfficials([...healthOfficials, ...payload.new]);
+          setHealthOfficials(subscribeHandler(payload, healthOfficials));
         })
         .subscribe();
 
@@ -172,7 +152,7 @@ function DataContextProvider({ mockData, children }) {
       const subscription = supabase.client
         .from("medical_doctors")
         .on("*", (payload) => {
-          setDoctors([...doctors, ...payload.new]);
+          setDoctors(subscribeHandler(payload, doctors));
         })
         .subscribe();
 
@@ -183,7 +163,7 @@ function DataContextProvider({ mockData, children }) {
   }, [currentUser?.id, doctors, supabase]);
 
   useEffect(() => {
-    const getBussinesses = async () => {
+    const getBusinesses = async () => {
       if (currentUser) {
         const { data: loadedBusinesses, error } =
           await supabase.supaGetBusinesses();
@@ -194,7 +174,7 @@ function DataContextProvider({ mockData, children }) {
         setBusinesses([...loadedBusinesses]);
       }
     };
-    getBussinesses();
+    getBusinesses();
   }, [currentUser?.id]);
 
   useEffect(() => {
@@ -202,7 +182,7 @@ function DataContextProvider({ mockData, children }) {
       const subscription = supabase.client
         .from("businesses")
         .on("*", (payload) => {
-          setBusinesses([...businesses, ...payload.new]);
+          setBusinesses(subscribeHandler(payload, businesses));
         })
         .subscribe();
 
@@ -233,7 +213,6 @@ function DataContextProvider({ mockData, children }) {
       const subscription = supabase.client
         .from("patients")
         .on("*", (payload) => {
-          console.log("thisispayload", payload);
           setPatients(subscribeHandler(payload, patients));
         })
         .subscribe();

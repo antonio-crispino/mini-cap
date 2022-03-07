@@ -6,7 +6,7 @@ function CardGrid({ payload }) {
   return (
     <>
       {payload.map((fullObj) => (
-        <GridItem w="100%">
+        <GridItem w="100%" key={fullObj.id || fullObj.userInfo.id}>
           <Card fullObj={fullObj} />
         </GridItem>
       ))}

@@ -2,6 +2,7 @@ import { Flex, Stack } from "@chakra-ui/react";
 import { useCallback } from "react";
 import UserForm from "./UserForm";
 import { useAppContext } from "../context/AppContext";
+import { useDataContext } from "../context/DataContext";
 import PatientForm from "./PatientForm";
 import BusinessForm from "./BusinessForm";
 import DoctorForm from "./DoctorForm";
@@ -12,8 +13,11 @@ import FormSideMessage from "./FormSideMessage";
 
 function CardDetails() {
   const { expandedCard } = useAppContext();
-
+  const { users } = useDataContext();
   const { userType } = expandedCard.userInfo;
+  const userObj = !expandedCard.userType
+    ? users.filter((user) => user.id === expandedCard.userInfo.id)[0]
+    : expandedCard;
 
   const renderForm = useCallback(() => {
     if (expandedCard.userType) {
@@ -24,20 +28,20 @@ function CardDetails() {
       case "patient":
         return <PatientForm patientData={expandedCard} />;
       case "doctor":
-        return <DoctorForm />;
+        return <DoctorForm doctorData={expandedCard} />;
       case "health_official":
-        return <HealthOfficialForm />;
+        return <HealthOfficialForm healthOfficialData={expandedCard} />;
       case "immigration_officer":
-        return <ImmigrationOfficerForm />;
+        return <ImmigrationOfficerForm immOfficerData={expandedCard} />;
       case "business":
-        return <BusinessForm />;
+        return <BusinessForm businessData={expandedCard} />;
       case "admin":
-        return <AdminForm />;
+        return <AdminForm adminData={expandedCard} />;
 
       default:
         return <FormSideMessage />;
     }
-  }, [expandedCard.userType, userType]);
+  }, [expandedCard, userType]);
 
   return (
     <Flex justifyContent="center" minH="90vh" p={{ base: 1, md: 10 }}>
@@ -51,12 +55,12 @@ function CardDetails() {
           w="full"
           justifyContent="center"
           alignItems="center"
-          mb={{ base: 10, lg: 1 }}
+          mt={{ base: 10, lg: 1 }}
         >
           {renderForm()}
         </Flex>
         <Flex w="full" justifyContent="center" alignItems="center">
-          <UserForm />
+          <UserForm userData={userObj} />
         </Flex>
       </Stack>
     </Flex>

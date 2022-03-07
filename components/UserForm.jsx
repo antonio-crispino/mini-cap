@@ -16,40 +16,29 @@ import {
   HStack,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/router";
-
 import { useAppContext } from "../context/AppContext";
-import styles from "../styles/authForms.module.css";
 
-function UserForm() {
+function UserForm({ userData }) {
+  const { setError, supabase } = useAppContext();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { setError, supabase } = useAppContext();
 
-  const router = useRouter();
-
-  const signup = async ({ email, password, firstname, lastname, business }) => {
-    const error = await supabase.supaSignUp({
-      email,
-      password,
-      firstname,
-      lastname,
-      business,
-    });
-    if (error) {
-      setError(error);
+  const updateUserInfo = async (data) => {
+    const answer = await supabase.updateTableById("users", data);
+    if (answer.error) {
+      setError(answer.error);
       return;
     }
-    await router.push("/login");
 
     const toast = createStandaloneToast();
 
     toast({
-      title: "Account created.",
-      description: "You can now login",
+      title: "Update Successful!",
+      description: "User details have been updated!",
       status: "success",
       duration: 9000,
       isClosable: true,
@@ -58,8 +47,8 @@ function UserForm() {
 
   return (
     <form
-      onSubmit={handleSubmit((data) => signup(data))}
-      className={styles.formWidth}
+      onSubmit={handleSubmit((data) => updateUserInfo(data))}
+      style={{ maxWidth: "100%", width: "65%", marginTop: "25px" }}
     >
       <VStack w="full" h="full" p={0} spacing={10} alignItems="center">
         <VStack spacing={3}>
@@ -78,7 +67,8 @@ function UserForm() {
                 placeholder="Id string"
                 bg="white"
                 size="lg"
-                disabled
+                value={userData.id}
+                {...register("id")}
               />
               <FormErrorMessage>
                 {errors.id && errors.id.message}
@@ -94,6 +84,7 @@ function UserForm() {
                 placeholder="John"
                 bg="white"
                 size="lg"
+                defaultValue={userData.firstname}
                 {...register("firstname", {
                   required: "Must enter a valid first name",
                   minLength: {
@@ -115,6 +106,7 @@ function UserForm() {
                 placeholder="Doe"
                 bg="white"
                 size="lg"
+                defaultValue={userData.lastname}
                 {...register("lastname", {
                   required: "Must enter a valid last name",
                   minLength: {
@@ -133,12 +125,11 @@ function UserForm() {
               <FormLabel color="white">Middle Name</FormLabel>
               <Input
                 id="middlename"
-                placeholder="James"
+                placeholder="middle name"
                 bg="white"
                 size="lg"
-                {...register("middlename", {
-                  required: "Please enter a valid middle name",
-                })}
+                defaultValue={userData.middlename}
+                {...register("middlename")}
               />
               <FormErrorMessage>
                 {errors.middlename && errors.middlename.message}
@@ -154,6 +145,7 @@ function UserForm() {
                 type="email"
                 bg="white"
                 size="lg"
+                defaultValue={userData.email}
                 {...register("email", {
                   required: "Please enter a valid email",
                 })}
@@ -171,9 +163,9 @@ function UserForm() {
                 placeholder="781 Hacker St."
                 bg="white"
                 size="lg"
-                {...register("address", {
-                  required: "Please enter a valid address",
-                })}
+                color="black.500"
+                defaultValue={userData.address}
+                {...register("address")}
               />
               <FormErrorMessage>
                 {errors.address && errors.address.message}
@@ -189,6 +181,8 @@ function UserForm() {
                   id="phonenumber"
                   placeholder="4381232897"
                   bg="white"
+                  color="black.500"
+                  defaultValue={userData.phonenumber}
                   {...register("phonenumber", {
                     minLength: {
                       value: 10,
@@ -211,8 +205,10 @@ function UserForm() {
                 placeholder="YYYY-MM-DD"
                 bg="white"
                 size="lg"
+                color="black.500"
+                defaultValue={userData.dateofbirth}
                 {...register("dateofbirth", {
-                  required: "Must enter a valid last name",
+                  required: "Must enter a valid birth date",
                   valueAsDate: true,
                 })}
               />
@@ -227,11 +223,11 @@ function UserForm() {
               <Select
                 id="sex"
                 placeholder="Select option"
-                color="gray.400"
+                color="black.500"
                 fontFamily="opensans-regular"
                 bg="white"
                 size="lg"
-                defaultValue={null}
+                defaultValue={userData.sex}
                 {...register("sex")}
               >
                 <option value="male">Male</option>
@@ -244,26 +240,21 @@ function UserForm() {
           </GridItem>
 
           <GridItem w="full" colSpan={2}>
+            <Divider orientation="horizontal" size="lg" className="line" />
+          </GridItem>
+          <GridItem w="full" colSpan={2}>
             <HStack justifyContent="center" gap={3}>
               <Button
                 variant="solid"
                 size="lg"
                 color="white"
                 colorScheme="green"
+                type="submit"
+                px={9}
               >
                 Update
               </Button>
-              <Button variant="solid" size="lg" color="white" colorScheme="red">
-                Cancel
-              </Button>
             </HStack>
-          </GridItem>
-          <GridItem w="full" colSpan={2}>
-            <Divider
-              orientation="horizontal"
-              size="lg"
-              className={styles.line}
-            />
           </GridItem>
         </SimpleGrid>
       </VStack>

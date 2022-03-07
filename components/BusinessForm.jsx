@@ -13,12 +13,17 @@ import {
   HStack,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/router";
 
 import { useAppContext } from "../context/AppContext";
-import styles from "../styles/authForms.module.css";
+import { BUSINESSES_TABLE } from "../utils/types";
 
-function BusinessForm() {
+function BusinessForm({ businessData }) {
+  const { setComponentInView, setExpandedCard } = useAppContext();
+
+  const moveBackHandler = () => {
+    setExpandedCard({});
+    setComponentInView(BUSINESSES_TABLE);
+  };
   const {
     register,
     handleSubmit,
@@ -26,27 +31,18 @@ function BusinessForm() {
   } = useForm();
   const { setError, supabase } = useAppContext();
 
-  const router = useRouter();
-
-  const signup = async ({ email, password, firstname, lastname, business }) => {
-    const error = await supabase.supaSignUp({
-      email,
-      password,
-      firstname,
-      lastname,
-      business,
-    });
-    if (error) {
+  const updateBusinessInfo = async (data) => {
+    const error = await supabase.updateTableById("businesses", data);
+    if (error.error) {
       setError(error);
       return;
     }
-    await router.push("/login");
 
     const toast = createStandaloneToast();
 
     toast({
-      title: "Account created.",
-      description: "You can now login",
+      title: "Updated successfully!",
+      description: "Business details have been updated successfully ",
       status: "success",
       duration: 9000,
       isClosable: true,
@@ -55,11 +51,8 @@ function BusinessForm() {
 
   return (
     <form
-      onSubmit={handleSubmit((data) => signup(data))}
-      style={{
-        maxWidth: "70%",
-        width: "60%",
-      }}
+      onSubmit={handleSubmit((data) => updateBusinessInfo(data))}
+      style={{ maxWidth: "100%", width: "65%", marginTop: "25px" }}
     >
       <VStack w="full" h="full" p={0} spacing={10} alignItems="center">
         <VStack spacing={3}>
@@ -78,7 +71,9 @@ function BusinessForm() {
                 placeholder="Id string"
                 bg="white"
                 size="lg"
-                disabled
+                readOnly
+                defaultValue={businessData.id}
+                {...register("id")}
               />
             </FormControl>
           </GridItem>
@@ -91,7 +86,9 @@ function BusinessForm() {
                 placeholder="Id string"
                 bg="white"
                 size="lg"
-                disabled
+                readOnly
+                defaultValue={businessData.ownerId}
+                {...register("ownerId")}
               />
             </FormControl>
           </GridItem>
@@ -104,6 +101,7 @@ function BusinessForm() {
                 placeholder="Business Name"
                 bg="white"
                 size="lg"
+                defaultValue={businessData.businessName}
                 {...register("businessName", {
                   required: "Must enter a business name",
                   minLength: {
@@ -126,6 +124,7 @@ function BusinessForm() {
                 placeholder="Government ID"
                 bg="white"
                 size="lg"
+                defaultValue={businessData.businessGovId}
                 {...register("businessGovId", {
                   required: "Must enter a business government id",
                   minLength: {
@@ -139,7 +138,9 @@ function BusinessForm() {
               </FormErrorMessage>
             </FormControl>
           </GridItem>
-
+          <GridItem w="full" colSpan={2}>
+            <Divider orientation="horizontal" size="lg" className="line" />
+          </GridItem>
           <GridItem w="full" colSpan={2}>
             <HStack justifyContent="center" gap={3}>
               <Button
@@ -147,20 +148,21 @@ function BusinessForm() {
                 size="lg"
                 color="white"
                 colorScheme="green"
+                type="submit"
               >
                 Update
               </Button>
-              <Button variant="solid" size="lg" color="white" colorScheme="red">
-                Cancel
+              <Button
+                variant="solid"
+                size="lg"
+                color="white"
+                colorScheme="red"
+                px={9}
+                onClick={() => moveBackHandler()}
+              >
+                Back
               </Button>
             </HStack>
-          </GridItem>
-          <GridItem w="full" colSpan={2}>
-            <Divider
-              orientation="horizontal"
-              size="lg"
-              className={styles.line}
-            />
           </GridItem>
         </SimpleGrid>
       </VStack>

@@ -17,10 +17,16 @@ import { useForm } from "react-hook-form";
 
 import { useAppContext } from "../context/AppContext";
 import { useDataContext } from "../context/DataContext";
-import styles from "../styles/authForms.module.css";
+import { PATIENTS_TABLE } from "../utils/types";
 
 function PatientForm({ patientData }) {
   const { doctors } = useDataContext();
+  const { setComponentInView, setExpandedCard } = useAppContext();
+
+  const moveBackHandler = () => {
+    setExpandedCard({});
+    setComponentInView(PATIENTS_TABLE);
+  };
   const {
     register,
     handleSubmit,
@@ -53,10 +59,7 @@ function PatientForm({ patientData }) {
   return (
     <form
       onSubmit={handleSubmit((data) => updatePatientInfo(data))}
-      style={{
-        maxWidth: "70%",
-        width: "60%",
-      }}
+      style={{ maxWidth: "100%", width: "65%", marginTop: "25px" }}
     >
       <VStack w="full" h="full" p={0} spacing={10} alignItems="center">
         <VStack spacing={3}>
@@ -76,6 +79,7 @@ function PatientForm({ patientData }) {
                 bg="white"
                 size="lg"
                 value={patientData.id}
+                readOnly
                 {...register("id")}
               />
               <FormErrorMessage>
@@ -122,6 +126,7 @@ function PatientForm({ patientData }) {
                 {doctors.map((doc) => (
                   <option
                     value={doc.id}
+                    key={`dc${doc.userInfo.id}`}
                   >{`${doc.userInfo.firstname} ${doc.userInfo.lastname}`}</option>
                 ))}
               </Select>
@@ -152,7 +157,9 @@ function PatientForm({ patientData }) {
               </FormErrorMessage>
             </FormControl>
           </GridItem>
-
+          <GridItem w="full" colSpan={2}>
+            <Divider orientation="horizontal" size="lg" className="line" />
+          </GridItem>
           <GridItem w="full" colSpan={2}>
             <HStack justifyContent="center" gap={3}>
               <Button
@@ -164,17 +171,17 @@ function PatientForm({ patientData }) {
               >
                 Update
               </Button>
-              <Button variant="solid" size="lg" color="white" colorScheme="red">
-                Cancel
+              <Button
+                variant="solid"
+                size="lg"
+                color="white"
+                colorScheme="red"
+                px={9}
+                onClick={() => moveBackHandler()}
+              >
+                Back
               </Button>
             </HStack>
-          </GridItem>
-          <GridItem w="full" colSpan={2}>
-            <Divider
-              orientation="horizontal"
-              size="lg"
-              className={styles.line}
-            />
           </GridItem>
         </SimpleGrid>
       </VStack>

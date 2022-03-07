@@ -26,16 +26,7 @@ export default function MainDashView() {
     businesses,
     doctors,
   } = useDataContext();
-  // console.log({
-  //   users,
-  //   patients,
-  //   administrators,
-  //   healthOfficials,
-  //   immigrationOfficers,
-  //   businesses,
-  //   doctors,
-  // });
-  console.log("patients from dash", patients);
+
   const renderComponent = useCallback(() => {
     switch (componentInView) {
       case ALL_USERS_TABLE:
@@ -53,9 +44,9 @@ export default function MainDashView() {
       case BUSINESSES_TABLE:
         return <CardGrid payload={businesses} />;
       case CARD_DETAILS:
-        return <CardDetails />; // TODO: implement card details page
+        return <CardDetails />;
       default:
-        return <CardGrid payload={patients} />;
+        return <CardGrid payload={users} />;
     }
   }, [componentInView]);
 

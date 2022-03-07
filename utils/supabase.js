@@ -109,43 +109,25 @@ export default class SupaClient {
   }
 
   async supaGetAdministrators() {
-    return this.client
-      .from("administrators")
-      .select(
-        "*, userInfo: users(firstname, lastname, email, address, phonenumber, dateofbirth, sex, userType)"
-      );
+    return this.client.from("administrators").select("*, userInfo: users(*)");
   }
 
   async supaGetHealthOfficials() {
-    return this.client
-      .from("health_officials")
-      .select(
-        "*, userInfo: users(firstname, lastname, email, address, phonenumber, dateofbirth, sex, userType)"
-      );
+    return this.client.from("health_officials").select("*, userInfo: users(*)");
   }
 
   async supaGetImmigrationOfficers() {
     return this.client
       .from("immigration_officers")
-      .select(
-        "*, userInfo: users(firstname, lastname, email, address, phonenumber, dateofbirth, sex, userType)"
-      );
+      .select("*, userInfo: users(*)");
   }
 
   async supaGetBusinesses() {
-    return this.client
-      .from("businesses")
-      .select(
-        "*, userInfo: users(firstname, lastname, email, address, phonenumber, dateofbirth, sex, userType)"
-      );
+    return this.client.from("businesses").select("*, userInfo: users(*)");
   }
 
   async supaGetMedicalDoctors() {
-    return this.client
-      .from("medical_doctors")
-      .select(
-        "*, userInfo: users(firstname, lastname, email, address, phonenumber, dateofbirth, sex, userType)"
-      );
+    return this.client.from("medical_doctors").select("*, userInfo: users(*)");
   }
 
   async supaGetPatients() {
