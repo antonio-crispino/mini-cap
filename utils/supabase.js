@@ -61,7 +61,7 @@ export default class SupaClient {
     if (business) {
       const { error: insertionError } = await this.client
         .from("businesses")
-        .insert([{ owner_id: user.id }]);
+        .insert([{ ownerId: user.id }]);
 
       if (insertionError) {
         return insertionError;
@@ -69,7 +69,7 @@ export default class SupaClient {
     } else {
       const { error: insertionError } = await this.client
         .from("patients")
-        .insert([{ patient_id: user.id }]);
+        .insert([{ id: user.id }]);
 
       if (insertionError) {
         return insertionError;
@@ -87,6 +87,20 @@ export default class SupaClient {
         lastname: newlastname,
       })
       .match({ email });
+    return data;
+  }
+
+  async updateTableById(table, payload) {
+    const { id } = payload;
+    const targetFields = { ...payload };
+    delete targetFields.id;
+
+    const data = this.client
+      .from(table)
+      .update({
+        ...targetFields,
+      })
+      .match({ id });
     return data;
   }
 
@@ -136,8 +150,8 @@ export default class SupaClient {
 
   async supaGetPatients() {
     return this.client.from("patients").select(
-      `userInfo: users!patients_patient_id_fkey (firstname, lastname, email, address, phonenumber, dateofbirth, sex, userType), symptoms,
-       doctorInfo: doctor_id (id, firstname, lastname, email, address, phonenumber, dateofbirth, sex)`
+      `*, userInfo: users!patients_id_fkey (*), 
+       doctorInfo: doctorId (*)`
     );
   }
 

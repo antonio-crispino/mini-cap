@@ -1,11 +1,11 @@
-import { Grid, GridItem } from "@chakra-ui/react";
+import { Container, GridItem, SimpleGrid } from "@chakra-ui/react";
 import DashboardTopBar from "../components/dashboard/DashboardTopBar";
 import MainDashView from "../components/dashboard/MainDashView";
 import withAdminAuth from "../components/WithAdminAuth";
 
 function AdminDashboard() {
   return (
-    <Grid
+    <Container
       backgroundImage="url('/images/Background_Light.png')"
       backgroundPosition="center"
       backgroundRepeat="no-repeat"
@@ -13,15 +13,18 @@ function AdminDashboard() {
       backgroundSize="cover"
       minHeight="100vh"
       fontSize="1rem"
-      gridTemplateColumns="23% auto"
+      minW="full"
+      p="0px"
     >
-      <GridItem>
-        <DashboardTopBar />
-      </GridItem>
-      <GridItem marginTop="5rem" marginRight="3rem">
-        <MainDashView />
-      </GridItem>
-    </Grid>
+      <SimpleGrid w="100%">
+        <GridItem w="full" h="full">
+          <DashboardTopBar />
+        </GridItem>
+        <GridItem w="100%">
+          <MainDashView />
+        </GridItem>
+      </SimpleGrid>
+    </Container>
   );
 }
 

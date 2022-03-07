@@ -9,12 +9,11 @@ const withAdminAuth = (WrappedComponent) =>
   function (props) {
     const { user, isLoading } = useAppContext();
     const router = useRouter();
-
     if (isLoading) {
       return "";
     }
 
-    if (!user?.userType === "admin") {
+    if (!user || !user?.userType === "admin") {
       return (
         <ErrorCatcher
           message="You must be an administrator to view this page!"

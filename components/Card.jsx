@@ -13,7 +13,14 @@ function Card({ fullObj }) {
   };
 
   const viewDetailsHandler = (userObj) => {
-    setExpandedCard(userObj);
+    let passedCardDetails = { ...userObj };
+    if (!userInfo) {
+      passedCardDetails = {
+        ...userObj,
+        userInfo: { userType: userObj.userType },
+      };
+    }
+    setExpandedCard(passedCardDetails);
     setComponentInView(CARD_DETAILS);
   };
   return (

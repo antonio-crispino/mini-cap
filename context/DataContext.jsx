@@ -1,3 +1,4 @@
+/* eslint-disable no-continue */
 import { createContext, useState, useEffect, useContext, useMemo } from "react";
 import { useAppContext } from "./AppContext";
 
@@ -12,6 +13,59 @@ function DataContextProvider({ mockData, children }) {
   const [businesses, setBusinesses] = useState([]);
   const [doctors, setDoctors] = useState([]);
   const [patients, setPatients] = useState([]);
+
+  /**
+ * {
+    "schema": "public",
+    "table": "patients",
+    "commit_timestamp": "2022-03-07T01:02:19.234391+00:00",
+    "eventType": "UPDATE",
+    "new": {
+        "doctorId": null,
+        "id": "07ea5931-ac6c-48c8-b640-416b740164b4",
+        "medicalCardNum": 53226879,
+        "symptoms": true
+    },
+    "old": {
+        "id": "07ea5931-ac6c-48c8-b640-416b740164b4"
+    },
+    "errors": null
+}
+ */
+
+  // const subscribeHandler = (eventPayload, state) => {
+  //   const { eventType, errors } = eventPayload;
+  //   if (errors) {
+  //     setError(errors);
+  //     return;
+  //   }
+  //   let changeIndex;
+  //   let result;
+  //   const newArray = [...state];
+
+  //   console.log("current", newArray);
+  //   switch (eventType) {
+  //     case "UPDATE":
+  //       changeIndex = newArray.findIndex(
+  //         (obj) => obj.id === eventPayload.old.id
+  //       );
+  //       // eslint-disable-next-line no-restricted-syntax
+  //       for (const entry in newArray[changeIndex]) {
+  //         if (entry === "userInfo" || entry === "doctorInfo") {
+  //           continue;
+  //         }
+  //         newArray[changeIndex].entry = eventPayload.new.entry;
+  //       }
+  //       console.log("current AFTER!!", newArray);
+  //       result = newArray;
+  //       break;
+
+  //     default:
+  //       break;
+  //   }
+
+  //   return result;
+  // };
 
   useEffect(() => {
     const getUsers = async () => {
@@ -182,7 +236,9 @@ function DataContextProvider({ mockData, children }) {
       const subscription = supabase.client
         .from("patients")
         .on("*", (payload) => {
-          setPatients([...patients, ...payload.new]);
+          console.log("thisispayload", payload);
+          // setPatients(subscribeHandler(payload, patients));
+          // setPatients([...patients, ...payload.new]);
         })
         .subscribe();
 

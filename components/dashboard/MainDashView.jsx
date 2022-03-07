@@ -1,4 +1,4 @@
-import { Box, Grid } from "@chakra-ui/react";
+import { Grid } from "@chakra-ui/react";
 import { useCallback } from "react";
 import { useAppContext } from "../../context/AppContext";
 import { useDataContext } from "../../context/DataContext";
@@ -13,6 +13,7 @@ import {
   BUSINESSES_TABLE,
 } from "../../utils/types";
 import CardGrid from "../CardsGrid";
+import CardDetails from "../CardDetails";
 
 export default function MainDashView() {
   const { componentInView } = useAppContext();
@@ -25,16 +26,16 @@ export default function MainDashView() {
     businesses,
     doctors,
   } = useDataContext();
-  console.log({
-    users,
-    patients,
-    administrators,
-    healthOfficials,
-    immigrationOfficers,
-    businesses,
-    doctors,
-  });
-
+  // console.log({
+  //   users,
+  //   patients,
+  //   administrators,
+  //   healthOfficials,
+  //   immigrationOfficers,
+  //   businesses,
+  //   doctors,
+  // });
+  console.log("patients from dash", patients);
   const renderComponent = useCallback(() => {
     switch (componentInView) {
       case ALL_USERS_TABLE:
@@ -52,13 +53,13 @@ export default function MainDashView() {
       case BUSINESSES_TABLE:
         return <CardGrid payload={businesses} />;
       case CARD_DETAILS:
-        return <Box />; // TODO: implement card details page
+        return <CardDetails />; // TODO: implement card details page
       default:
         return <CardGrid payload={patients} />;
     }
   }, [componentInView]);
 
-  return (
+  return componentInView !== CARD_DETAILS ? (
     <Grid
       templateColumns="repeat(auto-fill, minmax(250px, 1fr))"
       gap={2}
@@ -66,9 +67,11 @@ export default function MainDashView() {
       justifyContent="center"
       padding={10}
       borderRadius={5}
-      bg="white"
+      minW="100%"
     >
       {renderComponent()}
     </Grid>
+  ) : (
+    <>{renderComponent()}</>
   );
 }

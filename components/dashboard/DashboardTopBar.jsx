@@ -25,12 +25,13 @@ export default function DashboardTopBar() {
   return (
     <Flex
       as="header"
-      position="fixed"
+      position="sticky"
       backgroundColor="whitesmoke"
       backdropFilter="saturate(180%) blur(5px)"
       w="100%"
       px={2}
       py={2}
+      left={0}
       alignItems="center"
       justifyContent="center"
     >
