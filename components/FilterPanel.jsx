@@ -1,4 +1,4 @@
-// import { useState, useCallback } from "react";
+// import { useState, useCallback, useEffect } from "react";
 // import { useAppContext } from "../context/AppContext";
 // import { useDataContext } from "../context/DataContext";
 // import {
@@ -23,7 +23,7 @@
 //   CheckboxGroup,
 // } = require("@chakra-ui/react");
 
-// function FilterPanel() {
+// function FilterPanel({ optionClicked }) {
 //   const { componentInView } = useAppContext();
 //   const {
 //     setUsers,
@@ -41,65 +41,6 @@
 //     businesses,
 //     doctors,
 //   } = useDataContext();
-//   console.log({
-//     users,
-//     patients,
-//     administrators,
-//     healthOfficials,
-//     immigrationOfficers,
-//     businesses,
-//     doctors,
-//   });
-//   const [checkedItems, setCheckedItems] = useState({
-//     hasDoc: null,
-//     noDoc: null,
-//     symptoms: null,
-//   });
-
-//   //   const filterState = useCallback(() => {
-//   //     const { hasDoc, noDoc, symptoms } = checkedItems;
-
-//   //     const filteredState = patients.filter((patient) => {
-//   //       if (hasDoc && patient.doctorId) {
-//   //         return patient;
-//   //       }
-//   //       if (noDoc && !patient.doctorId) {
-//   //         return patient;
-//   //       }
-//   //       if (symptoms && patient.symptoms) {
-//   //         return patient;
-//   //       }
-//   //     });
-//   //     console.log("asdasdasd ", filteredState);
-//   //     setPatients(filteredState);
-//   //   }, [checkedItems]);
-
-//   const checkedHandler = (e) => {
-//     switch (e.target.value) {
-//       case "hasDoc":
-//         setCheckedItems({
-//           ...checkedItems,
-//           hasDoc: checkedItems.hasDoc ? null : !checkedItems.hasDoc,
-//         });
-//         break;
-//       case "noDoc":
-//         setCheckedItems({
-//           ...checkedItems,
-//           noDoc: checkedItems.noDoc ? null : !checkedItems.noDoc,
-//         });
-//         break;
-//       case "symptoms":
-//         setCheckedItems({
-//           ...checkedItems,
-//           symptoms: checkedItems.symptoms ? null : !checkedItems.symptoms,
-//         });
-//         break;
-//       default:
-//         break;
-//     }
-//     filterState();
-//     console.log(checkedItems);
-//   };
 
 //   return (
 //     <Flex
@@ -124,13 +65,13 @@
 //             justifyContent="center"
 //             alignItems="center"
 //           >
-//             <Checkbox value="hasDoc" onChange={(e) => checkedHandler(e)}>
+//             <Checkbox value="hasDoc" onChange={(e) => optionClicked(e)}>
 //               Assigned Doctor
 //             </Checkbox>
-//             <Checkbox value="noDoc" onChange={(e) => checkedHandler(e)}>
+//             <Checkbox value="noDoc" onChange={(e) => optionClicked(e)}>
 //               No Doctor
 //             </Checkbox>
-//             <Checkbox value="symptoms" onChange={(e) => checkedHandler(e)}>
+//             <Checkbox value="symptoms" onChange={(e) => optionClicked(e)}>
 //               Symptomatic
 //             </Checkbox>
 //           </Stack>
