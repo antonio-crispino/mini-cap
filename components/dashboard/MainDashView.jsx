@@ -14,6 +14,7 @@ import {
 } from "../../utils/types";
 import CardGrid from "../CardsGrid";
 import CardDetails from "../CardDetails";
+import FilterPanel from "../FilterPanel";
 
 export default function MainDashView() {
   const { componentInView } = useAppContext();
@@ -51,17 +52,20 @@ export default function MainDashView() {
   }, [componentInView]);
 
   return componentInView !== CARD_DETAILS ? (
-    <Grid
-      templateColumns="repeat(auto-fill, minmax(250px, 1fr))"
-      gap={2}
-      alignItems="center"
-      justifyContent="center"
-      padding={10}
-      borderRadius={5}
-      minW="100%"
-    >
-      {renderComponent()}
-    </Grid>
+    <>
+      <FilterPanel />
+      <Grid
+        templateColumns="repeat(auto-fill, minmax(250px, 1fr))"
+        gap={2}
+        alignItems="center"
+        justifyContent="center"
+        padding={10}
+        borderRadius={5}
+        minW="100%"
+      >
+        {renderComponent()}
+      </Grid>
+    </>
   ) : (
     <>{renderComponent()}</>
   );

@@ -263,6 +263,7 @@ function DataContextProvider({ mockData, children }) {
       immigrationOfficers,
       businesses,
       administrators,
+      setPatients,
     };
     return ctxExposed;
   }, [
