@@ -1,4 +1,3 @@
-/* eslint-disable no-continue */
 import { createContext, useState, useEffect, useContext, useMemo } from "react";
 import { useAppContext } from "./AppContext";
 
@@ -32,40 +31,38 @@ function DataContextProvider({ mockData, children }) {
     "errors": null
 }
  */
+  const subscribeHandler = (eventPayload, state) => {
+    const { eventType, errors } = eventPayload;
+    if (errors) {
+      setError(errors);
+      return;
+    }
+    let changeIndex;
+    let result;
+    const newArray = [...state];
 
-  // const subscribeHandler = (eventPayload, state) => {
-  //   const { eventType, errors } = eventPayload;
-  //   if (errors) {
-  //     setError(errors);
-  //     return;
-  //   }
-  //   let changeIndex;
-  //   let result;
-  //   const newArray = [...state];
+    console.log("current", newArray);
+    switch (eventType) {
+      case "UPDATE":
+        changeIndex = newArray.findIndex(
+          (obj) => obj.id === eventPayload.old.id
+        );
+        // eslint-disable-next-line no-restricted-syntax
+        for (const key of Object.keys(eventPayload.new)) {
+          if (key !== "userInfo" || key !== "doctorInfo") {
+            newArray[changeIndex][key] = eventPayload.new[key];
+          }
+        }
+        console.log("current AFTER!!", newArray);
+        result = newArray;
+        break;
 
-  //   console.log("current", newArray);
-  //   switch (eventType) {
-  //     case "UPDATE":
-  //       changeIndex = newArray.findIndex(
-  //         (obj) => obj.id === eventPayload.old.id
-  //       );
-  //       // eslint-disable-next-line no-restricted-syntax
-  //       for (const entry in newArray[changeIndex]) {
-  //         if (entry === "userInfo" || entry === "doctorInfo") {
-  //           continue;
-  //         }
-  //         newArray[changeIndex].entry = eventPayload.new.entry;
-  //       }
-  //       console.log("current AFTER!!", newArray);
-  //       result = newArray;
-  //       break;
+      default:
+        break;
+    }
 
-  //     default:
-  //       break;
-  //   }
-
-  //   return result;
-  // };
+    return result;
+  };
 
   useEffect(() => {
     const getUsers = async () => {
@@ -237,8 +234,7 @@ function DataContextProvider({ mockData, children }) {
         .from("patients")
         .on("*", (payload) => {
           console.log("thisispayload", payload);
-          // setPatients(subscribeHandler(payload, patients));
-          // setPatients([...patients, ...payload.new]);
+          setPatients(subscribeHandler(payload, patients));
         })
         .subscribe();
 
