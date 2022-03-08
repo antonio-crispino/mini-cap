@@ -35,6 +35,17 @@ export default function MainDashView() {
   });
 
   const [filteredPatients, setFilteredPatients] = useState([...patients]);
+  const [filteredUsers, setFilteredUsers] = useState([...users]);
+  const [filteredBusinesses, setFilteredBusinesses] = useState([...businesses]);
+  const [filteredImmOfficers, setFilteredImmOfficers] = useState([
+    ...immigrationOfficers,
+  ]);
+  const [filteredHealthOfficials, setFilteredHealthOfficials] = useState([
+    ...healthOfficials,
+  ]);
+  const [filteredAdmins, setFilteredAdmins] = useState([...administrators]);
+  const [filteredDoctors, setFilteredDoctors] = useState([...doctors]);
+  const [searchedString, setSearchedString] = useState([]);
 
   useEffect(() => {
     const filterState = () => {
@@ -55,6 +66,61 @@ export default function MainDashView() {
     };
     filterState();
   }, [checkedItems.hasDoc, checkedItems.noDoc, checkedItems.symptoms]);
+
+  const searchFilter = (userArray, strArray) => {
+    let result = 0;
+    const answer = userArray.filter((obj) => {
+      const objectStr = JSON.stringify(obj).toLowerCase();
+      strArray.forEach((str) => {
+        if (objectStr.includes(str)) {
+          result++;
+        } else {
+          result *= 0;
+        }
+      });
+
+      return result > 0;
+    });
+    return answer;
+  };
+
+  useEffect(() => {
+    let filteredArray;
+    switch (componentInView) {
+      case ALL_USERS_TABLE:
+        filteredArray = searchFilter(users, searchedString);
+        console.log({ filteredArray, searchedString });
+        setFilteredUsers(filteredArray);
+        break;
+      case PATIENTS_TABLE:
+        filteredArray = searchFilter(patients, searchedString);
+        setFilteredPatients(filteredArray);
+        break;
+      case DOCTORS_TABLE:
+        filteredArray = searchFilter(doctors, searchedString);
+        setFilteredDoctors(filteredArray);
+        break;
+      case HEALTH_OFFICIALS_TABLE:
+        filteredArray = searchFilter(healthOfficials, searchedString);
+        setFilteredHealthOfficials(filteredArray);
+        break;
+      case IMMIGRATION_OFFICERS_TABLE:
+        filteredArray = searchFilter(immigrationOfficers, searchedString);
+        setFilteredImmOfficers(filteredArray);
+        break;
+      case ADMINS_TABLE:
+        filteredArray = searchFilter(administrators, searchedString);
+        setFilteredAdmins(filteredArray);
+        break;
+      case BUSINESSES_TABLE:
+        filteredArray = searchFilter(businesses, searchedString);
+        setFilteredBusinesses(filteredArray);
+        break;
+      default:
+        filteredArray = null;
+        break;
+    }
+  }, [searchedString]);
 
   const checkedHandler = (e) => {
     switch (e.target.value) {
@@ -81,7 +147,14 @@ export default function MainDashView() {
     }
   };
 
-  const options = [
+  const searchHandler = (e) => {
+    let keywords = e.target.value.toLowerCase();
+    console.log("keywords ", keywords);
+    keywords = keywords.split(" ");
+    setSearchedString(keywords);
+  };
+
+  const patientCheckboxOptions = [
     {
       name: "Assigned Doctor",
       value: "hasDoc",
@@ -98,32 +171,92 @@ export default function MainDashView() {
       checked: checkedItems.symptoms,
     },
   ];
+
   const renderComponent = useCallback(() => {
     switch (componentInView) {
       case ALL_USERS_TABLE:
-        return <CardGrid payload={users} />;
+        return (
+          <CardGrid
+            payload={filteredUsers.length === 0 ? users : filteredUsers}
+          />
+        );
       case PATIENTS_TABLE:
-        return <CardGrid payload={filteredPatients} />;
+        return (
+          <CardGrid
+            payload={
+              filteredPatients.length === 0 ? patients : filteredPatients
+            }
+          />
+        );
       case DOCTORS_TABLE:
-        return <CardGrid payload={doctors} />;
+        return (
+          <CardGrid
+            payload={filteredDoctors.length === 0 ? doctors : filteredDoctors}
+          />
+        );
       case HEALTH_OFFICIALS_TABLE:
-        return <CardGrid payload={healthOfficials} />;
+        return (
+          <CardGrid
+            payload={
+              filteredHealthOfficials.length === 0
+                ? healthOfficials
+                : filteredHealthOfficials
+            }
+          />
+        );
       case IMMIGRATION_OFFICERS_TABLE:
-        return <CardGrid payload={immigrationOfficers} />;
+        return (
+          <CardGrid
+            payload={
+              filteredImmOfficers.length === 0
+                ? immigrationOfficers
+                : filteredImmOfficers
+            }
+          />
+        );
       case ADMINS_TABLE:
-        return <CardGrid payload={administrators} />;
+        return (
+          <CardGrid
+            payload={
+              filteredAdmins.length === 0 ? administrators : filteredAdmins
+            }
+          />
+        );
       case BUSINESSES_TABLE:
-        return <CardGrid payload={businesses} />;
+        return (
+          <CardGrid
+            payload={
+              filteredBusinesses.length === 0 ? businesses : filteredBusinesses
+            }
+          />
+        );
       case CARD_DETAILS:
         return <CardDetails />;
       default:
-        return <CardGrid payload={users} />;
+        return (
+          <CardGrid
+            payload={filteredUsers.length === 0 ? users : filteredUsers}
+          />
+        );
     }
-  }, [filteredPatients, componentInView]);
+  }, [
+    filteredPatients,
+    componentInView,
+    filteredAdmins,
+    filteredBusinesses,
+    filteredUsers,
+    filteredDoctors,
+    filteredHealthOfficials,
+    filteredImmOfficers,
+  ]);
 
   return componentInView !== CARD_DETAILS ? (
     <>
-      <FilterPanel options={options} optionClicked={(e) => checkedHandler(e)} />
+      <FilterPanel
+        options={patientCheckboxOptions}
+        optionClicked={(e) => checkedHandler(e)}
+        searchListener={(e) => searchHandler(e)}
+      />
       <Grid
         templateColumns="repeat(auto-fill, minmax(250px, 1fr))"
         gap={2}

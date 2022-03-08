@@ -1,13 +1,11 @@
-const {
-  Flex,
-  HStack,
-  Input,
-  Checkbox,
-  Stack,
-  CheckboxGroup,
-} = require("@chakra-ui/react");
+import { useAppContext } from "../context/AppContext";
+import { PATIENTS_TABLE } from "../utils/types";
 
-function FilterPanel({ optionClicked, options }) {
+const { Flex, HStack, Input, Checkbox, Stack } = require("@chakra-ui/react");
+
+function FilterPanel({ options, optionClicked, searchListener }) {
+  const { componentInView } = useAppContext();
+
   return (
     <Flex
       flexDir={{ base: "column", lg: "row" }}
@@ -20,10 +18,13 @@ function FilterPanel({ optionClicked, options }) {
       borderRadius={4}
     >
       <HStack m={2}>
-        <Input placeholder="Generic Search here..." />
+        <Input
+          placeholder="Generic Search here..."
+          onChange={(e) => searchListener(e)}
+        />
       </HStack>
-      <HStack m={2}>
-        <CheckboxGroup colorScheme="teal">
+      {componentInView === PATIENTS_TABLE && (
+        <HStack m={2}>
           <Stack
             w="full"
             spacing={[1, 5]}
@@ -33,16 +34,18 @@ function FilterPanel({ optionClicked, options }) {
           >
             {options.map((option) => (
               <Checkbox
+                key={option.value}
                 value={option.value}
-                isChecked={option.checked}
                 onChange={(e) => optionClicked(e)}
+                isChecked={option.checked}
+                colorScheme="teal"
               >
                 {option.name}
               </Checkbox>
             ))}
           </Stack>
-        </CheckboxGroup>
-      </HStack>
+        </HStack>
+      )}
     </Flex>
   );
 }
