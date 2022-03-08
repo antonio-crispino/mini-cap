@@ -29,53 +29,51 @@ export default function MainDashView() {
   } = useDataContext();
 
   const [checkedItems, setCheckedItems] = useState({
-    hasDoc: null,
-    noDoc: null,
-    symptoms: null,
+    hasDoc: false,
+    noDoc: false,
+    symptoms: false,
   });
 
-  const [filteredPatients, setFilteredPatients] = useState([]);
+  const [filteredPatients, setFilteredPatients] = useState([...patients]);
 
   useEffect(() => {
     const filterState = () => {
       const { hasDoc, noDoc, symptoms } = checkedItems;
-
       const filteredState = patients.filter((patient) => {
-        if (hasDoc && patient.doctorId) {
-          return true;
+        if (hasDoc && !patient.doctorId) {
+          return false;
         }
-        if (noDoc && !patient.doctorId) {
-          return true;
+        if (noDoc && patient.doctorId) {
+          return false;
         }
-        if (symptoms && patient.symptoms) {
-          return true;
+        if (symptoms && !patient.symptoms) {
+          return false;
         }
-        return false;
+        return true;
       });
-      console.log("filtered patient  ", filteredState);
       setFilteredPatients(filteredState);
     };
     filterState();
-  }, [checkedItems]);
+  }, [checkedItems.hasDoc, checkedItems.noDoc, checkedItems.symptoms]);
 
   const checkedHandler = (e) => {
     switch (e.target.value) {
       case "hasDoc":
         setCheckedItems((oldChecked) => ({
           ...oldChecked,
-          hasDoc: oldChecked.hasDoc ? null : true,
+          hasDoc: !oldChecked.hasDoc,
         }));
         break;
       case "noDoc":
         setCheckedItems((oldChecked) => ({
           ...oldChecked,
-          noDoc: oldChecked.noDoc ? null : true,
+          noDoc: !oldChecked.noDoc,
         }));
         break;
       case "symptoms":
         setCheckedItems((oldChecked) => ({
           ...oldChecked,
-          symptoms: oldChecked.symptoms ? null : true,
+          symptoms: !oldChecked.symptoms,
         }));
         break;
       default:
@@ -83,6 +81,23 @@ export default function MainDashView() {
     }
   };
 
+  const options = [
+    {
+      name: "Assigned Doctor",
+      value: "hasDoc",
+      checked: checkedItems.hasDoc,
+    },
+    {
+      name: "No Doctor",
+      value: "noDoc",
+      checked: checkedItems.noDoc,
+    },
+    {
+      name: "Symptomatic",
+      value: "symptoms",
+      checked: checkedItems.symptoms,
+    },
+  ];
   const renderComponent = useCallback(() => {
     switch (componentInView) {
       case ALL_USERS_TABLE:
@@ -108,7 +123,7 @@ export default function MainDashView() {
 
   return componentInView !== CARD_DETAILS ? (
     <>
-      <FilterPanel optionClicked={(e) => checkedHandler(e)} />
+      <FilterPanel options={options} optionClicked={(e) => checkedHandler(e)} />
       <Grid
         templateColumns="repeat(auto-fill, minmax(250px, 1fr))"
         gap={2}
