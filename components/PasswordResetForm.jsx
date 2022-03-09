@@ -7,7 +7,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-import { useAppContext } from "../context/AppContext";
+import { useAppContext } from "../context/context";
 
 function PasswordResetForm() {
   const { sendRestToEmail, user } = useAppContext();

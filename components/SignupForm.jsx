@@ -21,7 +21,8 @@ import { useRouter } from "next/router";
 import NextLink from "next/link";
 import { RightArrow } from "./CustomIcons";
 
-import { useAppContext } from "../context/AppContext";
+import { useAppContext } from "../context/context";
+import styles from "../styles/authForms.module.css";
 
 function SignupForm() {
   const {
@@ -29,12 +30,12 @@ function SignupForm() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { setError, supabase } = useAppContext();
+  const { setError, client } = useAppContext();
 
   const router = useRouter();
 
   const signup = async ({ email, password, firstname, lastname, business }) => {
-    const error = await supabase.supaSignUp({
+    const error = await client.supaSignUp({
       email,
       password,
       firstname,
@@ -61,10 +62,7 @@ function SignupForm() {
   return (
     <form
       onSubmit={handleSubmit((data) => signup(data))}
-      style={{
-        maxwidth: "70%",
-        width: "60%",
-      }}
+      className={styles.formWidth}
     >
       <VStack w="full" h="full" p={0} spacing={10} alignItems="center">
         <VStack spacing={3}>
@@ -183,17 +181,16 @@ function SignupForm() {
                 color="white"
               >
                 <Box>Sign Up</Box>
-                <RightArrow
-                  style={{
-                    fontSize: "25px",
-                    margin: "5px",
-                  }}
-                />
+                <RightArrow className={styles.loginIcon} />
               </Button>
             </Center>
           </GridItem>
           <GridItem w="full" colSpan={2}>
-            <Divider orientation="horizontal" size="lg" className="line" />
+            <Divider
+              orientation="horizontal"
+              size="lg"
+              className={styles.line}
+            />
             <Center mt={4}>
               <Text color="white">
                 Already have an account?

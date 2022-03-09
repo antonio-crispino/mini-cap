@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import ErrorCatcher from "../components/ErrorCatcher";
-import ContextProvider from "../context/AppContext";
+import ContextProvider from "../context/context";
 
 // unit test showing how Error catcher component reacts correctly to both props and context change
 

@@ -1,6 +1,6 @@
 {
   "extends": ["next/core-web-vitals", "airbnb", "prettier"],
-  "plugins": ["prettier", "jest", "react-hooks"],
+  "plugins": ["prettier", "jest"],
   "env": {
     "jest/globals": true
   },
@@ -10,9 +10,6 @@
     "react/jsx-props-no-spreading": 0,
     "react/react-in-jsx-scope": 0,
     "jsx-a11y/anchor-is-valid": 0,
-    "consistent-return": 0,
-    "react/no-array-index-key": 0,
-    "no-plusplus": 0,
-    "react-hooks/exhaustive-deps": "off"
+    "consistent-return": 0
   }
 }

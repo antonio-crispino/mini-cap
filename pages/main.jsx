@@ -17,11 +17,26 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import withAuth from "../components/WithAuth";
-import { useAppContext } from "../context/AppContext";
+import { useAppContext } from "../context/context";
 
 function Main() {
   const { logout, user, setToInactive } = useAppContext();
   const router = useRouter();
+
+  const signout = async () => {
+    router.push("/");
+    const error = await logout();
+    if (!error) {
+      const toast = createStandaloneToast();
+      toast({
+        title: "logout successful.",
+        description: "redirecting you to home page",
+        status: "success",
+        duration: 6000,
+        isClosable: true,
+      });
+    }
+  };
 
   const deleteAccount = async () => {
     const response = await setToInactive(user.email, "users");
@@ -42,6 +57,7 @@ function Main() {
   return (
     <VStack gap={3} alignItems="center">
       <Heading as="h2">
+        {" "}
         Hello {user.firstname} {user.lastname}
       </Heading>
       <Button
@@ -62,7 +78,7 @@ function Main() {
         w="full"
         type="submit"
         maxWidth="25%"
-        onClick={async () => logout()}
+        onClick={async () => signout()}
       >
         Logout
       </Button>

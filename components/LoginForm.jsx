@@ -19,8 +19,9 @@ import {
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import NextLink from "next/link";
-import { useAppContext } from "../context/AppContext";
+import { useAppContext } from "../context/context";
 import { RightArrow } from "./CustomIcons";
+import styles from "../styles/authForms.module.css";
 
 function LoginForm() {
   const {
@@ -53,10 +54,7 @@ function LoginForm() {
       onSubmit={handleSubmit((data) => {
         signIn(data);
       })}
-      style={{
-        maxwidth: "70%",
-        width: "60%",
-      }}
+      className={styles.formWidth}
     >
       <VStack w="full" h="full" p={0} spacing={10} alignItems="center">
         <VStack spacing={3}>
@@ -139,17 +137,16 @@ function LoginForm() {
                 data-testid="submitBtn"
               >
                 <Box>Sign In</Box>
-                <RightArrow
-                  style={{
-                    fontSize: "25px",
-                    margin: "5px",
-                  }}
-                />
+                <RightArrow className={styles.loginIcon} />
               </Button>
             </Center>
           </GridItem>
           <GridItem w="full" colSpan={2}>
-            <Divider orientation="horizontal" size="lg" className="line" />
+            <Divider
+              orientation="horizontal"
+              size="lg"
+              className={styles.line}
+            />
 
             <Flex justifyContent="space-around" mt={4}>
               <Text color="white">
