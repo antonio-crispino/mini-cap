@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import Router from "next/router";
-import { useAppContext } from "../context/context";
+import { useAppContext } from "../context/AppContext";
 
 function CredentialsForm() {
   const {

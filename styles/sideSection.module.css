@@ -1,5 +1,6 @@
 .qrBtnIcon {
-  composes: loginIcon from "./authForms.module.css";
+  font-size: 25px;
+  margin: 5px;
 }
 
 .sideStack {

@@ -5,7 +5,6 @@ import CredentialsForm from "../components/CredentialsForm";
 import PasswordResetForm from "../components/PasswordResetForm";
 import withAuth from "../components/WithAuth";
 import { RightArrow } from "../components/CustomIcons";
-import styles from "../styles/authForms.module.css";
 
 function ModifyCredentials() {
   return (
@@ -48,7 +47,12 @@ function ModifyCredentials() {
             <NextLink href="/main">
               <Link>Back</Link>
             </NextLink>
-            <RightArrow className={styles.loginIcon} />
+            <RightArrow
+              style={{
+                fontSize: "25px",
+                margin: "5px",
+              }}
+            />
           </Button>
         </VStack>
         <VStack

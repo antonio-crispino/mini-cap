@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import Main from "../pages/main";
-import ContextProvider from "../context/context";
+import ContextProvider from "../context/AppContext";
 
 // integration test, sees how main page reacts with withAuth hoc, ErrorCatcher component, context and Main component
 

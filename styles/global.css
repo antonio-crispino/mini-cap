@@ -20,6 +20,15 @@
   src: url(/fonts/OpenSans-ExtraBold.ttf);
 }
 
+.line {
+  height: 4px;
+  border: none;
+  color: #fff;
+  background-color: #fff;
+  border-radius: 2px;
+  width: 80%;
+}
+
 /* Make clicks pass-through */
 #nprogress {
   pointer-events: none;

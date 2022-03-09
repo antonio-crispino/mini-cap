@@ -1,7 +1,7 @@
 import { fireEvent, render, screen, cleanup } from "@testing-library/react";
 import { act } from "react-dom/test-utils";
 import LoginForm from "../components/LoginForm";
-import ContextProvider from "../context/context";
+import ContextProvider from "../context/AppContext";
 
 afterEach(cleanup);
 
