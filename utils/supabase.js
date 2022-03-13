@@ -143,6 +143,20 @@ export default class SupaClient {
     return this.client.from("users").update(obj).match({ id });
   }
 
+  async supaRequestPatientUpdate(id, doctorId) {
+    let { error } = this.client
+      .from("patients")
+      .update({ updatesRequested: true })
+      .match({ id });
+    if (error) return error;
+    error = this.client.from("notifications").insert({
+      userId: id,
+      subjectId: doctorId,
+      info: "Your doctor has requested updates about your state for the next 14 days",
+    });
+    return error;
+  }
+
   async supaAddUser(type, firstname, middlename, lastname, email, password) {
     const { user, error } = await this.client.auth.signUp({
       email,

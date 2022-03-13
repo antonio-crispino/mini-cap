@@ -40,6 +40,7 @@ import {
   IMMIGRATION_OFFICERS_TABLE,
   ADMINS_TABLE,
   BUSINESSES_TABLE,
+  SEE_MY_PATIENTS_TABLE,
 } from "../../utils/types";
 
 export default function DashboardDrawer() {
@@ -52,6 +53,8 @@ export default function DashboardDrawer() {
   const [immigrationOfficerRef, isImmigrationOfficerHovered] = useHover();
   const [businessRef, isBusinessRef] = useHover();
   const [adminRef, isAdminHovered] = useHover();
+  const [seeMyPatientsRef, isSeeMyPatientsRef] = useHover();
+  // const [adminRef, isAdminHovered] = useHover();
 
   const btnRef = React.useRef();
 
@@ -114,6 +117,25 @@ export default function DashboardDrawer() {
     },
   ];
 
+  const doctorOptions = [
+    {
+      name: "See my patient",
+      icon: MdAdminPanelSettings,
+      hoverIcon: MdOutlineAdminPanelSettings,
+      ref: seeMyPatientsRef,
+      hovered: isSeeMyPatientsRef,
+      onClick: () => setComponentInView(SEE_MY_PATIENTS_TABLE),
+    },
+    // {
+    //   name: "Adminstrators",
+    //   icon: MdAdminPanelSettings,
+    //   hoverIcon: MdOutlineAdminPanelSettings,
+    //   ref: adminRef,
+    //   hovered: isAdminHovered,
+    //   onClick: () => setComponentInView(ADMINS_TABLE),
+    // },
+  ];
+
   return (
     <>
       <IconButton
@@ -164,6 +186,29 @@ export default function DashboardDrawer() {
               ) : (
                 ""
               )}
+              {user?.userType === "doctor"
+                ? doctorOptions.map((option, idx) => (
+                    <ListItem
+                      key={idx}
+                      borderRadius="30px"
+                      p={2}
+                      _hover={{
+                        background: "lightgrey",
+                        fontWeight: "bold",
+                        cursor: "pointer",
+                      }}
+                      ref={option.ref}
+                      onClick={option.onClick}
+                    >
+                      <ListIcon
+                        as={option.hovered ? option.hoverIcon : option.icon}
+                        w={8}
+                        h={6}
+                      />
+                      {option.name}
+                    </ListItem>
+                  ))
+                : ""}
             </List>
           </DrawerBody>
         </DrawerContent>

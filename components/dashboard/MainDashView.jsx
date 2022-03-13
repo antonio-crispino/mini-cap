@@ -17,7 +17,7 @@ import CardDetails from "../CardDetails";
 import FilterPanel from "../FilterPanel";
 
 export default function MainDashView() {
-  const { componentInView } = useAppContext();
+  const { componentInView, user } = useAppContext();
   const {
     users,
     patients,
@@ -60,6 +60,9 @@ export default function MainDashView() {
         if (symptoms && !patient.symptoms) {
           return false;
         }
+        if (user.userType === "doctor" && patient.doctorId !== user.id) {
+          return false;
+        }
         return true;
       });
       setFilteredPatients(filteredState);
@@ -86,39 +89,40 @@ export default function MainDashView() {
 
   useEffect(() => {
     let filteredArray;
-    switch (componentInView) {
-      case ALL_USERS_TABLE:
-        filteredArray = searchFilter(users, searchedString);
-        console.log({ filteredArray, searchedString });
-        setFilteredUsers(filteredArray);
-        break;
-      case PATIENTS_TABLE:
-        filteredArray = searchFilter(patients, searchedString);
-        setFilteredPatients(filteredArray);
-        break;
-      case DOCTORS_TABLE:
-        filteredArray = searchFilter(doctors, searchedString);
-        setFilteredDoctors(filteredArray);
-        break;
-      case HEALTH_OFFICIALS_TABLE:
-        filteredArray = searchFilter(healthOfficials, searchedString);
-        setFilteredHealthOfficials(filteredArray);
-        break;
-      case IMMIGRATION_OFFICERS_TABLE:
-        filteredArray = searchFilter(immigrationOfficers, searchedString);
-        setFilteredImmOfficers(filteredArray);
-        break;
-      case ADMINS_TABLE:
-        filteredArray = searchFilter(administrators, searchedString);
-        setFilteredAdmins(filteredArray);
-        break;
-      case BUSINESSES_TABLE:
-        filteredArray = searchFilter(businesses, searchedString);
-        setFilteredBusinesses(filteredArray);
-        break;
-      default:
-        filteredArray = null;
-        break;
+    if (searchedString.length) {
+      switch (componentInView) {
+        case ALL_USERS_TABLE:
+          filteredArray = searchFilter(users, searchedString);
+          setFilteredUsers(filteredArray);
+          break;
+        case PATIENTS_TABLE:
+          filteredArray = searchFilter(patients, searchedString);
+          setFilteredPatients(filteredArray);
+          break;
+        case DOCTORS_TABLE:
+          filteredArray = searchFilter(doctors, searchedString);
+          setFilteredDoctors(filteredArray);
+          break;
+        case HEALTH_OFFICIALS_TABLE:
+          filteredArray = searchFilter(healthOfficials, searchedString);
+          setFilteredHealthOfficials(filteredArray);
+          break;
+        case IMMIGRATION_OFFICERS_TABLE:
+          filteredArray = searchFilter(immigrationOfficers, searchedString);
+          setFilteredImmOfficers(filteredArray);
+          break;
+        case ADMINS_TABLE:
+          filteredArray = searchFilter(administrators, searchedString);
+          setFilteredAdmins(filteredArray);
+          break;
+        case BUSINESSES_TABLE:
+          filteredArray = searchFilter(businesses, searchedString);
+          setFilteredBusinesses(filteredArray);
+          break;
+        default:
+          filteredArray = null;
+          break;
+      }
     }
   }, [searchedString]);
 
@@ -149,9 +153,10 @@ export default function MainDashView() {
 
   const searchHandler = (e) => {
     let keywords = e.target.value.toLowerCase();
-    console.log("keywords ", keywords);
-    keywords = keywords.split(" ");
-    setSearchedString(keywords);
+    if (keywords.length > 0) {
+      keywords = keywords.split(" ");
+      setSearchedString(keywords);
+    }
   };
 
   const patientCheckboxOptions = [
@@ -175,69 +180,23 @@ export default function MainDashView() {
   const renderComponent = useCallback(() => {
     switch (componentInView) {
       case ALL_USERS_TABLE:
-        return (
-          <CardGrid
-            payload={filteredUsers.length === 0 ? users : filteredUsers}
-          />
-        );
+        return <CardGrid payload={filteredUsers} />;
       case PATIENTS_TABLE:
-        return (
-          <CardGrid
-            payload={
-              filteredPatients.length === 0 ? patients : filteredPatients
-            }
-          />
-        );
+        return <CardGrid payload={filteredPatients} />;
       case DOCTORS_TABLE:
-        return (
-          <CardGrid
-            payload={filteredDoctors.length === 0 ? doctors : filteredDoctors}
-          />
-        );
+        return <CardGrid payload={filteredDoctors} />;
       case HEALTH_OFFICIALS_TABLE:
-        return (
-          <CardGrid
-            payload={
-              filteredHealthOfficials.length === 0
-                ? healthOfficials
-                : filteredHealthOfficials
-            }
-          />
-        );
+        return <CardGrid payload={filteredHealthOfficials} />;
       case IMMIGRATION_OFFICERS_TABLE:
-        return (
-          <CardGrid
-            payload={
-              filteredImmOfficers.length === 0
-                ? immigrationOfficers
-                : filteredImmOfficers
-            }
-          />
-        );
+        return <CardGrid payload={filteredImmOfficers} />;
       case ADMINS_TABLE:
-        return (
-          <CardGrid
-            payload={
-              filteredAdmins.length === 0 ? administrators : filteredAdmins
-            }
-          />
-        );
+        return <CardGrid payload={filteredAdmins} />;
       case BUSINESSES_TABLE:
-        return (
-          <CardGrid
-            payload={
-              filteredBusinesses.length === 0 ? businesses : filteredBusinesses
-            }
-          />
-        );
+        return <CardGrid payload={filteredBusinesses} />;
       case CARD_DETAILS:
         return <CardDetails />;
       default:
-        return (
-          <CardGrid
-            payload={filteredUsers.length === 0 ? users : filteredUsers}
-          />
-        );
+        return <CardGrid payload={filteredUsers} />;
     }
   }, [
     filteredPatients,

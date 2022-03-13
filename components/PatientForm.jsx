@@ -1,3 +1,4 @@
+import { ViewIcon } from "@chakra-ui/icons";
 import {
   FormControl,
   FormLabel,
@@ -12,6 +13,7 @@ import {
   FormErrorMessage,
   Select,
   HStack,
+  Flex,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 
@@ -21,7 +23,8 @@ import { PATIENTS_TABLE } from "../utils/types";
 
 function PatientForm({ patientData }) {
   const { doctors } = useDataContext();
-  const { setComponentInView, setExpandedCard } = useAppContext();
+  const { setComponentInView, setExpandedCard, supabase, setError, user } =
+    useAppContext();
 
   const moveBackHandler = () => {
     setExpandedCard({});
@@ -32,7 +35,6 @@ function PatientForm({ patientData }) {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { setError, supabase } = useAppContext();
 
   const updatePatientInfo = async (data) => {
     const formData = { ...data };
@@ -50,6 +52,25 @@ function PatientForm({ patientData }) {
     toast({
       title: "Updated successfully!",
       description: "Patient details have been updated successfully ",
+      status: "success",
+      duration: 9000,
+      isClosable: true,
+    });
+  };
+
+  const sendUpdateRequest = async () => {
+    const { error } = await supabase.supaRequestPatientUpdate(
+      patientData.id,
+      user.id
+    );
+    if (error) {
+      setError(error);
+    }
+    const toast = createStandaloneToast();
+
+    toast({
+      title: "Requested successfully!",
+      description: "Patient updates have been requested successfully ",
       status: "success",
       duration: 9000,
       isClosable: true,
@@ -183,6 +204,21 @@ function PatientForm({ patientData }) {
               </Button>
             </HStack>
           </GridItem>
+          {user.userType === "doctor" ? (
+            <GridItem width="full" colSpan={2}>
+              <Flex alignItems="center" justifyContent="center">
+                <Button
+                  colorScheme="blue"
+                  leftIcon={<ViewIcon />}
+                  onClick={sendUpdateRequest}
+                >
+                  Request Followup
+                </Button>
+              </Flex>
+            </GridItem>
+          ) : (
+            ""
+          )}
         </SimpleGrid>
       </VStack>
     </form>
