@@ -144,12 +144,12 @@ export default class SupaClient {
   }
 
   async supaRequestPatientUpdate(id, doctorId) {
-    let { error } = this.client
+    let { error } = await this.client
       .from("patients")
       .update({ updatesRequested: true })
       .match({ id });
     if (error) return error;
-    error = this.client.from("notifications").insert({
+    error = await this.client.from("notifications").insert({
       userId: id,
       subjectId: doctorId,
       info: "Your doctor has requested updates about your state for the next 14 days",

@@ -89,7 +89,7 @@ export default function MainDashView() {
 
   useEffect(() => {
     let filteredArray;
-    if (searchedString.length) {
+    if (searchedString.length > 0) {
       switch (componentInView) {
         case ALL_USERS_TABLE:
           filteredArray = searchFilter(users, searchedString);
@@ -124,7 +124,7 @@ export default function MainDashView() {
           break;
       }
     }
-  }, [searchedString]);
+  }, [componentInView, searchedString]);
 
   const checkedHandler = (e) => {
     switch (e.target.value) {
