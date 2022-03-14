@@ -149,10 +149,19 @@ export default class SupaClient {
       .update({ updatesRequested: true })
       .match({ id });
     if (error) return error;
-    error = await this.client.from("notifications").insert({
-      userId: id,
-      subjectId: doctorId,
-      info: "Your doctor has requested updates about your state for the next 14 days",
+    error = await this.supaAddNotification(
+      id,
+      doctorId,
+      "Your doctor has requested updates about your state for the next 14 days"
+    );
+    return error;
+  }
+
+  async supaAddNotification(userId, subjectId, message) {
+    const { error } = await this.client.from("notifications").insert({
+      userId,
+      subjectId,
+      info: message,
     });
     return error;
   }
