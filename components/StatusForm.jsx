@@ -8,13 +8,14 @@ import {
   GridItem,
   Button,
   Divider,
-  createStandaloneToast,
+  // createStandaloneToast,
   FormErrorMessage,
   HStack,
   Stack,
   Checkbox,
+  CheckboxGroup,
 } from "@chakra-ui/react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 
 import { useAppContext } from "../context/AppContext";
 import { PATIENTS_TABLE } from "../utils/types";
@@ -29,35 +30,27 @@ function StatusForm({ patientData }) {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm();
-  const { setError, supabase } = useAppContext();
+  // const { setError, supabase } = useAppContext();
 
-  const updatePatientInfo = async (data) => {
-    const formData = { ...data };
-    if (formData.doctorId === "") {
-      formData.doctorId = null;
-    }
-    const error = await supabase.updateTableById("patients", formData);
-    if (error.error) {
-      setError(error);
-      return;
-    }
-
-    const toast = createStandaloneToast();
-
-    toast({
-      title: "Updated successfully!",
-      description: "Patient details have been updated successfully ",
-      status: "success",
-      duration: 9000,
-      isClosable: true,
+  const uploadPatientStatus = (data) => {
+    const dataObj = { ...data };
+    const { symptoms } = data;
+    // Adding boolean values to prepare to push to db
+    symptoms.forEach((sym) => {
+      dataObj[sym] = true;
     });
+
+    // Deleting unnecessary symptoms array
+    delete dataObj.symptoms;
+    console.log("dataa", dataObj);
   };
 
   return (
     <form
-      onSubmit={handleSubmit((data) => updatePatientInfo(data))}
+      onSubmit={handleSubmit((data) => uploadPatientStatus(data))}
       style={{ maxWidth: "100%", width: "65%", marginTop: "25px" }}
     >
       <VStack w="full" h="full" p={0} spacing={10} alignItems="center">
@@ -136,8 +129,6 @@ function StatusForm({ patientData }) {
                 placeholder="Enter temperature"
                 bg="white"
                 size="lg"
-                readOnly
-                value={patientData.temperature}
                 {...register("temperature", {
                   required: "Must enter a temperature",
                 })}
@@ -151,36 +142,51 @@ function StatusForm({ patientData }) {
           <GridItem w="full" colSpan={2}>
             <FormControl isInvalid={errors.symptoms}>
               <FormLabel color="white">Symptoms List</FormLabel>
-              <Stack
-                direction={{ base: "column", lg: "row" }}
-                bg="white"
-                h="100%"
-              >
-                <VStack>
-                  <Checkbox size="md" colorScheme="red">
-                    nausea
-                  </Checkbox>
-                  <Checkbox size="md" colorScheme="green" defaultChecked>
-                    headache
-                  </Checkbox>
-                  <Checkbox size="md" colorScheme="orange" defaultChecked>
-                    lethargy
-                  </Checkbox>
-                  <Checkbox size="md" colorScheme="orange" defaultChecked>
-                    vomiting
-                  </Checkbox>
-                  <Checkbox size="md" colorScheme="orange" defaultChecked>
-                    soreThroat
-                  </Checkbox>
-                  <Checkbox size="md" colorScheme="orange" defaultChecked>
-                    nasalCongestion
-                  </Checkbox>
-                  <Checkbox size="md" colorScheme="orange" defaultChecked>
-                    fever
-                  </Checkbox>
-                </VStack>
-                <VStack>adsasd</VStack>
-              </Stack>
+              <Controller
+                name="symptoms"
+                control={control}
+                render={({ field: { ref, ...rest } }) => (
+                  <CheckboxGroup colorScheme="teal" {...rest}>
+                    <Stack
+                      direction={{ base: "column", md: "row" }}
+                      bg="white"
+                      borderRadius={5}
+                      h="100%"
+                      p={5}
+                    >
+                      <VStack p={2} alignItems="start">
+                        <Checkbox size="md" value="nausea">
+                          Nausea
+                        </Checkbox>
+                        <Checkbox size="md" value="headache">
+                          Headache
+                        </Checkbox>
+                        <Checkbox size="md" value="chestPain">
+                          Chest Pain
+                        </Checkbox>
+                        <Checkbox size="md" value="nasalCongestion">
+                          Nasal Congestion
+                        </Checkbox>
+                      </VStack>
+                      <VStack p={2} alignItems="start">
+                        <Checkbox size="md" value="soreThroat">
+                          Sore Throat
+                        </Checkbox>
+                        <Checkbox size="md" value="lethargy">
+                          Lethargy
+                        </Checkbox>
+                        <Checkbox size="md" value="fever">
+                          Fever
+                        </Checkbox>
+                        <Checkbox size="md" value="vomiting">
+                          Vomiting
+                        </Checkbox>
+                      </VStack>
+                    </Stack>
+                  </CheckboxGroup>
+                )}
+              />
+
               <FormErrorMessage>
                 {errors.symptoms && errors.symptoms.message}
               </FormErrorMessage>
