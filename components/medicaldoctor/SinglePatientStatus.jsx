@@ -44,7 +44,7 @@ function SinglePatientStatus({ patientDetails, patientStatusDetails }) {
         <Box>Time: {statusDate.substring(11, 19)}</Box>
       </Box>
       <Box>
-        <Box>Latest Status</Box>
+        <Box>Status</Box>
         <List>{statusListItems}</List>
       </Box>
     </Box>
