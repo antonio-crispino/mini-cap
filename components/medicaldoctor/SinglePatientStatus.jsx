@@ -40,20 +40,37 @@ function SinglePatientStatus({
   };
 
   return (
-    <Box onClick={onClickHandler}>
+    <Box
+      backgroundColor="lightblue"
+      borderRadius="1rem"
+      padding="1rem"
+      width="15rem"
+      display="flex"
+      flexDirection="column"
+      gap="1rem"
+      onClick={onClickHandler}
+    >
       {patientListItems !== null ? (
         <Box>
-          <Box>Patient {patientStatus}</Box>
-          <List>{patientListItems}</List>
+          <Box display="flex" justifyContent="center" marginBottom="0.5rem">
+            Patient {patientStatus}
+          </Box>
+          <List backgroundColor="lightgreen" borderRadius="1rem" padding="1rem">
+            {patientListItems}
+          </List>
         </Box>
       ) : null}
       <Box>
-        <Box>Date: {statusDate.substring(0, 10)}</Box>
-        <Box>Time: {statusDate.substring(11, 19)}</Box>
+        <Box display="flex" justifyContent="center" marginBottom="0.5rem">
+          Status
+        </Box>
+        <List backgroundColor="lightgreen" borderRadius="1rem" padding="1rem">
+          {statusListItems}
+        </List>
       </Box>
-      <Box>
-        <Box>Status</Box>
-        <List>{statusListItems}</List>
+      <Box display="flex" flexDirection="column" alignItems="center">
+        <Box>Date: {statusDate?.substring(0, 10)}</Box>
+        <Box>Time: {statusDate?.substring(11, 19)}</Box>
       </Box>
     </Box>
   );

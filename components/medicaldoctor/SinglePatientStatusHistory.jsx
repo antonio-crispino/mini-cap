@@ -16,7 +16,7 @@ function SinglePatientStatusHistory({ patientDetails, allPatientStatuses }) {
   let patientStatuses = null;
 
   if (allPatientStatuses !== null) {
-    patientStatuses = Object.keys(allPatientStatuses).map((status) => (
+    patientStatuses = Object.values(allPatientStatuses).map((status) => (
       <SinglePatientStatus
         patientDetails={null}
         patientStatusDetails={status}
@@ -35,7 +35,9 @@ function SinglePatientStatusHistory({ patientDetails, allPatientStatuses }) {
         </Box>
         <List>{patientListItems}</List>
       </Box>
-      <Box>{patientStatuses}</Box>
+      <Box display="flex" gap="1rem" flexWrap="wrap" justifyContent="center">
+        {patientStatuses}
+      </Box>
     </Box>
   );
 }
