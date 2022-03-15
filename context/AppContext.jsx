@@ -24,6 +24,7 @@ function AppContextProvider({ mockData, children }) {
   const [user, setUser] = useState(supabase.supaCurrentUser());
   const [componentInView, setComponentInView] = useState(ALL_USERS_TABLE);
   const [expandedCard, setExpandedCard] = useState({});
+  const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
     const getUserProfile = async () => {
@@ -67,6 +68,35 @@ function AppContextProvider({ mockData, children }) {
     },
     [supabase]
   );
+
+  useEffect(() => {
+    const getNotifications = async () => {
+      if (user) {
+        const { data: fetchedNotifications, error: notificationFetchError } =
+          await supabase.supaGetNotifications(user.id);
+        if (notificationFetchError) {
+          setError(notificationFetchError);
+          return;
+        }
+        setNotifications([...fetchedNotifications]);
+      }
+    };
+    getNotifications();
+  }, [user?.id]);
+
+  useEffect(() => {
+    if (user) {
+      const subscription = supabase.client
+        .from(`notifications:userId=eq.${user.id}`)
+        .on("INSERT", (payload) => {
+          setNotifications([...notifications, payload.new]);
+        })
+        .subscribe();
+      return () => {
+        supabase.client.removeSubscription(subscription);
+      };
+    }
+  }, [user?.id, notifications, supabase.client]);
 
   const sendResetPassEmail = useCallback(
     async (email) => {
@@ -136,7 +166,9 @@ function AppContextProvider({ mockData, children }) {
       error,
       componentInView,
       expandedCard,
+      notifications,
       setExpandedCard,
+      setNotifications,
       setComponentInView,
       login,
       logout,
@@ -155,7 +187,9 @@ function AppContextProvider({ mockData, children }) {
     error,
     componentInView,
     expandedCard,
+    notifications,
     setExpandedCard,
+    setNotifications,
     setComponentInView,
     login,
     logout,

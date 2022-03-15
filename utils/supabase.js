@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import { calculateEndDate } from "./types";
 
 export default class SupaClient {
   constructor() {
@@ -141,6 +142,45 @@ export default class SupaClient {
     const obj = {};
     obj[attr] = val;
     return this.client.from("users").update(obj).match({ id });
+  }
+
+  async supaRequestPatientUpdate(
+    id,
+    doctorId,
+    requestedUpdatesList,
+    isPriority
+  ) {
+    let { error } = await this.client
+      .from("patients")
+      .update({
+        updatesRequested: true,
+        requestedUpdatesList,
+        updatesRequestEnd: calculateEndDate(),
+        isPriority,
+      })
+      .match({ id });
+    if (error) return error;
+    error = await this.supaAddNotification(
+      id,
+      doctorId,
+      "Your doctor has requested updates about your state for the next 14 days",
+      isPriority
+    );
+    return error;
+  }
+
+  async supaAddNotification(userId, subjectId, message, isPriority) {
+    const { error } = await this.client.from("notifications").insert({
+      userId,
+      subjectId,
+      info: message,
+      isPriority,
+    });
+    return error;
+  }
+
+  async supaGetNotifications(userId) {
+    return this.client.from("notifications").select("*").eq("userId", userId);
   }
 
   async supaAddUser(type, firstname, middlename, lastname, email, password) {

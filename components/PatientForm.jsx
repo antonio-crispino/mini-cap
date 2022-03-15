@@ -12,16 +12,19 @@ import {
   FormErrorMessage,
   Select,
   HStack,
+  Flex,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 
 import { useAppContext } from "../context/AppContext";
 import { useDataContext } from "../context/DataContext";
 import { PATIENTS_TABLE } from "../utils/types";
+import RequestPatientUpdates from "./RequestPatientUpdates";
 
 function PatientForm({ patientData }) {
   const { doctors } = useDataContext();
-  const { setComponentInView, setExpandedCard } = useAppContext();
+  const { setComponentInView, setExpandedCard, setError, user, supabase } =
+    useAppContext();
 
   const moveBackHandler = () => {
     setExpandedCard({});
@@ -32,7 +35,6 @@ function PatientForm({ patientData }) {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { setError, supabase } = useAppContext();
 
   const updatePatientInfo = async (data) => {
     const formData = { ...data };
@@ -183,6 +185,15 @@ function PatientForm({ patientData }) {
               </Button>
             </HStack>
           </GridItem>
+          {user.userType === "doctor" ? (
+            <GridItem width="full" colSpan={2} mt={2}>
+              <Flex alignItems="center" justifyContent="center">
+                <RequestPatientUpdates patientData={patientData} />
+              </Flex>
+            </GridItem>
+          ) : (
+            ""
+          )}
         </SimpleGrid>
       </VStack>
     </form>
