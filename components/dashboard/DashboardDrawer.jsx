@@ -140,11 +140,31 @@ export default function DashboardDrawer() {
     },
   ];
 
+  const doctorOptions = [
+    {
+      name: "Patients",
+      icon: MdFace,
+      hoverIcon: MdOutlineFace,
+      ref: patientsRef,
+      hovered: isPatientsHovered,
+      onClick: () => setComponentInView(PATIENTS_TABLE),
+    },
+  ];
+
   useEffect(() => {
-    if (user.userType === "admin") {
-      setCurrentOpt(adminOptions);
-    } else if (user.userType === "patient") {
-      setCurrentOpt(patientOptions);
+    switch (user.userType) {
+      case "admin":
+        setCurrentOpt(adminOptions);
+        break;
+      case "patient":
+        setCurrentOpt(patientOptions);
+        break;
+      case "doctor":
+        setCurrentOpt(doctorOptions);
+        break;
+
+      default:
+        break;
     }
   }, [user]);
 
