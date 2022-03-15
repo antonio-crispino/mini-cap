@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import { calculateEndDate } from "./types";
 
 export default class SupaClient {
   constructor() {
@@ -143,10 +144,14 @@ export default class SupaClient {
     return this.client.from("users").update(obj).match({ id });
   }
 
-  async supaRequestPatientUpdate(id, doctorId) {
+  async supaRequestPatientUpdate(id, doctorId, requestedUpdatesList) {
     let { error } = await this.client
       .from("patients")
-      .update({ updatesRequested: true })
+      .update({
+        updatesRequested: true,
+        requestedUpdatesList,
+        updatesRequestEnd: calculateEndDate(),
+      })
       .match({ id });
     if (error) return error;
     error = await this.supaAddNotification(

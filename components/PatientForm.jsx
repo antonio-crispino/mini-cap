@@ -1,4 +1,3 @@
-import { ViewIcon } from "@chakra-ui/icons";
 import {
   FormControl,
   FormLabel,
@@ -20,10 +19,11 @@ import { useForm } from "react-hook-form";
 import { useAppContext } from "../context/AppContext";
 import { useDataContext } from "../context/DataContext";
 import { PATIENTS_TABLE } from "../utils/types";
+import RequestPatientUpdates from "./RequestPatientUpdates";
 
 function PatientForm({ patientData }) {
   const { doctors } = useDataContext();
-  const { setComponentInView, setExpandedCard, supabase, setError, user } =
+  const { setComponentInView, setExpandedCard, setError, user, supabase } =
     useAppContext();
 
   const moveBackHandler = () => {
@@ -52,25 +52,6 @@ function PatientForm({ patientData }) {
     toast({
       title: "Updated successfully!",
       description: "Patient details have been updated successfully ",
-      status: "success",
-      duration: 9000,
-      isClosable: true,
-    });
-  };
-
-  const sendUpdateRequest = async () => {
-    const { error } = await supabase.supaRequestPatientUpdate(
-      patientData.id,
-      user.id
-    );
-    if (error) {
-      setError(error);
-    }
-    const toast = createStandaloneToast();
-
-    toast({
-      title: "Requested successfully!",
-      description: "Patient updates have been requested successfully ",
       status: "success",
       duration: 9000,
       isClosable: true,
@@ -205,15 +186,9 @@ function PatientForm({ patientData }) {
             </HStack>
           </GridItem>
           {user.userType === "doctor" ? (
-            <GridItem width="full" colSpan={2}>
+            <GridItem width="full" colSpan={2} mt={2}>
               <Flex alignItems="center" justifyContent="center">
-                <Button
-                  colorScheme="blue"
-                  leftIcon={<ViewIcon />}
-                  onClick={sendUpdateRequest}
-                >
-                  Request Followup
-                </Button>
+                <RequestPatientUpdates patientId={patientData.id} />
               </Flex>
             </GridItem>
           ) : (

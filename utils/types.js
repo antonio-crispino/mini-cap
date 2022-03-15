@@ -15,3 +15,18 @@ export const CARD_DETAILS = "CARD_DETAILS";
 export const BUSINESSES_TABLE = "BUSINESSES_TABLE";
 
 export const SEE_MY_PATIENTS_TABLE = "SEE_MY_PATIENTS_TABLE";
+
+export const calculateEndDate = () => {
+  const someDate = new Date();
+  const numberOfDaysToAdd = 14;
+  const result = someDate.setDate(someDate.getDate() + numberOfDaysToAdd);
+  const d = new Date(result);
+  let month = `${d.getMonth() + 1}`;
+  let day = `${d.getDate()}`;
+  const year = d.getFullYear();
+
+  if (month.length < 2) month = `0${month}`;
+  if (day.length < 2) day = `0${day}`;
+
+  return [year, month, day].join("-");
+};
