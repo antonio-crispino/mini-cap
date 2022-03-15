@@ -15,7 +15,7 @@ function SinglePatientStatus({
   if (patientDetails !== null) {
     patientListItems = Object.keys(patientDetails).map((detail) => (
       // check for null !!!
-      <ListItem>
+      <ListItem key={Math.floor(Math.random() * 1000000)}>
         {detail}: {patientDetails[detail]}
       </ListItem>
     ));
@@ -30,7 +30,7 @@ function SinglePatientStatus({
   const statusDate = patientStatusDetails.created_at;
   const statusListItems = Object.keys(patientStatusDetails).map((detail) => (
     // check for null !!!
-    <ListItem>
+    <ListItem key={Math.floor(Math.random() * 1000000)}>
       {detail}: {patientStatusDetails[detail]}
     </ListItem>
   ));

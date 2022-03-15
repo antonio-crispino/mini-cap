@@ -13,6 +13,7 @@ function AllPatientsStatus({ patientsInfo }) {
 
   const patientStatusesItems = patientsInfo.map((aPatient) => (
     <SinglePatientStatus
+      key={Math.floor(Math.random() * 1000000)}
       setPatientDetails={setPatientDetails}
       patientDetails={aPatient.details}
       patientStatusDetails={aPatient.latestStatus}

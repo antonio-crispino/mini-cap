@@ -8,7 +8,7 @@ function SinglePatientStatusHistory({ patientDetails, allPatientStatuses }) {
 
   const patientListItems = Object.keys(patientDetails).map((detail) => (
     // check for null !!!
-    <ListItem>
+    <ListItem key={Math.floor(Math.random() * 1000000)}>
       {detail}: {patientDetails[detail]}
     </ListItem>
   ));
@@ -18,6 +18,7 @@ function SinglePatientStatusHistory({ patientDetails, allPatientStatuses }) {
   if (allPatientStatuses !== null) {
     patientStatuses = Object.values(allPatientStatuses).map((status) => (
       <SinglePatientStatus
+        key={Math.floor(Math.random() * 1000000)}
         patientDetails={null}
         patientStatusDetails={status}
       />
