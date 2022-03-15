@@ -20,7 +20,9 @@ export default function RequestPatientUpdates({ patientData }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { supabase, setError, user } = useAppContext();
 
-  const [hasPriority, setHasPriority] = useState(false);
+  const [hasPriority, setHasPriority] = useState(
+    patientData?.isPriority || false
+  );
   const [updatesList, setUpdatesList] = useState({
     temperature: false,
     weight: false,
@@ -84,7 +86,7 @@ export default function RequestPatientUpdates({ patientData }) {
                 </Checkbox>
               ))}
               <Checkbox
-                isChecked={patientData.isPriority || hasPriority}
+                isChecked={hasPriority}
                 colorScheme="red"
                 onChange={(e) => setHasPriority(e.target.checked)}
                 color="red.400"
