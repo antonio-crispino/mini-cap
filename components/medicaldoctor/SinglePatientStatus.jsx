@@ -1,6 +1,10 @@
 import { Box, List, ListItem } from "@chakra-ui/react";
 
-function SinglePatientStatus({ patientDetails, patientStatusDetails }) {
+function SinglePatientStatus({
+  patientDetails,
+  patientStatusDetails,
+  setPatientDetails,
+}) {
   if (patientStatusDetails === null) {
     return null;
   }
@@ -31,8 +35,12 @@ function SinglePatientStatus({ patientDetails, patientStatusDetails }) {
     </ListItem>
   ));
 
+  const onClickHandler = () => {
+    setPatientDetails(patientDetails);
+  };
+
   return (
-    <Box>
+    <Box onClick={onClickHandler}>
       {patientListItems !== null ? (
         <Box>
           <Box>Patient {patientStatus}</Box>

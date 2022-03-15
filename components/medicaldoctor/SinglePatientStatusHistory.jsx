@@ -13,10 +13,10 @@ function SinglePatientStatusHistory({ patientDetails, allPatientStatuses }) {
     </ListItem>
   ));
 
-  const patientStatuses = null;
+  let patientStatuses = null;
 
   if (allPatientStatuses !== null) {
-    Object.keys(allPatientStatuses).map((status) => (
+    patientStatuses = Object.keys(allPatientStatuses).map((status) => (
       <SinglePatientStatus
         patientDetails={null}
         patientStatusDetails={status}
