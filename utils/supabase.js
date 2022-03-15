@@ -128,6 +128,24 @@ export default class SupaClient {
     return { data };
   }
 
+  /**
+   *
+   * @param {String} table name of the table to fetch data from
+   * @param {Object} criteria object that contain the criteria which to select data by
+   * @returns the data object based on the inputs or error object in case of error
+   */
+  async fetchTableBy(table, criteria) {
+    const { data, error } = await this.client
+      .from(table)
+      .select("*")
+      .match({ ...criteria });
+    if (error) {
+      return { error };
+    }
+
+    return { data };
+  }
+
   async supaGetUsers() {
     return this.client.from("users").select("*");
   }

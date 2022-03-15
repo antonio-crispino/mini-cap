@@ -12,18 +12,18 @@ import { IoArrowBackCircleOutline } from "react-icons/io5";
 import { RightArrow } from "./CustomIcons";
 import styles from "../styles/sideSection.module.css";
 import { useAppContext } from "../context/AppContext";
-import { ALL_USERS_TABLE } from "../utils/types";
+import { DEFAULT_VIEW } from "../utils/types";
 
 /**
  * This component is a generic placeholder for the admin edit forms
  * Can be replaced to add more features later on
  */
 function FormSideMessage() {
-  const { setComponentInView, setExpandedCard } = useAppContext();
+  const { setComponentInView, setExpandedCard, user } = useAppContext();
 
   const moveBackHandler = () => {
     setExpandedCard({});
-    setComponentInView(ALL_USERS_TABLE);
+    setComponentInView(DEFAULT_VIEW);
   };
   return (
     <VStack h="100%" w="full" py={20} px={10} className={styles.sideStack}>
@@ -84,10 +84,14 @@ function FormSideMessage() {
             <RightArrow className={styles.qrBtnIcon} />
           </Button>
         </Box>
-        <Text fontSize={15} color="white" textAlign="center">
-          Please use the side drawer to choose specific user type if you need to
-          modify role details
-        </Text>
+        {user.userType === "admin" ? (
+          <Text fontSize={15} color="white" textAlign="center">
+            Please use the side drawer to choose specific user type if you need
+            to modify role details
+          </Text>
+        ) : (
+          <Box />
+        )}
       </Flex>
     </VStack>
   );

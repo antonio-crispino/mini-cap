@@ -11,10 +11,15 @@ import {
   ADMINS_TABLE,
   CARD_DETAILS,
   BUSINESSES_TABLE,
+  PATIENT_UPDATE_INFO,
+  PATIENTS_STATUS,
+  DEFAULT_VIEW,
 } from "../../utils/types";
 import CardGrid from "../CardsGrid";
 import CardDetails from "../CardDetails";
 import FilterPanel from "../FilterPanel";
+import GenericForm from "../GenericForm";
+import DefaultView from "../DefaultView";
 
 export default function MainDashView() {
   const { componentInView, user } = useAppContext();
@@ -195,8 +200,14 @@ export default function MainDashView() {
         return <CardGrid payload={filteredBusinesses} />;
       case CARD_DETAILS:
         return <CardDetails />;
+      case PATIENT_UPDATE_INFO:
+        return <GenericForm userId={user.id} viewType="userInfo" />;
+      case PATIENTS_STATUS:
+        return <GenericForm userId={user.id} viewType="patientStatus" />;
+      case DEFAULT_VIEW:
+        return <DefaultView user={user} />;
       default:
-        return <CardGrid payload={filteredUsers} />;
+        return <DefaultView user={user} />;
     }
   }, [
     filteredPatients,
@@ -209,7 +220,12 @@ export default function MainDashView() {
     filteredImmOfficers,
   ]);
 
-  return componentInView !== CARD_DETAILS ? (
+  return componentInView === CARD_DETAILS ||
+    componentInView === PATIENT_UPDATE_INFO ||
+    componentInView === PATIENTS_STATUS ||
+    componentInView === DEFAULT_VIEW ? (
+    <>{renderComponent()}</>
+  ) : (
     <>
       <FilterPanel
         options={patientCheckboxOptions}
@@ -228,7 +244,5 @@ export default function MainDashView() {
         {renderComponent()}
       </Grid>
     </>
-  ) : (
-    <>{renderComponent()}</>
   );
 }
