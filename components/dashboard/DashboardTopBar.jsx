@@ -9,8 +9,12 @@ import {
   MenuItem,
   Spacer,
   Icon,
+  IconButton,
+  Circle,
 } from "@chakra-ui/react";
 import { MdAccountCircle, MdOutlineAccountCircle } from "react-icons/md";
+import { AiFillBell, AiOutlineBell } from "react-icons/ai";
+
 import { useRouter } from "next/router";
 import { useAppContext } from "../../context/AppContext";
 
@@ -20,6 +24,8 @@ import useHover from "../../hooks/useHover";
 export default function DashboardTopBar() {
   const { user, logout } = useAppContext();
   const [accountIconRef, isAccountIconHovered] = useHover();
+  const [notificationIconRef, isNotificationIconHovered] = useHover();
+
   const router = useRouter();
 
   return (
@@ -39,7 +45,22 @@ export default function DashboardTopBar() {
       <Box marginLeft={3}>ANTI COVID</Box>
 
       <Spacer />
-
+      <Box position="relative" mr={1}>
+        <IconButton
+          ref={notificationIconRef}
+          icon={isNotificationIconHovered ? <AiFillBell /> : <AiOutlineBell />}
+          fontSize="1.5rem"
+        />
+        <Circle
+          size="12px"
+          bg="purple.400"
+          color="white"
+          position="absolute"
+          top="30px"
+          left="25px"
+          zIndex="10"
+        />
+      </Box>
       <Menu>
         <MenuButton
           as={Button}

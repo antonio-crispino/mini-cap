@@ -16,10 +16,11 @@ import {
 import { useState } from "react";
 import { useAppContext } from "../context/AppContext";
 
-export default function RequestPatientUpdates({ patientId }) {
+export default function RequestPatientUpdates({ patientData }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { supabase, setError, user } = useAppContext();
 
+  const [hasPriority, setHasPriority] = useState(false);
   const [updatesList, setUpdatesList] = useState({
     temperature: false,
     weight: false,
@@ -35,9 +36,10 @@ export default function RequestPatientUpdates({ patientId }) {
 
   const sendUpdateRequest = async () => {
     const error = await supabase.supaRequestPatientUpdate(
-      patientId,
+      patientData.id,
       user.id,
-      updatesList
+      updatesList,
+      hasPriority
     );
     if (error) {
       setError(error);
@@ -69,6 +71,7 @@ export default function RequestPatientUpdates({ patientId }) {
               {Object.keys(updatesList).map((el) => (
                 <Checkbox
                   name={el}
+                  key={el}
                   isChecked={updatesList[el].val}
                   onChange={(e) =>
                     setUpdatesList({
@@ -80,6 +83,15 @@ export default function RequestPatientUpdates({ patientId }) {
                   {el}
                 </Checkbox>
               ))}
+              <Checkbox
+                isChecked={patientData.isPriority || hasPriority}
+                colorScheme="red"
+                onChange={(e) => setHasPriority(e.target.checked)}
+                color="red.400"
+                fontWeight="bold"
+              >
+                Mark as Priority
+              </Checkbox>
             </Stack>
           </ModalBody>
 

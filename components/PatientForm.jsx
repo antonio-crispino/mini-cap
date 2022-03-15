@@ -188,7 +188,7 @@ function PatientForm({ patientData }) {
           {user.userType === "doctor" ? (
             <GridItem width="full" colSpan={2} mt={2}>
               <Flex alignItems="center" justifyContent="center">
-                <RequestPatientUpdates patientId={patientData.id} />
+                <RequestPatientUpdates patientData={patientData} />
               </Flex>
             </GridItem>
           ) : (
