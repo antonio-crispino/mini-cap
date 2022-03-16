@@ -2,7 +2,7 @@ import { Box, List, ListItem } from "@chakra-ui/react";
 import SinglePatientStatus from "./SinglePatientStatus";
 
 function SinglePatientStatusHistory({ patientDetails, allPatientStatuses }) {
-  if (patientDetails === null) {
+  if (!patientDetails) {
     return null;
   }
 

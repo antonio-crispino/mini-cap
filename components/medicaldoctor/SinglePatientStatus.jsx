@@ -5,7 +5,7 @@ function SinglePatientStatus({
   patientStatusDetails,
   setPatientDetails,
 }) {
-  if (patientStatusDetails === null) {
+  if (!patientStatusDetails) {
     return null;
   }
 
@@ -31,7 +31,7 @@ function SinglePatientStatus({
   const statusListItems = Object.keys(patientStatusDetails).map((detail) => (
     // check for null !!!
     <ListItem key={Math.floor(Math.random() * 1000000)}>
-      {detail}: {patientStatusDetails[detail]}
+      {`${detail}: ${patientStatusDetails[detail]}`}
     </ListItem>
   ));
 
