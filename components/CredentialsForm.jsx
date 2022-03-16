@@ -73,7 +73,7 @@ function CredentialsForm() {
                       display="inline-flex"
                       isDisabled={!isEditingFirstName}
                       id="newfirstname"
-                      // placeholder={user.firstname}
+                      placeholder={user.firstname}
                       {...register("newfirstname", {
                         minLength: {
                           value: 2,
@@ -153,7 +153,7 @@ function CredentialsForm() {
                       display="inline-flex"
                       isDisabled={!isEditingLastName}
                       id="newlastname"
-                      // placeholder={user.lastname}
+                      placeholder={user.lastname}
                       {...register("newlastname", {
                         minLength: {
                           value: 2,
