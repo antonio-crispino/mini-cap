@@ -153,7 +153,7 @@ function CredentialsForm() {
                       display="inline-flex"
                       isDisabled={!isEditingLastName}
                       id="newlastname"
-                      placeholder={user.lastname}
+                      placeholder={user ? user.lastname : "nothing"}
                       {...register("newlastname", {
                         minLength: {
                           value: 2,
