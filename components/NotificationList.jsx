@@ -1,11 +1,4 @@
-import {
-  Box,
-  Text,
-  Flex,
-  Heading,
-  Button,
-  useControllableState,
-} from "@chakra-ui/react";
+import {Box, Text, Flex, Heading, Button, useControllableState} from "@chakra-ui/react";
 import { useAppContext } from "../context/AppContext";
 
 // TODO: button changes view to the corresponding update
