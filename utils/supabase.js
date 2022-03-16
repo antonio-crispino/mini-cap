@@ -224,13 +224,24 @@ export default class SupaClient {
     return this.client.from("notifications").select("*").eq("userId", userId);
   }
 
-  async insertPatientStatus(fields) {
+  async insertPatientStatus(fields, notification) {
+    const notifyMessage = `Patient ${notification.patientName} has just submitted a status update for date ${notification.date}`;
     const { data, error } = await this.client
       .from("patient_updates")
       .insert([fields]);
     if (error) {
       return { error };
     }
+    const notificationErr = await this.supaAddNotification(
+      notification.id,
+      notification.doctorId,
+      notifyMessage,
+      notification.priority
+    );
+    if (notificationErr) {
+      return { notificationErr };
+    }
+
     return { response: data };
   }
 

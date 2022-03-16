@@ -95,7 +95,7 @@ function StatusForm({ patientData }) {
     }
   };
 
-  const handleStatusUpdate = async (error, dataObj, toast) => {
+  const handleStatusUpdate = async (error, dataObj, toast, notification) => {
     if (error.message.includes("violates unique constraint")) {
       const dateObj = new Date();
       const recordedOn = dateObj.toJSON().split("T")[0];
@@ -117,6 +117,17 @@ function StatusForm({ patientData }) {
           )
         );
       } else {
+        const notifyMessage = `Patient ${notification.patientName} has just modified their status for date ${notification.date}`;
+        const notifyErr = await supabase.supaAddNotification(
+          notification.id,
+          notification.doctorId,
+          notifyMessage,
+          notification.priority
+        );
+        if (notifyErr) {
+          setError(notifyErr);
+        }
+
         toast({
           title: "Success! 🎉",
           description: "You successfully updated your status!",
@@ -137,11 +148,23 @@ function StatusForm({ patientData }) {
 
   const uploadPatientStatus = async (e) => {
     e.preventDefault();
+
+    const dateObj = new Date();
+    const dateToday = dateObj.toJSON().split("T")[0];
+
     const patientStatus = {
       ...inputOptions,
       ...checkboxOptions,
       id: patientData.id,
       medicalCard: patientData.medicalCardNum,
+    };
+
+    const notification = {
+      id: patientData.id,
+      doctorId: patientData.doctorId,
+      priority: patientData.isPriority,
+      date: dateToday,
+      patientName: `${user.firstname} ${user.lastname}`,
     };
 
     // Check if doctor asked for updates
@@ -156,13 +179,15 @@ function StatusForm({ patientData }) {
 
     const toast = createStandaloneToast();
     const { error, response } = await supabase.insertPatientStatus(
-      patientStatus
+      patientStatus,
+      notification
     );
     if (error) {
       const updatedStatus = await handleStatusUpdate(
         error,
         patientStatus,
-        toast
+        toast,
+        notification
       );
       setSubmittedUpdate(updatedStatus[0]);
       setStatusString(stringifySymptoms(updatedStatus[0]));
