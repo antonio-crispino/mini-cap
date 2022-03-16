@@ -75,7 +75,7 @@ function Main() {
         type="submit"
         maxWidth="25%"
       >
-        <NextLink href="/modifyCredentials">
+        <NextLink href="/account">
           <Link>Modify Credentials</Link>
         </NextLink>
       </Button>
