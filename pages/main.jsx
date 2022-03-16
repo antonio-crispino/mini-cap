@@ -51,6 +51,17 @@ function Main() {
         w="full"
         type="submit"
         maxWidth="25%"
+        onClick={() => router.push("/tempdocdash")}
+      >
+        Temp Doc Dash
+      </Button>
+      <Button
+        variant="solid"
+        color="teal"
+        size="lg"
+        w="full"
+        type="submit"
+        maxWidth="25%"
         onClick={() => router.push("/admindash")}
       >
         Admin Dashboard
