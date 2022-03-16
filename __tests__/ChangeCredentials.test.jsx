@@ -14,7 +14,7 @@ describe("Change first name", () => {
       );
 
       await act(async () => {
-        fireEvent.change(getByLabelText("First Name"), {
+        fireEvent.change(getByLabelText("Change First Name"), {
           target: { value: "a" },
         });
       });

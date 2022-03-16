@@ -54,7 +54,9 @@ function CredentialsForm() {
         <SimpleGrid columns={2} columnGap={2} rowGap={2} w="70%">
           <GridItem w="100%" colSpan={2}>
             <FormControl isInvalid={errors.firstname}>
-              <FormLabel color="white">Change First Name</FormLabel>
+              <FormLabel color="white" htmlFor="firstname">
+                Change First Name
+              </FormLabel>
               <Popover
                 isOpen={isEditingFirstName}
                 onOpen={setIsEditingFirstName.on}
