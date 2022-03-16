@@ -137,6 +137,26 @@ export default class SupaClient {
     );
   }
 
+  async supaGetDoctorPatients(doctorId) {
+    const thing = await this.client
+      .from("patients")
+      .select(`*, userInfo: users!patients_id_fkey (*)`)
+      .match({ doctorId });
+    // console.log("Patients");
+    // console.log(thing.data);
+    return thing;
+  }
+
+  async supaGetDoctorPatientsStatuses(doctorId) {
+    const thing = await this.client
+      .from("patient_updates")
+      .select("*")
+      .match({ doctorId });
+    // console.log("Statuses");
+    // console.log(thing.data);
+    return thing;
+  }
+
   async supaSetUserInfo(id, attr, val) {
     const obj = {};
     obj[attr] = val;
