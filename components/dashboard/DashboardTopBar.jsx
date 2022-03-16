@@ -20,13 +20,18 @@ import { useAppContext } from "../../context/AppContext";
 
 import DashboardDrawer from "./DashboardDrawer";
 import useHover from "../../hooks/useHover";
+import { NOTIFICATION } from "../../utils/types";
 
 export default function DashboardTopBar() {
-  const { user, logout } = useAppContext();
+  const { user, logout, setComponentInView } = useAppContext();
   const [accountIconRef, isAccountIconHovered] = useHover();
   const [notificationIconRef, isNotificationIconHovered] = useHover();
 
   const router = useRouter();
+
+  const viewChangeHandler = () => {
+    setComponentInView(NOTIFICATION);
+  };
 
   return (
     <Flex
@@ -50,6 +55,9 @@ export default function DashboardTopBar() {
           ref={notificationIconRef}
           icon={isNotificationIconHovered ? <AiFillBell /> : <AiOutlineBell />}
           fontSize="1.5rem"
+          onClick={() => {
+            viewChangeHandler();
+          }}
         />
         <Circle
           size="12px"

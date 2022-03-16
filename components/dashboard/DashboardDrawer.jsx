@@ -29,7 +29,9 @@ import {
   MdOutlineAddBusiness,
   MdAddBusiness,
 } from "react-icons/md";
-import React from "react";
+
+import { BsFileMedical, BsFileMedicalFill } from "react-icons/bs";
+import React, { useState, useEffect } from "react";
 import useHover from "../../hooks/useHover";
 import { useAppContext } from "../../context/AppContext";
 import {
@@ -40,11 +42,14 @@ import {
   IMMIGRATION_OFFICERS_TABLE,
   ADMINS_TABLE,
   BUSINESSES_TABLE,
+  PATIENT_UPDATE_INFO,
+  PATIENTS_STATUS,
 } from "../../utils/types";
 
 export default function DashboardDrawer() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { user, setComponentInView } = useAppContext();
+  const [currentOpt, setCurrentOpt] = useState();
   const [allUsersRef, isAllUsersHovered] = useHover();
   const [patientsRef, isPatientsHovered] = useHover();
   const [doctorsRef, isDoctorsHovered] = useHover();
@@ -52,10 +57,12 @@ export default function DashboardDrawer() {
   const [immigrationOfficerRef, isImmigrationOfficerHovered] = useHover();
   const [businessRef, isBusinessRef] = useHover();
   const [adminRef, isAdminHovered] = useHover();
+  const [updateStatusRef, isUpdateStatusHovered] = useHover();
+  const [updateInfoRef, isUpdateInfoRef] = useHover();
 
   const btnRef = React.useRef();
 
-  const options = [
+  const adminOptions = [
     {
       name: "All users",
       icon: MdPerson,
@@ -114,6 +121,53 @@ export default function DashboardDrawer() {
     },
   ];
 
+  const patientOptions = [
+    {
+      name: "Update my info",
+      icon: BsFileMedical,
+      hoverIcon: BsFileMedicalFill,
+      ref: updateStatusRef,
+      hovered: isUpdateStatusHovered,
+      onClick: () => setComponentInView(PATIENT_UPDATE_INFO),
+    },
+    {
+      name: "Update Status",
+      icon: MdFace,
+      hoverIcon: MdOutlineFace,
+      ref: updateInfoRef,
+      hovered: isUpdateInfoRef,
+      onClick: () => setComponentInView(PATIENTS_STATUS),
+    },
+  ];
+
+  const doctorOptions = [
+    {
+      name: "Patients",
+      icon: MdFace,
+      hoverIcon: MdOutlineFace,
+      ref: patientsRef,
+      hovered: isPatientsHovered,
+      onClick: () => setComponentInView(PATIENTS_TABLE),
+    },
+  ];
+
+  useEffect(() => {
+    switch (user.userType) {
+      case "admin":
+        setCurrentOpt(adminOptions);
+        break;
+      case "patient":
+        setCurrentOpt(patientOptions);
+        break;
+      case "doctor":
+        setCurrentOpt(doctorOptions);
+        break;
+
+      default:
+        break;
+    }
+  }, [user]);
+
   return (
     <>
       <IconButton
@@ -136,29 +190,28 @@ export default function DashboardDrawer() {
 
           <DrawerBody>
             <List spacing={3}>
-              {user?.userType !== "patient"
-                ? options.map((option, idx) => (
-                    <ListItem
-                      key={idx}
-                      borderRadius="30px"
-                      p={2}
-                      _hover={{
-                        background: "lightgrey",
-                        fontWeight: "bold",
-                        cursor: "pointer",
-                      }}
-                      ref={option.ref}
-                      onClick={option.onClick}
-                    >
-                      <ListIcon
-                        as={option.hovered ? option.hoverIcon : option.icon}
-                        w={8}
-                        h={6}
-                      />
-                      {option.name}
-                    </ListItem>
-                  ))
-                : ""}
+              {currentOpt &&
+                currentOpt.map((option, idx) => (
+                  <ListItem
+                    key={idx}
+                    borderRadius="30px"
+                    p={2}
+                    _hover={{
+                      background: "lightgrey",
+                      fontWeight: "bold",
+                      cursor: "pointer",
+                    }}
+                    ref={option.ref}
+                    onClick={option.onClick}
+                  >
+                    <ListIcon
+                      as={option.hovered ? option.hoverIcon : option.icon}
+                      w={8}
+                      h={6}
+                    />
+                    {option.name}
+                  </ListItem>
+                ))}
               {user?.userType !== "patient" ? (
                 <Divider height="2px" background="gray.700" />
               ) : (

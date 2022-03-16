@@ -16,6 +16,14 @@ export const BUSINESSES_TABLE = "BUSINESSES_TABLE";
 
 export const SEE_MY_PATIENTS_TABLE = "SEE_MY_PATIENTS_TABLE";
 
+export const PATIENT_UPDATE_INFO = "PATIENT_UPDATE_INFO";
+
+export const PATIENTS_STATUS = "PATIENTS_STATUS";
+
+export const DEFAULT_VIEW = "DEFAULT_VIEW";
+
+export const NOTIFICATION = "NOTIFICATION";
+
 export const calculateEndDate = () => {
   const someDate = new Date();
   const numberOfDaysToAdd = 14;

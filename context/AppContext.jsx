@@ -10,7 +10,7 @@ import { createStandaloneToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { MockSupaClient } from "../mocks/supabase";
 import SupaClient from "../utils/supabase";
-import { ALL_USERS_TABLE } from "../utils/types";
+import { DEFAULT_VIEW } from "../utils/types";
 
 export const AppContext = createContext();
 
@@ -22,7 +22,7 @@ function AppContextProvider({ mockData, children }) {
     process.env.NODE_ENV === "test" ? new MockSupaClient() : new SupaClient()
   );
   const [user, setUser] = useState(supabase.supaCurrentUser());
-  const [componentInView, setComponentInView] = useState(ALL_USERS_TABLE);
+  const [componentInView, setComponentInView] = useState(DEFAULT_VIEW);
   const [expandedCard, setExpandedCard] = useState({});
   const [notifications, setNotifications] = useState([]);
 
@@ -138,6 +138,7 @@ function AppContextProvider({ mockData, children }) {
   const logout = useCallback(async () => {
     setIsLoading(true);
     router.push("/");
+    setComponentInView(DEFAULT_VIEW);
 
     const { error: signoutError } = await supabase.supaSignOut();
     if (signoutError) {

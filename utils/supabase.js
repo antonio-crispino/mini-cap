@@ -105,6 +105,47 @@ export default class SupaClient {
     return data;
   }
 
+  /**
+   * Updates a passed table based on a given criteria
+   * @param {String} table name of the table to be updated
+   * @param {Object} payload object containing fields to update
+   * @param {Object} criteria object containing fields to match row/s in the bd
+   * @returns the supabase response object
+   */
+  async updateTableBy(table, payload, criteria) {
+    const targetFields = { ...payload };
+    delete targetFields.id;
+    const { data, error } = await this.client
+      .from(table)
+      .update({
+        ...targetFields,
+      })
+      .match({ ...criteria });
+    if (error) {
+      return { error };
+    }
+
+    return { data };
+  }
+
+  /**
+   *
+   * @param {String} table name of the table to fetch data from
+   * @param {Object} criteria object that contain the criteria which to select data by
+   * @returns the data object based on the inputs or error object in case of error
+   */
+  async fetchTableBy(table, criteria) {
+    const { data, error } = await this.client
+      .from(table)
+      .select("*")
+      .match({ ...criteria });
+    if (error) {
+      return { error };
+    }
+
+    return { data };
+  }
+
   async supaGetUsers() {
     return this.client.from("users").select("*");
   }
@@ -181,6 +222,43 @@ export default class SupaClient {
 
   async supaGetNotifications(userId) {
     return this.client.from("notifications").select("*").eq("userId", userId);
+  }
+
+  async insertPatientStatus(fields, notification) {
+    const notifyMessage = `Patient ${notification.patientName} has just submitted a status update for date ${notification.date}`;
+    const { data, error } = await this.client
+      .from("patient_updates")
+      .insert([fields]);
+    if (error) {
+      return { error };
+    }
+    const notificationErr = await this.supaAddNotification(
+      notification.doctorId,
+      notification.id,
+      notifyMessage,
+      notification.priority
+    );
+    if (notificationErr) {
+      return { notificationErr };
+    }
+
+    return { response: data };
+  }
+
+  /**
+   *
+   * @param {uuid} id id of the entity needed
+   * @param {String} table table name as a string
+   */
+  async getResourceById(id, table) {
+    const { data, error } = await this.client
+      .from(table)
+      .select("*")
+      .match({ id });
+    if (error) {
+      return { error };
+    }
+    return { data };
   }
 
   async supaAddUser(type, firstname, middlename, lastname, email, password) {
