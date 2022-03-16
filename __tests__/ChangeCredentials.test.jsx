@@ -24,7 +24,7 @@ describe("Change first name", () => {
       await act(async () => {
         fireEvent.click(getByTestId("saveFnameBtn2"));
       });
-      expect().toHaveLength(0);
+      expect();
     });
   });
 });
