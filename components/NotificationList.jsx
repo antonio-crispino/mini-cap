@@ -99,7 +99,13 @@ function NotificationList() {
                   notification.created_at
                 )}`}</Text>
               </Box>
-
+              <Button
+              onClick={flagged}
+              type="button"
+              colorScheme={flag ? "blue" : "red"}
+              >
+              {flag ? "Flag" : "Unflag"}
+              </Button>
               <Button
                 onClick={viewed}
                 type="button"
