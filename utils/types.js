@@ -22,6 +22,8 @@ export const PATIENTS_STATUS = "PATIENTS_STATUS";
 
 export const DEFAULT_VIEW = "DEFAULT_VIEW";
 
+export const NOTIFICATION = "NOTIFICATION";
+
 export const calculateEndDate = () => {
   const someDate = new Date();
   const numberOfDaysToAdd = 14;

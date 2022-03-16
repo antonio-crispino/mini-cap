@@ -119,8 +119,8 @@ function StatusForm({ patientData }) {
       } else {
         const notifyMessage = `Patient ${notification.patientName} has just modified their status for date ${notification.date}`;
         const notifyErr = await supabase.supaAddNotification(
-          notification.id,
           notification.doctorId,
+          notification.id,
           notifyMessage,
           notification.priority
         );

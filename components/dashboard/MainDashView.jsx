@@ -14,12 +14,14 @@ import {
   PATIENT_UPDATE_INFO,
   PATIENTS_STATUS,
   DEFAULT_VIEW,
+  NOTIFICATION,
 } from "../../utils/types";
 import CardGrid from "../CardsGrid";
 import CardDetails from "../CardDetails";
 import FilterPanel from "../FilterPanel";
 import GenericForm from "../GenericForm";
 import DefaultView from "../DefaultView";
+import NotificationList from "../NotificationList";
 
 export default function MainDashView() {
   const { componentInView, user } = useAppContext();
@@ -204,8 +206,11 @@ export default function MainDashView() {
         return <GenericForm userId={user.id} viewType="userInfo" />;
       case PATIENTS_STATUS:
         return <GenericForm userId={user.id} viewType="patientStatus" />;
+      case NOTIFICATION:
+        return <NotificationList />;
       case DEFAULT_VIEW:
         return <DefaultView user={user} />;
+
       default:
         return <DefaultView user={user} />;
     }
@@ -223,7 +228,8 @@ export default function MainDashView() {
   return componentInView === CARD_DETAILS ||
     componentInView === PATIENT_UPDATE_INFO ||
     componentInView === PATIENTS_STATUS ||
-    componentInView === DEFAULT_VIEW ? (
+    componentInView === DEFAULT_VIEW ||
+    componentInView === NOTIFICATION ? (
     <>{renderComponent()}</>
   ) : (
     <>

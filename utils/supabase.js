@@ -233,8 +233,8 @@ export default class SupaClient {
       return { error };
     }
     const notificationErr = await this.supaAddNotification(
-      notification.id,
       notification.doctorId,
+      notification.id,
       notifyMessage,
       notification.priority
     );
