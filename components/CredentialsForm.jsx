@@ -83,7 +83,7 @@ function CredentialsForm() {
                     />
                   </PopoverAnchor>
                   <FormErrorMessage data-testid="firstname-error-msg">
-                    {errors.firstname && errors.firstname.message}
+                    {"test" && "test2"}
                   </FormErrorMessage>
                   <PopoverTrigger>
                     <Button
