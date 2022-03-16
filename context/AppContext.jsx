@@ -138,6 +138,7 @@ function AppContextProvider({ mockData, children }) {
   const logout = useCallback(async () => {
     setIsLoading(true);
     router.push("/");
+    setComponentInView(DEFAULT_VIEW);
 
     const { error: signoutError } = await supabase.supaSignOut();
     if (signoutError) {
