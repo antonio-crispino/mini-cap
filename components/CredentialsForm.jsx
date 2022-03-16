@@ -86,7 +86,12 @@ function CredentialsForm() {
                     {errors.firstname && errors.firstname.message}
                   </FormErrorMessage>
                   <PopoverTrigger>
-                    <Button h="40px" colorScheme="red" variant="ghost">
+                    <Button
+                      h="40px"
+                      colorScheme="red"
+                      variant="ghost"
+                      data-testid="saveFnameBtn1"
+                    >
                       {isEditingFirstName ? (
                         <PopoverTrigger>
                           <Button
@@ -112,7 +117,7 @@ function CredentialsForm() {
                         colorScheme="red"
                         type="submit"
                         variant="ghost"
-                        data-testid="saveFnameBtn"
+                        data-testid="saveFnameBtn2"
                       >
                         Save
                       </Button>

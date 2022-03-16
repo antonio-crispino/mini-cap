@@ -14,12 +14,15 @@ describe("Change first name", () => {
       );
 
       await act(async () => {
+        fireEvent.click(getByTestId("saveFnameBtn1"));
+      });
+      await act(async () => {
         fireEvent.change(getByLabelText("Change First Name"), {
           target: { value: "a" },
         });
       });
       await act(async () => {
-        fireEvent.click(getByTestId("saveFnameBtn"));
+        fireEvent.click(getByTestId("saveFnameBtn2"));
       });
       expect(await screen.findAllByTestId("firstname-error-msg")).toHaveLength(
         1
