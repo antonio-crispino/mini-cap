@@ -73,7 +73,7 @@ function CredentialsForm() {
                       display="inline-flex"
                       isDisabled={!isEditingFirstName}
                       id="newfirstname"
-                      placeholder={user.firstname}
+                      placeholder={user ? user.firstname : "nothing"}
                       {...register("newfirstname", {
                         minLength: {
                           value: 2,
