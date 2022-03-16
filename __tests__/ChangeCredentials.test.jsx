@@ -25,7 +25,7 @@ describe("Change first name", () => {
         fireEvent.click(getByTestId("saveFnameBtn2"));
       });
       expect(await screen.findAllByTestId("firstname-error-msg")).toHaveLength(
-        1
+        2
       );
     });
   });
