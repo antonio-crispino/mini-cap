@@ -1,0 +1,12 @@
+.qrBtnIcon {
+  font-size: 25px;
+  margin: 5px;
+}
+
+.sideStack {
+  background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25));
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
