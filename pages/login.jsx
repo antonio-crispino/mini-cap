@@ -1,6 +1,5 @@
 import { Container, VStack, Flex } from "@chakra-ui/react";
 import LoginForm from "../components/LoginForm";
-import SideSection from "../components/SideSection";
 
 function LoginPage() {
   return (
@@ -8,30 +7,10 @@ function LoginPage() {
       maxW="full"
       p={0}
       bgGradient="linear(to-br, blue.600, purple.700)"
-      backgroundImage="url('/images/Background_Light.png')"
-      backgroundPosition="center"
-      backgroundRepeat="no-repeat"
     >
-      <Flex h="100vh" w="100vw">
-        <VStack
-          display={{ base: "none", lg: "block" }}
-          w={{
-            lg: "45%",
-          }}
-          h="full"
-        >
-          <SideSection />
-        </VStack>
-        <VStack
-          w={{
-            base: "100%", // 0-48em
-            lg: "55%",
-          }}
-          h="full"
-          px={{ base: "0", xl: "20px" }}
-          justifyContent="center"
-          alignItems="center"
-        >
+      <Flex h="100vh" py={25} w="full">
+        <VStack bg="blue.50" w="full" h="full" alignItems="flex-start" />
+        <VStack w="full" h="full" p={0} justifyContent="center">
           <LoginForm />
         </VStack>
       </Flex>

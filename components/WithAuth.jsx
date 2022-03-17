@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useAppContext } from "../context/AppContext";
+import { useAppContext } from "../context/context";
 import ErrorCatcher from "./ErrorCatcher";
 
 const withAuth = (WrappedComponent) =>
