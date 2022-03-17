@@ -27,7 +27,7 @@ function CredentialsForm() {
     formState: { errors },
   } = useForm();
   const { update, user } = useAppContext();
-  //
+
   const submitChange = async ({ newfirstname, newlastname }) => {
     console.log(newfirstname);
     await update(user.email, newfirstname, newlastname);

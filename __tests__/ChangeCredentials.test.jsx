@@ -3,7 +3,6 @@ import { act } from "react-dom/test-utils";
 import CredentialsForm from "../components/CredentialsForm";
 import ContextProvider from "../context/AppContext";
 
-//
 afterEach(cleanup);
 describe("Change first name", () => {
   describe("With too short one", () => {
