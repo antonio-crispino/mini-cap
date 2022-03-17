@@ -2,20 +2,23 @@ import { useRouter } from "next/router";
 import { useAppContext } from "../context/AppContext";
 import ErrorCatcher from "./ErrorCatcher";
 
-const withAuth = (WrappedComponent) =>
+/**
+ * Redirects user if not an Administrator.
+ */
+const withAdminAuth = (WrappedComponent) =>
   function (props) {
     const { user, isLoading } = useAppContext();
     const router = useRouter();
-
     if (isLoading) {
       return "";
     }
-    if (!user && !isLoading) {
+
+    if (!user || !user?.userType === "admin") {
       return (
         <ErrorCatcher
-          message="You need to login to view this page"
+          message="You must be an administrator to view this page!"
           callback={() => {
-            router.push("/login");
+            router.push("/main");
           }}
         />
       );
@@ -23,4 +26,4 @@ const withAuth = (WrappedComponent) =>
     return <WrappedComponent {...props} />;
   };
 
-export default withAuth;
+export default withAdminAuth;
