@@ -19,10 +19,9 @@ import { useState, useEffect } from "react";
 import { useAppContext } from "../context/AppContext";
 import { DEFAULT_VIEW } from "../utils/types";
 
-function StatusForm({ patientData }) {
+function StatusForm({ patientData, testing }) {
   const { setComponentInView, setExpandedCard, setError, supabase, user } =
     useAppContext();
-
   const [checkboxOptions, setCheckboxOptions] = useState({
     nausea: false,
     headache: false,
@@ -76,7 +75,6 @@ function StatusForm({ patientData }) {
     });
     return statusStr;
   };
-
   const getSubmittedUpdate = async () => {
     const dateObj = new Date();
     const recordedOn = dateObj.toJSON().split("T")[0];
@@ -206,8 +204,10 @@ function StatusForm({ patientData }) {
   };
 
   useEffect(() => {
-    getSubmittedUpdate();
-  }, [user.id]);
+    if (!testing) {
+      getSubmittedUpdate();
+    }
+  }, [user?.id]);
 
   return (
     <form
@@ -224,7 +224,9 @@ function StatusForm({ patientData }) {
         <SimpleGrid columns={2} columnGap={3} rowGap={6} w="full">
           <GridItem w="full" colSpan={2}>
             <FormControl>
-              <FormLabel color="white">Medical Card</FormLabel>
+              <FormLabel color="white" htmlFor="medicalCard">
+                Medical Card
+              </FormLabel>
 
               <Input
                 id="medicalCard"
@@ -239,24 +241,32 @@ function StatusForm({ patientData }) {
 
           <GridItem w="full" colSpan={2}>
             <FormControl>
-              <FormLabel color="white">Weight</FormLabel>
+              <FormLabel color="white" htmlFor="weight">
+                Weight
+              </FormLabel>
               <Input
                 id="weight"
                 placeholder="Enter weight"
                 bg="white"
                 size="lg"
+                data-testid="checkbox-test"
+                isDisabled={!patientData.requestedUpdatesList.weight}
                 onChange={(e) => inputFieldsHandler(e)}
               />
             </FormControl>
           </GridItem>
           <GridItem w="full" colSpan={2}>
             <FormControl>
-              <FormLabel color="white">Temperature</FormLabel>
+              <FormLabel color="white" htmlFor="temperature">
+                Temperature
+              </FormLabel>
               <Input
                 id="temperature"
                 placeholder="Enter temperature"
                 bg="white"
                 size="lg"
+                data-testid="checkbox-test"
+                isDisabled={!patientData.requestedUpdatesList.temperature}
                 onChange={(e) => inputFieldsHandler(e)}
               />
             </FormControl>
@@ -277,6 +287,7 @@ function StatusForm({ patientData }) {
                   <Checkbox
                     size="md"
                     name="nausea"
+                    data-testid="checkbox-test"
                     isDisabled={!patientData.requestedUpdatesList.nausea}
                     onChange={(e) =>
                       setCheckboxOptions({
@@ -290,6 +301,7 @@ function StatusForm({ patientData }) {
                   <Checkbox
                     size="md"
                     name="headache"
+                    data-testid="checkbox-test"
                     isDisabled={!patientData.requestedUpdatesList.headache}
                     onChange={(e) =>
                       setCheckboxOptions({
@@ -303,6 +315,7 @@ function StatusForm({ patientData }) {
                   <Checkbox
                     size="md"
                     name="chestPain"
+                    data-testid="checkbox-test"
                     isDisabled={!patientData.requestedUpdatesList.chestPain}
                     onChange={(e) =>
                       setCheckboxOptions({
@@ -316,6 +329,7 @@ function StatusForm({ patientData }) {
                   <Checkbox
                     size="md"
                     name="nasalCongestion"
+                    data-testid="checkbox-test"
                     isDisabled={
                       !patientData.requestedUpdatesList.nasalCongestion
                     }
@@ -333,6 +347,7 @@ function StatusForm({ patientData }) {
                   <Checkbox
                     size="md"
                     name="soreThroat"
+                    data-testid="checkbox-test"
                     isDisabled={!patientData.requestedUpdatesList.soreThroat}
                     onChange={(e) =>
                       setCheckboxOptions({
@@ -346,6 +361,7 @@ function StatusForm({ patientData }) {
                   <Checkbox
                     size="md"
                     name="lethargy"
+                    data-testid="checkbox-test"
                     isDisabled={!patientData.requestedUpdatesList.lethargy}
                     onChange={(e) =>
                       setCheckboxOptions({
@@ -359,6 +375,7 @@ function StatusForm({ patientData }) {
                   <Checkbox
                     size="md"
                     name="fever"
+                    data-testid="checkbox-test"
                     isDisabled={!patientData.requestedUpdatesList.fever}
                     onChange={(e) =>
                       setCheckboxOptions({
@@ -372,6 +389,7 @@ function StatusForm({ patientData }) {
                   <Checkbox
                     size="md"
                     name="vomiting"
+                    data-testid="checkbox-test"
                     isDisabled={!patientData.requestedUpdatesList.vomiting}
                     onChange={(e) =>
                       setCheckboxOptions({
