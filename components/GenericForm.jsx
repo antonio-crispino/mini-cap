@@ -52,7 +52,9 @@ function GenericForm({ userId, viewType }) {
         <Flex w="full" justifyContent="center" alignItems="center">
           {viewType === "userInfo"
             ? userInfo && <UserForm userData={userInfo} />
-            : patientInfo && <StatusForm patientData={patientInfo} />}
+            : patientInfo && (
+                <StatusForm patientData={patientInfo} testing={false} />
+              )}
         </Flex>
       </Stack>
     </Flex>
