@@ -1,21 +1,13 @@
-import {
-  Box,
-  Text,
-  Flex,
-  Heading,
-  Button,
-  useControllableState,
-} from "@chakra-ui/react";
+import { Box, Text, Flex, Heading, HStack } from "@chakra-ui/react";
 import { useAppContext } from "../context/AppContext";
+import Flag from "./Flag";
+import NotifViewButton from "./NotifViewButton";
 
 // TODO: button changes view to the corresponding update
+
 function NotificationList() {
   const { notifications } = useAppContext();
   const toDate = (dateStr) => dateStr.split("T")[0];
-  const [value, setState] = useControllableState(false);
-  const viewed = () => {
-    setState(!value);
-  };
 
   return (
     <Flex flexDir="column" mt={5} p={5}>
@@ -50,14 +42,10 @@ function NotificationList() {
                 notification.created_at
               )}`}</Text>
             </Box>
-
-            <Button
-              onClick={viewed}
-              type="button"
-              colorScheme={value ? "blue" : "red"}
-            >
-              {value ? "Mark as Unread" : "View"}
-            </Button>
+            <HStack>
+              <NotifViewButton />
+              <Flag />
+            </HStack>
           </Flex>
         </Box>
       ))}
