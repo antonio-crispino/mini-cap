@@ -8,7 +8,13 @@ import {
   GridItem,
   Button,
   FormErrorMessage,
-  Center,
+  useBoolean,
+  Popover,
+  PopoverAnchor,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverBody,
+  HStack,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import Router from "next/router";
@@ -23,16 +29,21 @@ function CredentialsForm() {
   const { update, user } = useAppContext();
 
   const submitChange = async ({ newfirstname, newlastname }) => {
+    console.log(newfirstname);
     await update(user.email, newfirstname, newlastname);
     return Router.reload(window.location.pathname);
   };
+  const reset = async () => Router.reload(window.location.pathname);
+
+  const [isEditingFirstName, setIsEditingFirstName] = useBoolean();
+  const [isEditingLastName, setIsEditingLastName] = useBoolean();
 
   return (
     <form
-      onSubmit={handleSubmit((data) => {
-        submitChange(data);
-      })}
-      style={{ width: "100%" }}
+      style={{
+        maxwidth: "100%",
+        width: "100%",
+      }}
     >
       <VStack w="full" h="full" p={0} spacing={10} alignItems="center">
         <VStack spacing={3}>
@@ -43,20 +54,80 @@ function CredentialsForm() {
         <SimpleGrid columns={2} columnGap={2} rowGap={2} w="70%">
           <GridItem w="100%" colSpan={2}>
             <FormControl isInvalid={errors.firstname}>
-              <FormLabel color="white">Change First Name</FormLabel>
-              <Input
-                bg="white"
-                id="newfirstname"
-                placeholder={user.firstname}
-                defaultValue={user.firstname}
-                {...register("newfirstname", {
-                  // required: "This is required",
-                  minLength: {
-                    value: 2,
-                    message: "Minimum length should be 2",
-                  },
-                })}
-              />
+              <FormLabel color="white" htmlFor="newfirstname">
+                Change First Name
+              </FormLabel>
+              <Popover
+                isOpen={isEditingFirstName}
+                onOpen={setIsEditingFirstName.on}
+                onClose={setIsEditingFirstName.off}
+                closeOnBlur={false}
+                isLazy
+                lazyBehavior="keepMounted"
+              >
+                <HStack>
+                  <PopoverAnchor>
+                    <Input
+                      color="white"
+                      w="auto"
+                      display="inline-flex"
+                      isDisabled={!isEditingFirstName}
+                      id="newfirstname"
+                      placeholder={user ? user.firstname : "nothing"}
+                      {...register("newfirstname", {
+                        minLength: {
+                          value: 2,
+                          message: "Minimum length should be 2",
+                        },
+                      })}
+                    />
+                  </PopoverAnchor>
+                  <FormErrorMessage data-testid="firstname-error-msg">
+                    {"test" && "test2"}
+                  </FormErrorMessage>
+                  <PopoverTrigger>
+                    <Button
+                      h="40px"
+                      colorScheme="red"
+                      variant="ghost"
+                      data-testid="saveFnameBtn1"
+                    >
+                      {isEditingFirstName ? (
+                        <PopoverTrigger>
+                          <Button
+                            onClick={reset}
+                            h="40px"
+                            colorScheme="red"
+                            type="submit"
+                            variant="ghost"
+                          >
+                            Cancel
+                          </Button>
+                        </PopoverTrigger>
+                      ) : (
+                        "Edit"
+                      )}
+                    </Button>
+                  </PopoverTrigger>
+                  {isEditingFirstName ? (
+                    <PopoverTrigger>
+                      <Button
+                        onClick={handleSubmit(submitChange)}
+                        h="40px"
+                        colorScheme="red"
+                        type="submit"
+                        variant="ghost"
+                        data-testid="saveFnameBtn2"
+                      >
+                        Save
+                      </Button>
+                    </PopoverTrigger>
+                  ) : null}
+                </HStack>
+                <PopoverContent>
+                  <PopoverBody>Type a new First Name</PopoverBody>
+                </PopoverContent>
+              </Popover>
               <FormErrorMessage>
                 {errors.firstname && errors.firstname.message}
               </FormErrorMessage>
@@ -66,61 +137,72 @@ function CredentialsForm() {
           <GridItem w="100%" colSpan={2}>
             <FormControl isInvalid={errors.lastname}>
               <FormLabel color="white">Change Last Name</FormLabel>
-              <Input
-                bg="white"
-                id="newlastname"
-                placeholder={user.lastname}
-                defaultValue={user.lastname}
-                {...register("newlastname", {
-                  // required: "This is required",
-                  minLength: {
-                    value: 2,
-                    message: "Minimum length should be 2",
-                  },
-                })}
-              />
+              <Popover
+                isOpen={isEditingLastName}
+                onOpen={setIsEditingLastName.on}
+                onClose={setIsEditingLastName.off}
+                closeOnBlur={false}
+                isLazy
+                lazyBehavior="keepMounted"
+              >
+                <HStack>
+                  <PopoverAnchor>
+                    <Input
+                      color="white"
+                      w="auto"
+                      display="inline-flex"
+                      isDisabled={!isEditingLastName}
+                      id="newlastname"
+                      placeholder={user ? user.lastname : "nothing"}
+                      {...register("newlastname", {
+                        minLength: {
+                          value: 2,
+                          message: "Minimum length should be 2",
+                        },
+                      })}
+                    />
+                  </PopoverAnchor>
+                  <PopoverTrigger>
+                    <Button h="40px" colorScheme="red" variant="ghost">
+                      {isEditingLastName ? (
+                        <PopoverTrigger>
+                          <Button
+                            onClick={reset}
+                            h="40px"
+                            colorScheme="red"
+                            type="submit"
+                            variant="ghost"
+                          >
+                            Cancel
+                          </Button>
+                        </PopoverTrigger>
+                      ) : (
+                        "Edit"
+                      )}
+                    </Button>
+                  </PopoverTrigger>
+                  {isEditingLastName ? (
+                    <PopoverTrigger>
+                      <Button
+                        onClick={handleSubmit(submitChange)}
+                        h="40px"
+                        colorScheme="red"
+                        type="submit"
+                        variant="ghost"
+                      >
+                        Save
+                      </Button>
+                    </PopoverTrigger>
+                  ) : null}
+                </HStack>
+                <PopoverContent>
+                  <PopoverBody>Type a new Last Name</PopoverBody>
+                </PopoverContent>
+              </Popover>
               <FormErrorMessage>
                 {errors.lastname && errors.lastname.message}
               </FormErrorMessage>
             </FormControl>
-          </GridItem>
-
-          <GridItem w="100%" colSpan={2} spacing={4}>
-            <FormControl isInvalid={errors.password}>
-              <FormLabel color="white">
-                Before Submiting, enter your current password.
-              </FormLabel>
-              <Input
-                bg="white"
-                id="password"
-                placeholder="Enter your password"
-                type="password"
-                {...register("password", {
-                  required: "This is required",
-                  minLength: {
-                    value: 8,
-                    message: "Minimum length should be 8",
-                  },
-                })}
-              />
-              <FormErrorMessage>
-                {errors.password && errors.password.message}
-              </FormErrorMessage>
-            </FormControl>
-          </GridItem>
-
-          <GridItem w="100%" colSpan={2}>
-            <Center>
-              <Button
-                variant="ghost"
-                _hover={{ textDecoration: "underline" }}
-                size="lg"
-                type="submit"
-                color="white"
-              >
-                Submit
-              </Button>
-            </Center>
           </GridItem>
         </SimpleGrid>
       </VStack>
