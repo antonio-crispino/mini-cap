@@ -8,6 +8,8 @@ function SinglePatientStatus({
   if (!patientStatusDetails) {
     return null;
   }
+  console.log(patientDetails);
+  console.log(patientStatusDetails);
 
   let patientListItems = null;
   let patientStatus = null;
