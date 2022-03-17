@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect } from "react";
+import { useState, useEffect } from "react";
 import { Box } from "@chakra-ui/react";
 import { useAppContext } from "../../context/AppContext";
 import SinglePatientStatus from "./SinglePatientStatus";
@@ -10,7 +10,7 @@ function AllPatientsStatus() {
   const [patientsDetails, setPatientsDetails] = useState(() => null);
   const [patientsStatuses, setPatientsStatuses] = useState(() => null);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const getPatientsDetails = async () => {
       if (currentUser) {
         const { data: loadedPatientsDetails, error } =
@@ -55,16 +55,19 @@ function AllPatientsStatus() {
   const patientStatusesItems =
     patientsDetails && patientsStatuses
       ? patientsDetails.map((aPatient) => {
+          const thing = { ...aPatient };
+          delete thing.requestedUpdatesList;
+          delete thing.userInfo;
           const aPatientStatuses = patientsStatuses.filter(
-            (aStatus) => aStatus.id === aPatient.id
+            (aStatus) => aStatus.id === thing.id
           );
-          console.log(aPatient);
+          console.log(thing);
           console.log(aPatientStatuses);
           return (
             <SinglePatientStatus
               key={Math.floor(Math.random() * 1000000)}
               setPatientDetails={setPatientDetails}
-              patientDetails={aPatient}
+              patientDetails={thing}
               patientStatusDetails={aPatientStatuses[0]}
             />
           );

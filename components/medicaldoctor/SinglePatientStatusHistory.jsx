@@ -5,6 +5,8 @@ function SinglePatientStatusHistory({ patientDetails, allPatientStatuses }) {
   if (!patientDetails) {
     return null;
   }
+  console.log(patientDetails);
+  console.log(allPatientStatuses);
 
   const patientListItems = Object.keys(patientDetails).map((detail) => (
     // check for null !!!
