@@ -102,9 +102,9 @@ function NotificationList() {
               <Button
               onClick={flagged}
               type="button"
-              colorScheme={flag ? "blue" : "red"}
+              colorScheme={flag ? "red" : "blue"}
               >
-              {flag ? "Flag" : "Unflag"}
+              {flag ? "Unflag" : "Flag"}
               </Button>
               <Button
                 onClick={viewed}
