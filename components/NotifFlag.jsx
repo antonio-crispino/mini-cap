@@ -21,7 +21,7 @@ function Flag({ ...notification }) {
   };
 
   return (
-    <Checkbox colorScheme="red" onChange={updateFlag} isChecked={!!flagValue}>
+    <Checkbox colorScheme="red" onChange={updateFlag} isChecked={flagValue ? true : false}>
       FLAG
     </Checkbox>
   );
