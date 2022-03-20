@@ -1,6 +1,6 @@
 import { Box, Text, Flex, Heading, HStack } from "@chakra-ui/react";
 import { useAppContext } from "../context/AppContext";
-import Flag from "./Flag";
+import Flag from "./NotifFlag";
 import NotifViewButton from "./NotifViewButton";
 
 // TODO: button changes view to the corresponding update
@@ -43,8 +43,9 @@ function NotificationList() {
               )}`}</Text>
             </Box>
             <HStack>
-              <NotifViewButton />
-              <Flag />
+              <Heading> </Heading>
+              <NotifViewButton {...notification} />
+              <Flag {...notification} />
             </HStack>
           </Flex>
         </Box>
