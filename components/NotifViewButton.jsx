@@ -6,7 +6,6 @@ function NotifViewButton({ ...notification }) {
   const [readValue = notification.read, setState] = useControllableState(
     notification.read
   );
-  console.log(notification.read);
   const viewed = () => {
     setState(!readValue);
 
