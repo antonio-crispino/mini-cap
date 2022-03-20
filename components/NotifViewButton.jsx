@@ -3,10 +3,12 @@ import { useAppContext } from "../context/AppContext";
 
 function NotifViewButton({ ...notification }) {
   const { supabase } = useAppContext();
-  const [readValue, setState] = useControllableState(notification.read);
+  const [readValue = notification.read, setState] = useControllableState(
+    notification.read
+  );
+  console.log(notification.read);
   const viewed = () => {
     setState(!readValue);
-    console.log(!readValue, notification.id);
 
     const readUpdate = {
       read: !readValue,
@@ -19,9 +21,9 @@ function NotifViewButton({ ...notification }) {
 
   return (
     <Button
+      colorScheme={readValue ? "blue" : "red"}
       onClick={viewed}
       type="button"
-      colorScheme={readValue ? "blue" : "red"}
     >
       {readValue ? "Mark as Unread" : "View"}
     </Button>

@@ -3,10 +3,11 @@ import { useAppContext } from "../context/AppContext";
 
 function Flag({ ...notification }) {
   const { supabase } = useAppContext();
-  const [flagValue, setState] = useControllableState(notification.flag);
+  const [flagValue = notification.flag, setState] = useControllableState(
+    notification.flag
+  );
   const updateFlag = () => {
     setState(!flagValue);
-    console.log(!flagValue, notification.id);
 
     const flagUpdate = {
       flag: !flagValue,
