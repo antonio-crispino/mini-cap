@@ -4,23 +4,47 @@ function SinglePatientStatus({
   patientDetails,
   patientStatusDetails,
   setPatientDetails,
+  setPatientStatusesVisible,
 }) {
   if (!patientStatusDetails) {
     return null;
   }
-  console.log(patientDetails);
-  console.log(patientStatusDetails);
 
   let patientListItems = null;
   let patientStatus = null;
 
   if (patientDetails !== null) {
-    patientListItems = Object.keys(patientDetails).map((detail) => (
-      // check for null !!!
-      <ListItem key={Math.floor(Math.random() * 1000000)}>
-        {detail}: {patientDetails[detail]}
-      </ListItem>
-    ));
+    patientListItems = Object.keys(patientDetails).map((detail) => {
+      if (
+        detail === "symptoms" ||
+        detail === "doctorId" ||
+        detail === "updatesRequested" ||
+        detail === "updatesRequestEnd" ||
+        detail === "status" ||
+        detail === "updated_at" ||
+        detail === "firstname" ||
+        detail === "middlename" ||
+        detail === "lastname" ||
+        detail === "userType" ||
+        detail === "inactive" ||
+        detail === "isPriority"
+      )
+        return null;
+      if (detail === "id")
+        return (
+          <ListItem key={Math.floor(Math.random() * 1000000)}>
+            <b>{`${patientDetails.firstname} ${
+              patientDetails.middlename || ""
+            } ${patientDetails.lastname}`}</b>
+            {` (${patientDetails.id})`}
+          </ListItem>
+        );
+      return (
+        <ListItem key={Math.floor(Math.random() * 1000000)}>
+          <b>{detail}</b>: {patientDetails[detail] || "n/a"}
+        </ListItem>
+      );
+    });
     patientStatus =
       patientDetails !== null &&
       patientDetails.status !== null &&
@@ -30,43 +54,63 @@ function SinglePatientStatus({
   }
 
   const statusDate = patientStatusDetails.created_at;
-  const statusListItems = Object.keys(patientStatusDetails).map((detail) => (
-    // check for null !!!
-    <ListItem key={Math.floor(Math.random() * 1000000)}>
-      {`${detail}: ${patientStatusDetails[detail]}`}
-    </ListItem>
-  ));
+  const statusListItems = Object.keys(patientStatusDetails).map((detail) => {
+    if (
+      detail === "created_at" ||
+      detail === "recordedOn" ||
+      detail === "medicalCard" ||
+      detail === "id" ||
+      detail === "doctorId"
+    )
+      return null;
+    return (
+      <ListItem key={Math.floor(Math.random() * 1000000)}>
+        <b>{detail}:</b> {patientStatusDetails[detail] || "n/a"}
+      </ListItem>
+    );
+  });
 
   const onClickHandler = () => {
     setPatientDetails(patientDetails);
+    setPatientStatusesVisible(false);
   };
 
   return (
     <Box
-      backgroundColor="lightblue"
+      backgroundColor="var(--chakra-colors-gray-100)"
       borderRadius="1rem"
       padding="1rem"
-      width="15rem"
+      width="20rem"
       display="flex"
       flexDirection="column"
       gap="1rem"
-      onClick={onClickHandler}
+      onClick={patientListItems !== null ? onClickHandler : null}
     >
       {patientListItems !== null ? (
         <Box>
           <Box display="flex" justifyContent="center" marginBottom="0.5rem">
-            Patient {patientStatus}
+            <p>
+              <b>Patient</b> {patientStatus}
+            </p>
           </Box>
-          <List backgroundColor="lightgreen" borderRadius="1rem" padding="1rem">
+          <List
+            backgroundColor="var(--chakra-colors-gray-300)"
+            borderRadius="1rem"
+            padding="1rem"
+          >
             {patientListItems}
           </List>
         </Box>
       ) : null}
       <Box>
         <Box display="flex" justifyContent="center" marginBottom="0.5rem">
-          Status
+          <b>Status</b>
         </Box>
-        <List backgroundColor="lightgreen" borderRadius="1rem" padding="1rem">
+        <List
+          backgroundColor="var(--chakra-colors-gray-300)"
+          borderRadius="1rem"
+          padding="1rem"
+        >
           {statusListItems}
         </List>
       </Box>

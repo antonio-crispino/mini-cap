@@ -9,6 +9,7 @@ function AllPatientsStatus() {
   const [patientDetails, setPatientDetails] = useState(() => null);
   const [patientsDetails, setPatientsDetails] = useState(() => null);
   const [patientsStatuses, setPatientsStatuses] = useState(() => null);
+  const [patientStatusesVisible, setPatientStatusesVisible] = useState(true);
 
   useEffect(() => {
     const getPatientsDetails = async () => {
@@ -19,7 +20,6 @@ function AllPatientsStatus() {
           setError(error);
           return;
         }
-        console.log(loadedPatientsDetails);
         return loadedPatientsDetails;
       }
     };
@@ -32,7 +32,6 @@ function AllPatientsStatus() {
           setError(error);
           return;
         }
-        console.log(loadedPatientsStatuses);
         return loadedPatientsStatuses;
       }
     };
@@ -42,8 +41,6 @@ function AllPatientsStatus() {
       const patientsStatusesNew = await getPatientsStatuses();
       setPatientsStatuses(patientsStatusesNew);
       setPatientsDetails(patientsDetailsNew);
-      console.log(patientsStatusesNew);
-      console.log(patientsDetailsNew);
     };
 
     getPatientsInfo();
@@ -57,18 +54,20 @@ function AllPatientsStatus() {
       ? patientsDetails.map((aPatient) => {
           const thing = { ...aPatient };
           delete thing.requestedUpdatesList;
+          Object.keys(thing.userInfo).forEach((info) => {
+            thing[info] = thing.userInfo[info];
+          });
           delete thing.userInfo;
-          const aPatientStatuses = patientsStatuses.filter(
-            (aStatus) => aStatus.id === thing.id
-          );
-          console.log(thing);
-          console.log(aPatientStatuses);
+          const aPatientStatuses = patientsStatuses
+            .filter((aStatus) => aStatus.id === thing.id)
+            .reverse();
           return (
             <SinglePatientStatus
               key={Math.floor(Math.random() * 1000000)}
               setPatientDetails={setPatientDetails}
               patientDetails={thing}
               patientStatusDetails={aPatientStatuses[0]}
+              setPatientStatusesVisible={setPatientStatusesVisible}
             />
           );
         })
@@ -77,21 +76,37 @@ function AllPatientsStatus() {
   /**
    * Fill the status history component for a single selected patient.
    */
-  const singlePatientStatusesItems = patientDetails ? (
-    <SinglePatientStatusHistory
-      patientDetails={patientDetails}
-      allPatientStatuses={patientsStatuses.filter(
-        (aStatus) => aStatus.id === patientDetails.id
-      )}
-    />
-  ) : null;
+  const singlePatientStatusesItems =
+    patientDetails && !patientStatusesVisible ? (
+      <SinglePatientStatusHistory
+        patientDetails={patientDetails}
+        allPatientStatuses={patientsStatuses
+          .filter((aStatus) => aStatus.id === patientDetails.id)
+          .reverse()}
+        setPatientStatusesVisible={setPatientStatusesVisible}
+      />
+    ) : null;
 
   return (
     <Box>
-      <Box>
-        <Box>My Patients</Box>
+      <Box display={patientStatusesVisible ? "block" : "none"}>
+        <Box
+          backgroundColor="var(--chakra-colors-gray-100)"
+          borderRadius="1rem"
+          padding="1rem"
+          margin="1rem"
+          width="calc(100% - 2rem)"
+        >
+          <b style={{ fontSize: "1.25rem" }}>My Patients</b>
+        </Box>
       </Box>
-      <Box display="flex" gap="1rem" flexWrap="wrap" justifyContent="center">
+      <Box
+        display={patientStatusesVisible ? "flex" : "none"}
+        margin="1rem"
+        gap="1rem"
+        flexWrap="wrap"
+        justifyContent="left"
+      >
         {patientStatusesItems}
       </Box>
       <Box>{singlePatientStatusesItems}</Box>
