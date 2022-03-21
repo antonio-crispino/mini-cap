@@ -37,6 +37,7 @@ import { useAppContext } from "../../context/AppContext";
 import {
   ALL_USERS_TABLE,
   PATIENTS_TABLE,
+  STATUSES_TABLE,
   DOCTORS_TABLE,
   HEALTH_OFFICIALS_TABLE,
   IMMIGRATION_OFFICERS_TABLE,
@@ -52,6 +53,7 @@ export default function DashboardDrawer() {
   const [currentOpt, setCurrentOpt] = useState();
   const [allUsersRef, isAllUsersHovered] = useHover();
   const [patientsRef, isPatientsHovered] = useHover();
+  const [statusesRef, isStatusesHovered] = useHover();
   const [doctorsRef, isDoctorsHovered] = useHover();
   const [healthOfficialsRef, isHealthOfficialsHovered] = useHover();
   const [immigrationOfficerRef, isImmigrationOfficerHovered] = useHover();
@@ -148,6 +150,14 @@ export default function DashboardDrawer() {
       ref: patientsRef,
       hovered: isPatientsHovered,
       onClick: () => setComponentInView(PATIENTS_TABLE),
+    },
+    {
+      name: "Statuses",
+      icon: MdFace,
+      hoverIcon: MdOutlineFace,
+      ref: statusesRef,
+      hovered: isStatusesHovered,
+      onClick: () => setComponentInView(STATUSES_TABLE),
     },
   ];
 

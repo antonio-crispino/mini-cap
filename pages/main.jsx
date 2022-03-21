@@ -51,20 +51,9 @@ function Main() {
         w="full"
         type="submit"
         maxWidth="25%"
-        onClick={() => router.push("/tempdocdash")}
+        onClick={() => router.push("/dashboard")}
       >
-        Temp Doc Dash
-      </Button>
-      <Button
-        variant="solid"
-        color="teal"
-        size="lg"
-        w="full"
-        type="submit"
-        maxWidth="25%"
-        onClick={() => router.push("/admindash")}
-      >
-        Admin Dashboard
+        Dashboard
       </Button>
       <Button
         variant="solid"

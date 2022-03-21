@@ -1,10 +1,11 @@
-import { Grid } from "@chakra-ui/react";
+import { Grid, Box } from "@chakra-ui/react";
 import { useCallback, useEffect, useState } from "react";
 import { useAppContext } from "../../context/AppContext";
 import { useDataContext } from "../../context/DataContext";
 import {
   ALL_USERS_TABLE,
   PATIENTS_TABLE,
+  STATUSES_TABLE,
   DOCTORS_TABLE,
   HEALTH_OFFICIALS_TABLE,
   IMMIGRATION_OFFICERS_TABLE,
@@ -22,6 +23,7 @@ import FilterPanel from "../FilterPanel";
 import GenericForm from "../GenericForm";
 import DefaultView from "../DefaultView";
 import NotificationList from "../NotificationList";
+import AllPatientsStatus from "../medicaldoctor/AllPatientsStatus";
 
 export default function MainDashView() {
   const { componentInView, user } = useAppContext();
@@ -103,6 +105,7 @@ export default function MainDashView() {
           setFilteredUsers(filteredArray);
           break;
         case PATIENTS_TABLE:
+        case STATUSES_TABLE:
           filteredArray = searchFilter(patients, searchedString);
           setFilteredPatients(filteredArray);
           break;
@@ -190,6 +193,8 @@ export default function MainDashView() {
         return <CardGrid payload={filteredUsers} />;
       case PATIENTS_TABLE:
         return <CardGrid payload={filteredPatients} />;
+      case STATUSES_TABLE:
+        return <AllPatientsStatus />;
       case DOCTORS_TABLE:
         return <CardGrid payload={filteredDoctors} />;
       case HEALTH_OFFICIALS_TABLE:
@@ -238,17 +243,21 @@ export default function MainDashView() {
         optionClicked={(e) => checkedHandler(e)}
         searchListener={(e) => searchHandler(e)}
       />
-      <Grid
-        templateColumns="repeat(auto-fill, minmax(250px, 1fr))"
-        gap={2}
-        alignItems="center"
-        justifyContent="center"
-        padding={10}
-        borderRadius={5}
-        minW="100%"
-      >
-        {renderComponent()}
-      </Grid>
+      {componentInView === STATUSES_TABLE ? (
+        <Box margin="2rem">{renderComponent()}</Box>
+      ) : (
+        <Grid
+          templateColumns="repeat(auto-fill, minmax(250px, 1fr))"
+          gap={2}
+          alignItems="center"
+          justifyContent="center"
+          padding={10}
+          borderRadius={5}
+          minW="100%"
+        >
+          {renderComponent()}
+        </Grid>
+      )}
     </>
   );
 }
