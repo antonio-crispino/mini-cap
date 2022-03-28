@@ -161,6 +161,25 @@ export default function DashboardDrawer() {
     },
   ];
 
+  const healthOfficialOptions = [
+    {
+      name: "Patients",
+      icon: MdFace,
+      hoverIcon: MdOutlineFace,
+      ref: patientsRef,
+      hovered: isPatientsHovered,
+      onClick: () => setComponentInView(PATIENTS_TABLE),
+    },
+    {
+      name: "Statuses",
+      icon: MdFace,
+      hoverIcon: MdOutlineFace,
+      ref: statusesRef,
+      hovered: isStatusesHovered,
+      onClick: () => setComponentInView(STATUSES_TABLE),
+    },
+  ];
+
   useEffect(() => {
     switch (user.userType) {
       case "admin":
@@ -172,7 +191,9 @@ export default function DashboardDrawer() {
       case "doctor":
         setCurrentOpt(doctorOptions);
         break;
-
+      case "health_official":
+        setCurrentOpt(healthOfficialOptions);
+        break;
       default:
         break;
     }
