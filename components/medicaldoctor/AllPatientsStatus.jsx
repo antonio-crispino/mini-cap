@@ -15,7 +15,9 @@ function AllPatientsStatus() {
     const getPatientsDetails = async () => {
       if (currentUser) {
         const { data: loadedPatientsDetails, error } =
-          await supabase.supaGetDoctorPatients(currentUser.id);
+          currentUser.userType === "health_official"
+            ? await supabase.supaGetPatients()
+            : await supabase.supaGetDoctorPatients(currentUser.id);
         if (error) {
           setError(error);
           return;
@@ -27,7 +29,9 @@ function AllPatientsStatus() {
     const getPatientsStatuses = async () => {
       if (currentUser) {
         const { data: loadedPatientsStatuses, error } =
-          await supabase.supaGetDoctorPatientsStatuses(currentUser.id);
+          currentUser.userType === "health_official"
+            ? await supabase.supaGetPatientsStatuses()
+            : await supabase.supaGetDoctorPatientsStatuses(currentUser.id);
         if (error) {
           setError(error);
           return;
@@ -58,6 +62,7 @@ function AllPatientsStatus() {
             thing[info] = thing.userInfo[info];
           });
           delete thing.userInfo;
+          delete thing.doctorInfo;
           const aPatientStatuses = patientsStatuses
             .filter((aStatus) => aStatus.id === thing.id)
             .reverse();

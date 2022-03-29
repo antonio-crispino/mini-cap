@@ -199,6 +199,10 @@ export default class SupaClient {
     return thing;
   }
 
+  async supaGetPatientsStatuses() {
+    return this.client.from("patient_updates").select("*");
+  }
+
   async supaSetUserInfo(id, attr, val) {
     const obj = {};
     obj[attr] = val;
