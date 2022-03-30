@@ -1,10 +1,10 @@
 import { Badge, Box, Button, Center, Image, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { useAppContext } from "../context/AppContext";
-import { CARD_DETAILS } from "../utils/types";
+import { CARD_DETAILS, TRACING_TABLE } from "../utils/types";
 
 function Card({ fullObj }) {
-  const { setExpandedCard, setComponentInView, supabase, user } =
+  const { setExpandedCard, setComponentInView, setPatient, supabase, user } =
     useAppContext();
   const { userInfo } = fullObj;
   const { userType, firstname, lastname, email } = userInfo || fullObj;
@@ -12,7 +12,7 @@ function Card({ fullObj }) {
     symptoms: false,
     doctorId: false,
   };
-  const [contacted, setContacted] = useState(userInfo.contacted_with_covid);
+  const [contacted, setContacted] = useState(userInfo?.contacted_with_covid);
 
   const viewDetailsHandler = (userObj) => {
     let passedCardDetails = { ...userObj };
@@ -28,11 +28,16 @@ function Card({ fullObj }) {
 
   const setCovidContactedStatus = async () => {
     await supabase.supaSetUserInfo(
-      userInfo.id,
+      userInfo?.id,
       "contacted_with_covid",
       !contacted
     );
     setContacted((prevVal) => !prevVal);
+  };
+
+  const viewTracingDetails = (userObj) => {
+    setPatient(userObj);
+    setComponentInView(TRACING_TABLE);
   };
 
   return (
@@ -87,6 +92,23 @@ function Card({ fullObj }) {
             onClick={() => viewDetailsHandler(fullObj)}
           >
             Details
+          </Button>
+        </Center>
+        <Center>
+          <Button
+            marginTop="1rem"
+            display={
+              user.userType === "health_official" && userType === "patient"
+                ? "block"
+                : "none"
+            }
+            variant="solid"
+            size="sm"
+            colorScheme="teal"
+            w="full"
+            onClick={() => viewTracingDetails(fullObj)}
+          >
+            Contact Trace
           </Button>
         </Center>
         <Center>

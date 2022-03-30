@@ -6,6 +6,8 @@ import {
   ALL_USERS_TABLE,
   PATIENTS_TABLE,
   STATUSES_TABLE,
+  TRACING_TABLE,
+  PATIENTS_TRACING_TABLE,
   DOCTORS_TABLE,
   HEALTH_OFFICIALS_TABLE,
   IMMIGRATION_OFFICERS_TABLE,
@@ -24,9 +26,10 @@ import GenericForm from "../GenericForm";
 import DefaultView from "../DefaultView";
 import NotificationList from "../NotificationList";
 import AllPatientsStatus from "../medicaldoctor/AllPatientsStatus";
+import SinglePatientTracing from "../healthofficial/SinglePatientTracing";
 
 export default function MainDashView() {
-  const { componentInView, user } = useAppContext();
+  const { componentInView, tracedPatients, user } = useAppContext();
   const {
     users,
     patients,
@@ -195,6 +198,10 @@ export default function MainDashView() {
         return <CardGrid payload={filteredPatients} />;
       case STATUSES_TABLE:
         return <AllPatientsStatus />;
+      case TRACING_TABLE:
+        return <SinglePatientTracing />;
+      case PATIENTS_TRACING_TABLE:
+        return <CardGrid payload={tracedPatients} />;
       case DOCTORS_TABLE:
         return <CardGrid payload={filteredDoctors} />;
       case HEALTH_OFFICIALS_TABLE:
@@ -221,6 +228,7 @@ export default function MainDashView() {
     }
   }, [
     filteredPatients,
+    tracedPatients,
     componentInView,
     filteredAdmins,
     filteredBusinesses,
@@ -243,7 +251,8 @@ export default function MainDashView() {
         optionClicked={(e) => checkedHandler(e)}
         searchListener={(e) => searchHandler(e)}
       />
-      {componentInView === STATUSES_TABLE ? (
+      {componentInView === STATUSES_TABLE ||
+      componentInView === TRACING_TABLE ? (
         <Box margin="2rem">{renderComponent()}</Box>
       ) : (
         <Grid
