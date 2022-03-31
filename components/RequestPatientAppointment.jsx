@@ -1,6 +1,7 @@
 import { ViewIcon } from "@chakra-ui/icons";
 import {
   Button,
+  createStandaloneToast,
   FormControl,
   FormErrorMessage,
   FormHelperText,
@@ -19,18 +20,51 @@ import {
 import { SingleDatepicker } from "chakra-dayzed-datepicker";
 
 import { useState } from "react";
-// import { useAppContext } from "../context/AppContext";
+import { useAppContext } from "../context/AppContext";
 
 function RequestPatientAppointment({ patientData }) {
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [selectedTime, setSelectedTime] = useState("");
   const [isError, setIsError] = useState(false);
-  console.log({ selectedTime, patientData });
   const { isOpen, onOpen, onClose } = useDisclosure();
-  // const { supabase, setError, user } = useAppContext();
+  const { supabase, setError, user } = useAppContext();
 
   const [location, setLocation] = useState("");
   const [notes, setNotes] = useState("");
+  const [subject, setSubject] = useState("");
+
+  const submitAppointment = async () => {
+    const appointmentDetails = {
+      patientId: patientData.id,
+      doctorId: user.id,
+      subject,
+      date: selectedDate,
+      location,
+      notes,
+    };
+
+    const answer = await supabase.scheduleAppointment(appointmentDetails);
+
+    if (answer.error) {
+      setError(answer.error);
+      return;
+    }
+
+    const toast = createStandaloneToast();
+
+    toast({
+      title: "Scheduled successfully!",
+      description:
+        "appointment have been requested successfully, patient will be notified",
+      status: "success",
+      duration: 9000,
+      isClosable: true,
+    });
+  };
+
+  const subjectChangeHandler = (e) => {
+    const inputValue = e.target.value;
+    setSubject(inputValue);
+  };
 
   const notesChangeHandler = (e) => {
     const inputValue = e.target.value;
@@ -46,7 +80,6 @@ function RequestPatientAppointment({ patientData }) {
     const time = e.target.value;
     const isValid = time.match("^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$");
     setIsError(isValid === null);
-    setSelectedTime(time);
     if (isValid) {
       const timeArray = time.split(":");
       selectedDate.setHours(timeArray[0], timeArray[1]);
@@ -71,6 +104,7 @@ function RequestPatientAppointment({ patientData }) {
               <Input
                 id="subject"
                 placeholder="Appointment title here ..."
+                onChange={(e) => subjectChangeHandler(e)}
                 bg="white"
                 size="lg"
               />
@@ -154,7 +188,9 @@ function RequestPatientAppointment({ patientData }) {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue">Schedule Appointment</Button>
+            <Button colorScheme="blue" onClick={submitAppointment}>
+              Schedule Appointment
+            </Button>
             <Button colorScheme="red" ml={3} onClick={onClose}>
               Close
             </Button>
