@@ -332,6 +332,30 @@ export default class SupaClient {
     return { data };
   }
 
+  async getAppointments(userId, userType) {
+    const { data, error } = await this.client
+      .from("appointments")
+      .select("*")
+      .match(
+        userType === "doctor" ? { doctorId: userId } : { patientId: userId }
+      );
+    if (error) {
+      return { error };
+    }
+    return { data };
+  }
+
+  async setAppointmentStatus(id, value) {
+    const { data, error } = await this.client
+      .from("appointments")
+      .update({ status: value })
+      .match({ id });
+    if (error) {
+      return { error };
+    }
+    return { data };
+  }
+
   async supaAddUser(type, firstname, middlename, lastname, email, password) {
     const { user, error } = await this.client.auth.signUp({
       email,
