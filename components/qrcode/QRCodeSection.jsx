@@ -1,18 +1,15 @@
 import { VStack, Text } from "@chakra-ui/react";
 import QRCode from "qrcode.react";
+
 import { useAppContext } from "../../context/AppContext";
 
 function QRCodeSection() {
   const { user } = useAppContext();
 
+  const url = `${window.location.href}?id=${user.id}`;
+
   const generateQR = (
-    <QRCode
-      size={300}
-      value={user.id}
-      bgColor="white"
-      fgColor="black"
-      level="H"
-    />
+    <QRCode size={300} value={url} bgColor="white" fgColor="black" level="H" />
   );
 
   return (
@@ -20,7 +17,7 @@ function QRCodeSection() {
       <Text fontSize="5xl" fontFamily="opensans-extrabold" color="#fff">
         {user?.firstname} {user?.lastname}
       </Text>
-      {generateQR}
+      {user.userType === "patient" ? generateQR : ""}
     </VStack>
   );
 }
