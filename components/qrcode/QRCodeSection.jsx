@@ -1,10 +1,13 @@
 import { VStack, Text } from "@chakra-ui/react";
 import QRCode from "qrcode.react";
-
+import { useRouter } from "next/router";
 import { useAppContext } from "../../context/AppContext";
 
 function QRCodeSection() {
   const { user } = useAppContext();
+  const router = useRouter();
+  const { query } = router;
+  const { id } = query;
 
   const url = `${window.location.href}?id=${user.id}`;
 
@@ -17,7 +20,7 @@ function QRCodeSection() {
       <Text fontSize="5xl" fontFamily="opensans-extrabold" color="#fff">
         {user?.firstname} {user?.lastname}
       </Text>
-      {user.userType === "patient" ? generateQR : ""}
+      {user.userType === "patient" ? generateQR : <Text>{id}</Text>}
     </VStack>
   );
 }
