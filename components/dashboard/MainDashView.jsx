@@ -18,6 +18,7 @@ import {
   PATIENTS_STATUS,
   DEFAULT_VIEW,
   NOTIFICATION,
+  APPOINTMENT,
 } from "../../utils/types";
 import CardGrid from "../CardsGrid";
 import CardDetails from "../CardDetails";
@@ -27,6 +28,7 @@ import DefaultView from "../DefaultView";
 import NotificationList from "../NotificationList";
 import AllPatientsStatus from "../medicaldoctor/AllPatientsStatus";
 import SinglePatientTracing from "../healthofficial/SinglePatientTracing";
+import AppointmentsView from "../AppointmentsView";
 
 export default function MainDashView() {
   const { componentInView, tracedPatients, user } = useAppContext();
@@ -45,7 +47,6 @@ export default function MainDashView() {
     noDoc: false,
     symptoms: false,
   });
-
   const [filteredPatients, setFilteredPatients] = useState([...patients]);
   const [filteredUsers, setFilteredUsers] = useState([...users]);
   const [filteredBusinesses, setFilteredBusinesses] = useState([...businesses]);
@@ -220,6 +221,8 @@ export default function MainDashView() {
         return <GenericForm userId={user.id} viewType="patientStatus" />;
       case NOTIFICATION:
         return <NotificationList />;
+      case APPOINTMENT:
+        return <AppointmentsView />;
       case DEFAULT_VIEW:
         return <DefaultView user={user} />;
 
@@ -242,7 +245,8 @@ export default function MainDashView() {
     componentInView === PATIENT_UPDATE_INFO ||
     componentInView === PATIENTS_STATUS ||
     componentInView === DEFAULT_VIEW ||
-    componentInView === NOTIFICATION ? (
+    componentInView === NOTIFICATION ||
+    componentInView === APPOINTMENT ? (
     <>{renderComponent()}</>
   ) : (
     <>

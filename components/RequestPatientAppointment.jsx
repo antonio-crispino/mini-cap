@@ -25,12 +25,13 @@ import { useAppContext } from "../context/AppContext";
 function RequestPatientAppointment({ patientData }) {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isError, setIsError] = useState(false);
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const { supabase, setError, user } = useAppContext();
 
   const [location, setLocation] = useState("");
   const [notes, setNotes] = useState("");
   const [subject, setSubject] = useState("");
+
+  const { supabase, setError, user } = useAppContext();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const submitAppointment = async () => {
     const appointmentDetails = {
