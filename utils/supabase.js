@@ -165,7 +165,9 @@ export default class SupaClient {
   }
 
   async supaGetBusinesses() {
-    return this.client.from("businesses").select("*, userInfo: users(*)");
+    return this.client
+      .from("businesses")
+      .select("*, userInfo: users!businesses_ownerId_fkey(*)");
   }
 
   async supaGetMedicalDoctors() {
@@ -236,6 +238,31 @@ export default class SupaClient {
       subjectId,
       info: message,
       isPriority,
+    });
+    return error;
+  }
+
+  async supaSendMessage(conversationId, senderId, text) {
+    const { error } = await this.client.from("messages").insert({
+      conversationId,
+      senderId,
+      text,
+    });
+    return error;
+  }
+
+  async supaReadMessage(messageId) {
+    const { error } = await this.client
+      .from("messages")
+      .update({ read: true })
+      .match({ id: messageId });
+    return error;
+  }
+
+  async supaCreateNewConversation(patientId, doctorId) {
+    const { error } = await this.client.from("conversations").insert({
+      patientId,
+      doctorId,
     });
     return error;
   }
