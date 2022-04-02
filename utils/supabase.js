@@ -347,4 +347,51 @@ export default class SupaClient {
 
     return error;
   }
+
+  async getBusinessID(businessUserID) {
+    const business = await this.client
+      .from("businesses")
+      .select("*")
+      .eq("ownerId", businessUserID);
+
+    const obj = business.data[0];
+    return obj.id;
+  }
+
+  async addQRCodeEntry(businessUserID, patientID) {
+    const businessID = await this.getBusinessID(businessUserID);
+    const error = await this.client.from("scanned_qrcodes").insert([
+      {
+        id_business: businessID,
+        id_patient: patientID,
+      },
+    ]);
+
+    return error;
+  }
+
+  async updateQRCodeEntry(businessUserID, patientID) {
+    const businessID = await this.getBusinessID(businessUserID);
+
+    const exitedAt = {
+      exited_at: new Date().toISOString().toLocaleString("zh-TW"),
+    };
+    const matchData = {
+      id_business: businessID,
+      id_patient: patientID,
+    };
+
+    const { data, error } = await this.client
+      .from("scanned_qrcodes")
+      .update({
+        ...exitedAt,
+      })
+      .match({ ...matchData })
+      .is("exited_at", null);
+    if (error) {
+      return { error };
+    }
+
+    return { data };
+  }
 }
