@@ -54,8 +54,11 @@ export default function DashboardTopBar() {
 
       {user.userType === "patient" &&
       (user.address === "" ||
-        user.phonenumber === null ||
-        user.dateofbirth === null)
+        user.address === null ||
+        user.phonenumber === "" ||
+        user.address === null ||
+        user.dateofbirth === "" ||
+        user.dateofbirth == null)
         ? PatientInformationAlert()
         : null}
 
