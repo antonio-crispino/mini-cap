@@ -1,18 +1,44 @@
-import { VStack, Text, Button, Stack } from "@chakra-ui/react";
+import {
+  VStack,
+  Text,
+  Button,
+  Stack,
+  createStandaloneToast,
+} from "@chakra-ui/react";
 import QRCode from "qrcode.react";
 import { useRouter } from "next/router";
 import { useAppContext } from "../../context/AppContext";
+// import supabase from "../../utils/supabase";
 
 function QRCodeSection() {
-  const { user } = useAppContext();
+  const { user, setError, supabase } = useAppContext();
   const router = useRouter();
   const { query } = router;
-  const { firstname, lastname } = query;
+  const { id, firstname, lastname } = query;
 
-  const url = `${window.location.href}?id=${user.id}`;
+  const url = `http://192.168.2.248:3000/qrcode?id=${user.id}&firstname=${user?.firstname}&lastname=${user?.lastname}`;
+
   const generateQR = (
     <QRCode size={300} value={url} bgColor="white" fgColor="black" level="H" />
   );
+
+  const createVisitEntry = async (businessID, visitorID) => {
+    const answer = await supabase.addQRCodeEntry(businessID, visitorID);
+    if (answer.error) {
+      setError(answer.error);
+      return;
+    }
+
+    const toast = createStandaloneToast();
+
+    toast({
+      title: "Entry Creation Successful!",
+      description: "Visitor details have been created",
+      status: "success",
+      duration: 9000,
+      isClosable: true,
+    });
+  };
 
   return (
     <VStack>
@@ -48,6 +74,7 @@ function QRCodeSection() {
               color="white"
               colorScheme="green"
               type="submit"
+              onClick={() => createVisitEntry(user.id, id)}
               px={9}
             >
               Entered
@@ -57,7 +84,6 @@ function QRCodeSection() {
               size="lg"
               color="white"
               colorScheme="red"
-              type="submit"
               px={9}
             >
               Exited
