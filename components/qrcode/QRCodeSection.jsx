@@ -8,7 +8,6 @@ import {
 import QRCode from "qrcode.react";
 import { useRouter } from "next/router";
 import { useAppContext } from "../../context/AppContext";
-// import supabase from "../../utils/supabase";
 
 function QRCodeSection() {
   const { user, setError, supabase } = useAppContext();
@@ -16,7 +15,7 @@ function QRCodeSection() {
   const { query } = router;
   const { id, firstname, lastname } = query;
 
-  const url = `http://192.168.2.248:3000/qrcode?id=${user.id}&firstname=${user?.firstname}&lastname=${user?.lastname}`;
+  const url = `${window.location.href}?id=${user.id}&firstname=${user?.firstname}&lastname=${user?.lastname}`;
 
   const generateQR = (
     <QRCode size={300} value={url} bgColor="white" fgColor="black" level="H" />
@@ -34,6 +33,24 @@ function QRCodeSection() {
     toast({
       title: "Entry Creation Successful!",
       description: "Visitor details have been created",
+      status: "success",
+      duration: 9000,
+      isClosable: true,
+    });
+  };
+
+  const updateVisitEntry = async (businessID, visitorID) => {
+    const answer = await supabase.updateQRCodeEntry(businessID, visitorID);
+    if (answer.error) {
+      setError(answer.error);
+      return;
+    }
+
+    const toast = createStandaloneToast();
+
+    toast({
+      title: "Visitor Exited!",
+      description: "Visitor details have been updated",
       status: "success",
       duration: 9000,
       isClosable: true,
@@ -84,6 +101,8 @@ function QRCodeSection() {
               size="lg"
               color="white"
               colorScheme="red"
+              type="submit"
+              onClick={() => updateVisitEntry(user.id, id)}
               px={9}
             >
               Exited

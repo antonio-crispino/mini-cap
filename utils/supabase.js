@@ -351,4 +351,29 @@ export default class SupaClient {
 
     return error;
   }
+
+  async updateQRCodeEntry(businessUserID, patientID) {
+    const businessID = await this.getBusinessID(businessUserID);
+
+    const exitedAt = {
+      exited_at: new Date().toISOString().toLocaleString("zh-TW"),
+    };
+    const matchData = {
+      id_business: businessID,
+      id_patient: patientID,
+    };
+
+    const { data, error } = await this.client
+      .from("scanned_qrcodes")
+      .update({
+        ...exitedAt,
+      })
+      .match({ ...matchData })
+      .is("exited_at", null);
+    if (error) {
+      return { error };
+    }
+
+    return { data };
+  }
 }
