@@ -38,6 +38,7 @@ import {
   ALL_USERS_TABLE,
   PATIENTS_TABLE,
   STATUSES_TABLE,
+  HISTORY_TABLE,
   DOCTORS_TABLE,
   HEALTH_OFFICIALS_TABLE,
   IMMIGRATION_OFFICERS_TABLE,
@@ -158,6 +159,14 @@ export default function DashboardDrawer() {
       ref: statusesRef,
       hovered: isStatusesHovered,
       onClick: () => setComponentInView(STATUSES_TABLE),
+    },
+    {
+      name: "Statuses History",
+      icon: MdFace,
+      hoverIcon: MdOutlineFace,
+      ref: statusesRef,
+      hovered: isStatusesHovered,
+      onClick: () => setComponentInView(HISTORY_TABLE),
     },
   ];
 
