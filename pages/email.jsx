@@ -1,6 +1,8 @@
 import { Container, VStack, Flex, Button, Icon } from "@chakra-ui/react";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
 import { useRouter } from "next/router";
+
+import withAuth from "../components/WithAuth";
 import EmailForm from "../components/EmailFrom";
 import SideSection from "../components/SideSection";
 
@@ -16,15 +18,18 @@ function EmailPage() {
       backgroundRepeat="no-repeat"
     >
       <Flex h="100vh" w="100vw">
-        <VStack>
-          <SideSection />
-        </VStack>{" "}
         <VStack
-          //   justifyContent="center"
-          //   minH="90vh"
-          //   minW="60%"
+          display={{ base: "none", lg: "block" }}
           w={{
-            base: "100%", // 0-48em
+            lg: "45%",
+          }}
+          h="full"
+        >
+          <SideSection />
+        </VStack>
+        <VStack
+          w={{
+            base: "100%",
             lg: "60%",
           }}
           h="full"
@@ -57,4 +62,4 @@ function EmailPage() {
   );
 }
 
-export default EmailPage;
+export default withAuth(EmailPage);

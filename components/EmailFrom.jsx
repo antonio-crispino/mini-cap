@@ -6,8 +6,10 @@ import {
   Input,
   Button,
   Textarea,
+  Box,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import { useAppContext } from "../context/AppContext";
 
 function EmailForm() {
   const [email, setEmail] = useState("");
@@ -22,6 +24,8 @@ function EmailForm() {
   const subjectError = subject === "";
   const messageError = message === "";
 
+  const { user } = useAppContext();
+
   return (
     <FormControl
       bg="white"
@@ -29,21 +33,19 @@ function EmailForm() {
       padding="5"
       isInvalid={emailError || subjectError || messageError}
       boxShadow="dark-lg"
+      rounded="md"
     >
-      <FormLabel htmlFor="subject">Subject</FormLabel>
-      <Input
-        id="subject"
-        type="subject"
-        value={subject}
-        onChange={handleSubjectChange}
-        placeholder="Subject"
-      />
-      {!subjectError ? (
-        <FormHelperText>Enter Subject.</FormHelperText>
-      ) : (
-        <FormErrorMessage>Subject is required.</FormErrorMessage>
-      )}
-      <FormLabel htmlFor="recipient-email">Email</FormLabel>
+      <FormLabel htmlFor="subject">From:</FormLabel>
+      <Box
+        boxShadow="xs"
+        rounded="md"
+        padding="1.5"
+        paddingLeft="4"
+        textAlign="left"
+      >
+        {user?.email}{" "}
+      </Box>
+      <FormLabel htmlFor="recipient-email">To:</FormLabel>
       <Input
         id="recipient-email"
         type="email"
@@ -55,8 +57,21 @@ function EmailForm() {
         <FormHelperText>Enter the recipients email.</FormHelperText>
       ) : (
         <FormErrorMessage>Email is required.</FormErrorMessage>
+      )}{" "}
+      <FormLabel htmlFor="subject">Subject:</FormLabel>
+      <Input
+        id="subject"
+        type="subject"
+        value={subject}
+        onChange={handleSubjectChange}
+        placeholder="Subject"
+      />
+      {!subjectError ? (
+        <FormHelperText>Enter subject.</FormHelperText>
+      ) : (
+        <FormErrorMessage>Subject is required.</FormErrorMessage>
       )}
-      <FormLabel htmlFor="message">Message</FormLabel>
+      <FormLabel htmlFor="message">Message:</FormLabel>
       <Textarea
         id="message"
         type="message"
@@ -65,7 +80,7 @@ function EmailForm() {
         placeholder="Type your message here."
       />
       {!messageError ? (
-        <FormHelperText>Enter a message..</FormHelperText>
+        <FormHelperText>Enter a message.</FormHelperText>
       ) : (
         <FormErrorMessage>Message is required.</FormErrorMessage>
       )}
