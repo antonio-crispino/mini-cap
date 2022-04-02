@@ -209,6 +209,20 @@ export default class SupaClient {
     return this.client.from("users").update(obj).match({ id });
   }
 
+  async supaGetPatientTraces(patientId) {
+    return this.client
+      .from("scanned_qrcodes")
+      .select("*")
+      .match({ id_patient: patientId });
+  }
+
+  async supaGetTracedPatients(businessId) {
+    return this.client
+      .from("scanned_qrcodes")
+      .select("*")
+      .match({ id_business: businessId });
+  }
+
   async supaRequestPatientUpdate(
     id,
     doctorId,
