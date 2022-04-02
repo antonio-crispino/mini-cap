@@ -1,30 +1,30 @@
 import { Button, useControllableState } from "@chakra-ui/react";
 import { useAppContext } from "../context/AppContext";
 
-function Flag ({ ... card_details }) {
+function HealthOfficialFlag ({ ... card_details }) {
   const { supabase } = useAppContext();
-  const [flagValue = card_details.healthFlag, setState] = useControllableState(
+  const [healthFlagValue = card_details.healthFlag, setState] = useControllableState(
     card_details.healthFlag
   );
-  const updateFlag = () => {
-    setState(!flagValue);
+  const updateHealthFlag = () => {
+    setState(!healthFlagValue);
 
-    const flagUpdate = {
-      healthFlag: !flagValue,
+    const healthFlagUpdate = {
+      healthFlag: !healthFlagValue,
     };
     const matchId = {
       id: card_details.id,
     };
-    supabase.updateTableBy("card_details", flagUpdate, matchId);
+    supabase.updateTableBy("card_details", healthFlagUpdate, matchId);
   };
 
   return (
     <Button
-      colorScheme={flagValue ? "blue" : "red"}
-      onClick={updateFlag}
+      colorScheme={healthFlagValue ? "blue" : "red"}
+      onClick={updateHealthFlag}
       type="button"
     >
-      {flagValue ? "Unflag" : "Flag"}
+      {healthFlagValue ? "Unflag" : "Flag"}
     </Button>
   );
 }
