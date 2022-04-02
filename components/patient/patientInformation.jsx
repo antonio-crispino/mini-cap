@@ -25,9 +25,10 @@ function PatientInformationAlert() {
       borderRadius={10}
     >
       <AlertIcon />
-      <AlertTitle mr={2}>User Alert!</AlertTitle>
+      <AlertTitle mr={2}>IMPORTANT! Update Personal Information.</AlertTitle>
       <AlertDescription>
-        Please update your personal information
+        For contact tracing and identification, please complete the user details
+        form on your account.
       </AlertDescription>
       <Spacer />
       <Button colorScheme="red" onClick={updateButtonHandler}>

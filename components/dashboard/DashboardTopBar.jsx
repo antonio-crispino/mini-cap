@@ -56,7 +56,7 @@ export default function DashboardTopBar() {
       (user.address === "" ||
         user.phonenumber === null ||
         user.dateofbirth === null)
-        ? PatientInformationAlert(user)
+        ? PatientInformationAlert()
         : null}
 
       <Box position="relative" mr={1}>
