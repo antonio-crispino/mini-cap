@@ -29,7 +29,6 @@ function CredentialsForm() {
   const { update, user } = useAppContext();
 
   const submitChange = async ({ newfirstname, newlastname }) => {
-    console.log(newfirstname);
     await update(user.email, newfirstname, newlastname);
     return Router.reload(window.location.pathname);
   };
