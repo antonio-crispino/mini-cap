@@ -165,7 +165,9 @@ export default class SupaClient {
   }
 
   async supaGetBusinesses() {
-    return this.client.from("businesses").select("*, userInfo: users(*)");
+    return this.client
+      .from("businesses")
+      .select("*, userInfo: users!businesses_ownerId_fkey(*)");
   }
 
   async supaGetMedicalDoctors() {
@@ -209,6 +211,20 @@ export default class SupaClient {
     return this.client.from("users").update(obj).match({ id });
   }
 
+  async supaGetPatientTraces(patientId) {
+    return this.client
+      .from("scanned_qrcodes")
+      .select("*")
+      .match({ id_patient: patientId });
+  }
+
+  async supaGetTracedPatients(businessId) {
+    return this.client
+      .from("scanned_qrcodes")
+      .select("*")
+      .match({ id_business: businessId });
+  }
+
   async supaRequestPatientUpdate(
     id,
     doctorId,
@@ -240,6 +256,31 @@ export default class SupaClient {
       subjectId,
       info: message,
       isPriority,
+    });
+    return error;
+  }
+
+  async supaSendMessage(conversationId, senderId, text) {
+    const { error } = await this.client.from("messages").insert({
+      conversationId,
+      senderId,
+      text,
+    });
+    return error;
+  }
+
+  async supaReadMessage(messageId) {
+    const { error } = await this.client
+      .from("messages")
+      .update({ read: true })
+      .match({ id: messageId });
+    return error;
+  }
+
+  async supaCreateNewConversation(patientId, doctorId) {
+    const { error } = await this.client.from("conversations").insert({
+      patientId,
+      doctorId,
     });
     return error;
   }
@@ -332,5 +373,52 @@ export default class SupaClient {
     }
 
     return error;
+  }
+
+  async getBusinessID(businessUserID) {
+    const business = await this.client
+      .from("businesses")
+      .select("*")
+      .eq("ownerId", businessUserID);
+
+    const obj = business.data[0];
+    return obj.id;
+  }
+
+  async addQRCodeEntry(businessUserID, patientID) {
+    const businessID = await this.getBusinessID(businessUserID);
+    const error = await this.client.from("scanned_qrcodes").insert([
+      {
+        id_business: businessID,
+        id_patient: patientID,
+      },
+    ]);
+
+    return error;
+  }
+
+  async updateQRCodeEntry(businessUserID, patientID) {
+    const businessID = await this.getBusinessID(businessUserID);
+
+    const exitedAt = {
+      exited_at: new Date().toISOString().toLocaleString("zh-TW"),
+    };
+    const matchData = {
+      id_business: businessID,
+      id_patient: patientID,
+    };
+
+    const { data, error } = await this.client
+      .from("scanned_qrcodes")
+      .update({
+        ...exitedAt,
+      })
+      .match({ ...matchData })
+      .is("exited_at", null);
+    if (error) {
+      return { error };
+    }
+
+    return { data };
   }
 }

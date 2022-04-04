@@ -13,7 +13,7 @@ import {
   Circle,
 } from "@chakra-ui/react";
 import { MdAccountCircle, MdOutlineAccountCircle } from "react-icons/md";
-import { AiFillBell, AiOutlineBell, AiOutlineMail } from "react-icons/ai";
+import { AiFillBell, AiOutlineBell, AiOutlineMessage, AiOutlineMail } from "react-icons/ai";
 
 import { useRouter } from "next/router";
 import { useAppContext } from "../../context/AppContext";
@@ -59,6 +59,13 @@ export default function DashboardTopBar() {
         icon={<AiOutlineMail />}
         fontSize="1.4rem"
         onClick={() => router.push("/email")}
+        marginRight="0.25rem"
+        alignItems="center"
+      />
+      <IconButton
+        icon={<AiOutlineMessage />}
+        fontSize="1.4rem"
+        onClick={() => router.push("/messenger")}
         marginRight="0.25rem"
         alignItems="center"
       />

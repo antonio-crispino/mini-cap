@@ -9,7 +9,6 @@ function Flag({ ...notification }) {
 
   const updateFlag = () => {
     setState(!flagValue);
-    console.log(!flagValue);
 
     const flagUpdate = {
       flag: !flagValue,
@@ -21,7 +20,7 @@ function Flag({ ...notification }) {
   };
 
   return (
-    <Checkbox colorScheme="red" onChange={updateFlag} isChecked={flagValue ? true : false}>
+    <Checkbox colorScheme="red" onChange={updateFlag} isChecked={!!flagValue}>
       FLAG
     </Checkbox>
   );
