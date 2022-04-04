@@ -57,7 +57,6 @@ function EmailPage() {
           </Button>
         </VStack>
       </Flex>
-      ;
     </Container>
   );
 }

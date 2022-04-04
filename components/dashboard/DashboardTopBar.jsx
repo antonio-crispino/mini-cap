@@ -51,9 +51,16 @@ export default function DashboardTopBar() {
 
       <Spacer />
       <IconButton
+        display={
+          user.userType === "patient" || user.userType === "doctor"
+            ? "flex"
+            : "none"
+        }
         icon={<AiOutlineMail />}
         fontSize="1.4rem"
         onClick={() => router.push("/email")}
+        marginRight="0.25rem"
+        alignItems="center"
       />
       <Box position="relative" mr={1}>
         <IconButton

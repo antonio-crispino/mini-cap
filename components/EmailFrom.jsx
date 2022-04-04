@@ -26,6 +26,18 @@ function EmailForm() {
 
   const { user } = useAppContext();
 
+  const newEmail = () => `
+      mailto:${email}?
+      &subject= ${subject}
+      &body=${message}
+      %0D
+      %0D%0AAnti-Covid Web App. 
+    `;
+
+  const sendEmail = async () => {
+    window.open(newEmail());
+  };
+
   return (
     <FormControl
       bg="white"
@@ -45,6 +57,7 @@ function EmailForm() {
       >
         {user?.email}{" "}
       </Box>
+      <FormHelperText>Your email.</FormHelperText>
       <FormLabel htmlFor="recipient-email">To:</FormLabel>
       <Input
         id="recipient-email"
@@ -54,7 +67,7 @@ function EmailForm() {
         placeholder="Recipient's Email"
       />
       {!emailError ? (
-        <FormHelperText>Enter the recipients email.</FormHelperText>
+        <FormHelperText>Enter the recipient&apos;s email.</FormHelperText>
       ) : (
         <FormErrorMessage>Email is required.</FormErrorMessage>
       )}{" "}
@@ -77,6 +90,7 @@ function EmailForm() {
         type="message"
         value={message}
         onChange={handleMessageChange}
+        maxH="5rem"
         placeholder="Type your message here."
       />
       {!messageError ? (
@@ -87,8 +101,8 @@ function EmailForm() {
       <Button
         mt={4}
         colorScheme="green"
-        // isLoading={props.isSubmitting}
         type="submit"
+        onClick={() => sendEmail()}
       >
         Send Email
       </Button>
