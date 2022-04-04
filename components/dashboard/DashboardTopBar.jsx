@@ -21,7 +21,7 @@ import { useAppContext } from "../../context/AppContext";
 import DashboardDrawer from "./DashboardDrawer";
 import useHover from "../../hooks/useHover";
 import { NOTIFICATION } from "../../utils/types";
-import PatientInformationAlert from "../patient/patientInformation";
+import PatientInformationAlert from "../patient/PatientInformation";
 
 export default function DashboardTopBar() {
   const { user, logout, setComponentInView } = useAppContext();
@@ -49,19 +49,8 @@ export default function DashboardTopBar() {
     >
       <DashboardDrawer />
       <Box marginLeft={3}>ANTI COVID</Box>
-
       <Spacer />
-
-      {user.userType === "patient" &&
-      (user.address === "" ||
-        user.address === null ||
-        user.phonenumber === "" ||
-        user.address === null ||
-        user.dateofbirth === "" ||
-        user.dateofbirth == null)
-        ? PatientInformationAlert()
-        : null}
-
+      {PatientInformationAlert(user)}
       <Box position="relative" mr={1}>
         <IconButton
           ref={notificationIconRef}
