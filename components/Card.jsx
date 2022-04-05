@@ -2,15 +2,21 @@ import { Badge, Box, Button, Center, Image, Text } from "@chakra-ui/react";
 
 import { useAppContext } from "../context/AppContext";
 import { CARD_DETAILS } from "../utils/types";
+import HealthOfficialFlag from "./HealthOfficialFlag";
+
+import { useDataContext } from "../context/DataContext";
 
 function Card({ fullObj }) {
-  const { setExpandedCard, setComponentInView } = useAppContext();
+  const { setExpandedCard, setComponentInView, user } = useAppContext();
   const { userInfo } = fullObj;
   const { userType, firstname, lastname, email } = userInfo || fullObj;
   const { symptoms, doctorId } = fullObj || {
     symptoms: false,
     doctorId: false,
   };
+
+  const { patients } = useDataContext();
+  console.log(patients, "Patients error");
 
   const viewDetailsHandler = (userObj) => {
     let passedCardDetails = { ...userObj };
@@ -65,6 +71,16 @@ function Card({ fullObj }) {
           <Text>{email}</Text>
         </Center>
       </Box>
+
+      {(user.userType === "health_official" ||
+        user.userType === "immigration_officer") && (
+        <Box p={1}>
+          <Center>
+            <HealthOfficialFlag patients={fullObj} />
+          </Center>
+        </Box>
+      )}
+
       <Box p={5}>
         <Center>
           <Button

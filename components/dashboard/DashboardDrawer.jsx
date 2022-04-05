@@ -180,6 +180,17 @@ export default function DashboardDrawer() {
     },
   ];
 
+  const immigrationOfficerOptions = [
+    {
+      name: "Patients",
+      icon: MdFace,
+      hoverIcon: MdOutlineFace,
+      ref: patientsRef,
+      hovered: isPatientsHovered,
+      onClick: () => setComponentInView(PATIENTS_TABLE),
+    },
+  ];
+
   useEffect(() => {
     switch (user.userType) {
       case "admin":
@@ -193,6 +204,9 @@ export default function DashboardDrawer() {
         break;
       case "health_official":
         setCurrentOpt(healthOfficialOptions);
+        break;
+      case "immigration_officer":
+        setCurrentOpt(immigrationOfficerOptions);
         break;
       default:
         break;

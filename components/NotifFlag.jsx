@@ -7,7 +7,7 @@ function Flag({ ...notification }) {
     notification.flag
   );
 
-  const updateFlag = () => {
+  const updateFlag = async () => {
     setState(!flagValue);
     console.log(!flagValue);
 
@@ -17,11 +17,11 @@ function Flag({ ...notification }) {
     const matchId = {
       id: notification.id,
     };
-    supabase.updateTableBy("notifications", flagUpdate, matchId);
+    await supabase.updateTableBy("notifications", flagUpdate, matchId);
   };
 
   return (
-    <Checkbox colorScheme="red" onChange={updateFlag} isChecked={flagValue ? true : false}>
+    <Checkbox colorScheme="red" onChange={updateFlag} isChecked={!!flagValue}>
       FLAG
     </Checkbox>
   );
