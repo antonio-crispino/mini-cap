@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { Box, Grid } from "@chakra-ui/react";
+import { Box, Grid, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../context/AppContext";
 import { useDataContext } from "../context/DataContext";
@@ -43,13 +43,18 @@ function AppointmentsView() {
         minW="100%"
         bg="linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.55))"
       >
-        {myAppointments &&
+        {(myAppointments && myAppointments.length) > 0 ? (
           myAppointments.map((appointment, index) => (
             <Appointment
               key={`app${appointment.patientId}${appointment.subject}${index}`}
               appointment={appointment}
             />
-          ))}
+          ))
+        ) : (
+          <Text fontSize="3xl" color="white">
+            No Scheduled Appointments!
+          </Text>
+        )}
       </Grid>
     </Box>
   );

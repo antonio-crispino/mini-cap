@@ -175,7 +175,7 @@ function RequestPatientAppointment({ patientData }) {
                 value={location}
                 onChange={(e) => locationChangeHandler(e)}
                 onFocus={(e) => locationChangeHandler(e)}
-                placeholder="Here is a sample placeholder"
+                placeholder="Location of appointment (zoom link, address ..etc)"
                 size="lg"
               />
               <FormHelperText>
@@ -191,7 +191,7 @@ function RequestPatientAppointment({ patientData }) {
                 id="notes"
                 value={notes}
                 onChange={(e) => notesChangeHandler(e)}
-                placeholder="Here is a sample placeholder"
+                placeholder="Write any additional details here"
                 size="lg"
               />
               <FormHelperText>
