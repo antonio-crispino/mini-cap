@@ -5,11 +5,12 @@ import {
   AlertDescription,
   Button,
   Spacer,
+  Box,
 } from "@chakra-ui/react";
 import { useAppContext } from "../../context/AppContext";
 import { PATIENT_UPDATE_INFO } from "../../utils/types";
 
-function PatientInformationAlert(user) {
+function PatientInformationAlert({ user }) {
   const { setComponentInView } = useAppContext();
   const updateButtonHandler = () => {
     setComponentInView(PATIENT_UPDATE_INFO);
@@ -23,30 +24,38 @@ function PatientInformationAlert(user) {
       phonenumber === "" ||
       address === null ||
       dateofbirth === "" ||
-      dateofbirth == null)
+      dateofbirth === null)
   ) {
     return (
-      <Alert
-        status="error"
-        alignItems="center"
-        justifyContent="center"
-        height="70px"
-        width="70%"
-        borderRadius={10}
-      >
-        <AlertIcon />
-        <AlertTitle mr={2}>IMPORTANT!</AlertTitle>
-        <AlertDescription>
-          For contact tracing and identification, please complete and update
-          your user details.
-        </AlertDescription>
-        <Spacer />
-        <Button colorScheme="red" onClick={updateButtonHandler}>
-          Update
-        </Button>
-      </Alert>
+      <Box maxWidth="50%" opacity={0.9} mb={5}>
+        <Alert
+          status="warning"
+          borderRadius={20}
+          p={3}
+          flexDirection="column"
+          justifyContent="center"
+          textAlign="center"
+          colorScheme="blue"
+        >
+          <AlertIcon />
+          <AlertTitle mr={2} mt={4} mb={1}>
+            IMPORTANT!
+          </AlertTitle>
+          <AlertDescription m={1}>
+            For contact tracing and identification, please complete and update
+            your user details.
+          </AlertDescription>
+          <Spacer />
+          <Button
+            minWidth="70px"
+            colorScheme="blue"
+            onClick={updateButtonHandler}
+          >
+            Update
+          </Button>
+        </Alert>
+      </Box>
     );
   }
 }
-
 export default PatientInformationAlert;
