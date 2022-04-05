@@ -1,27 +1,27 @@
-import { Tr, Td } from "@chakra-ui/react";
+import ChartTest from "./ChartTest";
 
-function PatientTableRow({
-  patientDetails,
+function ChartData({
+  // patientDetails,
   patientStatusDetails,
-  setPatientDetails,
-  setPatientStatusesVisible,
+  // setPatientDetails,
+  // setPatientStatusesVisible,
 }) {
   if (!patientStatusDetails) {
     return null;
   }
-
+  /*
   let patientName = null;
 
   if (patientDetails !== null) {
     patientName = Object.keys(patientDetails.firstname[0]).map(() => (
-      <Td key={Math.floor(Math.random() * 1000000)}>
-        <b>{`${patientDetails.firstname} ${patientDetails.middlename || ""} ${
-          patientDetails.lastname
-        }`}</b>
-      </Td>
+      <b>{`${patientDetails.firstname} ${patientDetails.middlename || ""} ${
+        patientDetails.lastname
+      }`}</b>
     ));
   }
+*/
 
+  /*
   const statusColumns = Object.keys(patientStatusDetails).map((detail) => {
     if (
       detail === "created_at" ||
@@ -31,23 +31,22 @@ function PatientTableRow({
       detail === "doctorId"
     )
       return null;
-    return (
-      <Td key={Math.floor(Math.random() * 1000000)}>
-        {patientStatusDetails[detail] || "n/a"}
-      </Td>
-    );
+    return patientStatusDetails[detail];
   });
+*/
 
+  /*
   const onClickHandler = () => {
     setPatientDetails(patientDetails);
     setPatientStatusesVisible(false);
   };
-
+*/
   return (
-    <Tr onClick={patientName !== null ? onClickHandler : null}>
-      {patientName} {statusColumns}
-    </Tr>
+    <ChartTest
+      key={Math.floor(Math.random() * 1000000)}
+      StatusData={[34, 35, 36, 37, 38, 39, 36]}
+    />
   );
 }
 
-export default PatientTableRow;
+export default ChartData;
