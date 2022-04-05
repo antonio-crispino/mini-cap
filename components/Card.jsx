@@ -12,6 +12,9 @@ function Card({ fullObj }) {
   const userFullName = `${firstname}${
     middlename ? ` ${middlename}` : ""
   } ${lastname}`;
+  const loggedInUserFullName = `${user.firstname}${
+    user.middlename ? ` ${user.middlename}` : ""
+  } ${user.lastname}`;
   const { symptoms, doctorId } = fullObj || {
     symptoms: false,
     doctorId: false,
@@ -99,6 +102,21 @@ function Card({ fullObj }) {
     }
     setContactedQuarantine((prevVal) => !prevVal);
   };
+
+  const generalEmail = () => `
+      mailto:${email}?
+      &subject=-- ENTER SUBJECT HERE --
+      &body=Dear ${userFullName},
+      %0D%0A
+      %0D%0A-- ENTER MESSAGE HERE --
+      %0D%0A
+      %0D%0ABest regards,
+      %0D%0ADr. ${loggedInUserFullName}
+      %0D%0AThe Anti-Covid Web App Team
+      %0D%0A.
+    `;
+
+  const openEmailWindow = () => window.open(generalEmail());
 
   const viewTracingDetails = (userObj) => {
     setPatient(userObj);
@@ -213,6 +231,19 @@ function Card({ fullObj }) {
             {contactedQuarantine
               ? "End Quarantine Email"
               : "Start Quarantine Email"}
+          </Button>
+        </Center>
+        <Center>
+          <Button
+            marginTop="0.5rem"
+            display={user.userType === "doctor" ? "block" : "none"}
+            variant="solid"
+            size="sm"
+            colorScheme="yellow"
+            w="full"
+            onClick={() => openEmailWindow()}
+          >
+            Send Email
           </Button>
         </Center>
       </Box>
