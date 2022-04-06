@@ -9,6 +9,7 @@ import {
   Th,
   TableCaption,
   TableContainer,
+  Flex,
 } from "@chakra-ui/react";
 import { useAppContext } from "../../context/AppContext";
 import PatientTableRow from "./PatientTableRow";
@@ -161,26 +162,29 @@ function StatusesHistory() {
     ) : null;
 
   return (
-    <Box margin="2rem">
+    <Flex
+      px={6}
+      flexDir="column"
+      justifyContent="center"
+      alignItems="center"
+      gap={10}
+      width="100%"
+      maxW="100vw"
+    >
       <Box
         backgroundColor="var(--chakra-colors-gray-100)"
         borderRadius="1rem"
-        padding="1rem"
-        margin="1rem"
-        width="calc(30% -1rem)"
+        padding={3}
+        margin={3}
+        width="100%"
+        textAlign="center"
       >
-        <b style={{ fontSize: "1.25rem" }} justifyContent="left">
+        <b style={{ fontSize: "1.25rem" }} justifyContent="center">
           My Patients History
         </b>
       </Box>
 
-      <Box
-        width="calc(80% - 1rem)"
-        margin="3rem"
-        gap="1rem"
-        flexWrap="wrap"
-        justifyContent="left"
-      >
+      <Box width="100%" gap="1rem" flexWrap="wrap" justifyContent="center">
         <TableContainer>
           <Table variant="striped" colorScheme="purple" color="black">
             <TableCaption placement="top" color="black">
@@ -229,10 +233,16 @@ function StatusesHistory() {
       >
         {chart}
       </Box>
-      <Box margin="1rem" gap="1rem" flexWrap="wrap" justifyContent="left">
+      <Box
+        margin="1rem"
+        gap="1rem"
+        flexWrap="wrap"
+        justifyContent="left"
+        color="white"
+      >
         {singlePatientStatusesItems}
       </Box>
-    </Box>
+    </Flex>
   );
 }
 
