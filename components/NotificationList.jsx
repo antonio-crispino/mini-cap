@@ -4,6 +4,7 @@ import Flag from "./NotifFlag";
 import NotifViewButton from "./NotifViewButton";
 
 // TODO: button changes view to the corresponding update
+// TODO Check priority to organize Notifications
 
 function NotificationList() {
   const { notifications } = useAppContext();
@@ -20,6 +21,17 @@ function NotificationList() {
       >
         Notifications
       </Heading>
+
+      {/* <Heading
+        alignSelf="left"
+        mb={4}
+        color="white"
+        fontSize="4xl"
+        fontFamily="opensans-extrabold"
+      >
+        Priority
+      </Heading> */}
+
       {notifications.map((notification, index) => (
         <Box
           w="100%"
