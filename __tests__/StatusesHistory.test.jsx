@@ -13,12 +13,12 @@ describe("Update status testing", () => {
   };
   describe("Check that the general UI components are rendering with correct", () => {
     it("renders the names of the patient in the patient's name field", async () => {
-      const { getById } = render(
+      const { getByTestId } = render(
         <ContextProvider mockData={{}}>
           <PatientTableRow patientsDetails={patientsDetails} testing />
         </ContextProvider>
       );
-      const getName = await getById("NameTest").value;
+      const getName = await getByTestId("NameTest").value;
 
       expect(getName).toBe("fakefirstname fakemidlename fakelastname");
     });
