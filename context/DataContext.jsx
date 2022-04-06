@@ -70,7 +70,7 @@ function DataContextProvider({ mockData, children }) {
         supabase.client.removeSubscription(subscription);
       };
     }
-  }, [currentUser?.id, users, supabase.client]);
+  }, [currentUser?.id, users, supabase?.client]);
 
   useEffect(() => {
     const getAdministrators = async () => {
@@ -100,7 +100,7 @@ function DataContextProvider({ mockData, children }) {
         supabase.client.removeSubscription(subscription);
       };
     }
-  }, [currentUser?.id, administrators, supabase.client]);
+  }, [currentUser?.id, administrators, supabase?.client]);
 
   useEffect(() => {
     const getHealthOfficials = async () => {
@@ -251,7 +251,7 @@ function DataContextProvider({ mockData, children }) {
         supabase.client.removeSubscription(subscription);
       };
     }
-  }, [currentUser?.id, immigrationOfficers, supabase.client]);
+  }, [currentUser?.id, immigrationOfficers, supabase?.client]);
 
   const exposed = useMemo(() => {
     if (mockData) return mockData;

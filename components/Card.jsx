@@ -12,9 +12,11 @@ function Card({ fullObj }) {
   const userFullName = `${firstname}${
     middlename ? ` ${middlename}` : ""
   } ${lastname}`;
-  const loggedInUserFullName = `${user.firstname}${
-    user.middlename ? ` ${user.middlename}` : ""
-  } ${user.lastname}`;
+  const loggedInUserFullName = user
+    ? `${user.firstname}${user.middlename ? ` ${user.middlename}` : ""} ${
+        user.lastname
+      }`
+    : null;
   const { symptoms, doctorId } = fullObj || {
     symptoms: false,
     doctorId: false,
@@ -173,6 +175,7 @@ function Card({ fullObj }) {
             colorScheme="teal"
             w="full"
             onClick={() => viewDetailsHandler(fullObj)}
+            data-testid="details-button"
           >
             Details
           </Button>
@@ -181,7 +184,7 @@ function Card({ fullObj }) {
           <Button
             marginTop="0.5rem"
             display={
-              user.userType === "health_official" && userType === "patient"
+              user?.userType === "health_official" && userType === "patient"
                 ? "block"
                 : "none"
             }
@@ -190,6 +193,7 @@ function Card({ fullObj }) {
             colorScheme="teal"
             w="full"
             onClick={() => viewTracingDetails(fullObj)}
+            data-testid="contact-trace-button"
           >
             Contact Trace
           </Button>
@@ -198,7 +202,7 @@ function Card({ fullObj }) {
           <Button
             marginTop="1.5rem"
             display={
-              user.userType === "health_official" && userType === "patient"
+              user?.userType === "health_official" && userType === "patient"
                 ? "block"
                 : "none"
             }
@@ -208,6 +212,7 @@ function Card({ fullObj }) {
             w="full"
             onClick={() => setCovidContactedPrecautionStatus()}
             disabled={contactedPrecaution}
+            data-testid="precaution-email-button"
           >
             {contactedPrecaution
               ? "Precaution Email Sent!"
@@ -218,7 +223,7 @@ function Card({ fullObj }) {
           <Button
             marginTop="0.5rem"
             display={
-              user.userType === "health_official" && userType === "patient"
+              user?.userType === "health_official" && userType === "patient"
                 ? "block"
                 : "none"
             }
@@ -227,6 +232,7 @@ function Card({ fullObj }) {
             colorScheme="yellow"
             w="full"
             onClick={() => setCovidContactedQuarantineStatus()}
+            data-testid="quarantine-email-button"
           >
             {contactedQuarantine
               ? "End Quarantine Email"
@@ -236,12 +242,13 @@ function Card({ fullObj }) {
         <Center>
           <Button
             marginTop="0.5rem"
-            display={user.userType === "doctor" ? "block" : "none"}
+            display={user?.userType === "doctor" ? "block" : "none"}
             variant="solid"
             size="sm"
             colorScheme="yellow"
             w="full"
             onClick={() => openEmailWindow()}
+            data-testid="general-email-button"
           >
             Send Email
           </Button>
