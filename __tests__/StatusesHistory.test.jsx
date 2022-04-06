@@ -1,4 +1,4 @@
-import { render, cleanup } from "@testing-library/react";
+import { render, screen, cleanup } from "@testing-library/react";
 
 import ContextProvider from "../context/AppContext";
 import PatientTableRow from "../components/medicaldoctor/PatientTableRow";
@@ -13,14 +13,16 @@ describe("Update status testing", () => {
   };
   describe("Check that the general UI components are rendering with correct", () => {
     it("renders the names of the patient in the patient's name field", async () => {
-      const { getByTestId } = render(
+      render(
         <ContextProvider mockData={{}}>
           <PatientTableRow patientsDetails={patientsDetails} testing />
         </ContextProvider>
       );
-      const getName = await getByTestId("NameTest").value;
+      const getName = await screen.findAllByTestId("NameTest").value;
 
       expect(getName).toBe("fakefirstname fakemidlename fakelastname");
+
+      // expect(await screen.findAllByTestId("NameTest")).toHaveLength(10);
     });
   });
 });
