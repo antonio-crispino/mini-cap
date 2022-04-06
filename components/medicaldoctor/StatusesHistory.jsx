@@ -13,10 +13,15 @@ import {
 import { useAppContext } from "../../context/AppContext";
 import PatientTableRow from "./PatientTableRow";
 import SinglePatientStatusHistory from "./SinglePatientStatusHistory";
+
 // import PatientTableColumnHeads from "./PatientTableColumnHeads";
 import ChartData from "./ChartData";
 
 function StatusesHistory() {
+
+
+function AllPatientsStatus() {
+
   const { user: currentUser, supabase, setError } = useAppContext();
   const [patientDetails, setPatientDetails] = useState(() => null);
   const [patientsDetails, setPatientsDetails] = useState(() => null);
@@ -63,9 +68,14 @@ function StatusesHistory() {
   }, [currentUser?.id]);
 
   /**
+
    * Fill the statuses rows for each patient.
    */
   const patientStatusesRow =
+
+   * Fill the status components for all patient.
+   */
+
     patientsDetails && patientsStatuses
       ? patientsDetails.map((aPatient) => {
           const thing = { ...aPatient };
@@ -91,6 +101,7 @@ function StatusesHistory() {
       : null;
 
   /**
+
    * Export datat to charts.
    */
 
@@ -165,12 +176,15 @@ function StatusesHistory() {
         borderRadius="1rem"
         padding="1rem"
         margin="1rem"
+
         width="calc(30% -1rem)"
+
       >
         <b style={{ fontSize: "1.25rem" }} justifyContent="left">
           My Patients History
         </b>
       </Box>
+
       <Box
         width="calc(80% - 1rem)"
         margin="3rem"
@@ -212,6 +226,8 @@ function StatusesHistory() {
                 <Th color="black">Nasal Congestion</Th>
                 <Th color="black">Fever</Th>
                 <Th color="black">Chest Pain</Th>
+
+     
               </Tr>
             </Tfoot>
           </Table>
@@ -224,7 +240,9 @@ function StatusesHistory() {
         flexWrap="wrap"
         justifyContent="left"
       >
+
         {chart}
+
       </Box>
       <Box margin="1rem" gap="1rem" flexWrap="wrap" justifyContent="left">
         {singlePatientStatusesItems}
@@ -233,4 +251,6 @@ function StatusesHistory() {
   );
 }
 
+
 export default StatusesHistory;
+

@@ -11,7 +11,7 @@ import { useAppContext } from "../context/AppContext";
 
 function PasswordResetForm() {
   const { sendResetPassEmail, user } = useAppContext();
-  //
+
   const resetPassword = async () => {
     const response = await sendResetPassEmail(user.email);
     if (!response) {
