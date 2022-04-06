@@ -30,6 +30,8 @@ export const DEFAULT_VIEW = "DEFAULT_VIEW";
 
 export const NOTIFICATION = "NOTIFICATION";
 
+export const APPOINTMENT = "APPOINTMENT";
+
 export const calculateEndDate = () => {
   const someDate = new Date();
   const numberOfDaysToAdd = 14;

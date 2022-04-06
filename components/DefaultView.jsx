@@ -1,5 +1,5 @@
 import { Flex, Heading, Stack, Text } from "@chakra-ui/react";
-import PatientInformationAlert from "./patient/PatientInformation";
+import PatientInformationAlert from "./patient/patientInformation";
 
 function DefaultView({ user }) {
   return (

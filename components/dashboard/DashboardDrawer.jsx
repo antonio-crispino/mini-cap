@@ -32,7 +32,12 @@ import {
   MdEmail,
 } from "react-icons/md";
 
-import { BsFileMedical, BsFileMedicalFill } from "react-icons/bs";
+import {
+  BsFileMedical,
+  BsFileMedicalFill,
+  BsCalendarDateFill,
+  BsCalendarDate,
+} from "react-icons/bs";
 import React, { useState, useEffect } from "react";
 import useHover from "../../hooks/useHover";
 import { useAppContext } from "../../context/AppContext";
@@ -48,6 +53,7 @@ import {
   BUSINESSES_TABLE,
   PATIENT_UPDATE_INFO,
   PATIENTS_STATUS,
+  APPOINTMENT,
 } from "../../utils/types";
 
 export default function DashboardDrawer() {
@@ -58,6 +64,7 @@ export default function DashboardDrawer() {
   const [allUsersRef, isAllUsersHovered] = useHover();
   const [patientsRef, isPatientsHovered] = useHover();
   const [statusesRef, isStatusesHovered] = useHover();
+  const [AppointmentRef, isAppointmentHovered] = useHover();
   const [doctorsRef, isDoctorsHovered] = useHover();
   const [healthOfficialsRef, isHealthOfficialsHovered] = useHover();
   const [immigrationOfficerRef, isImmigrationOfficerHovered] = useHover();
@@ -182,6 +189,14 @@ export default function DashboardDrawer() {
       hovered: isEmailDoctorRef,
       onClick: () => window.open(generalEmail()),
     },
+    {
+      name: "Appointments",
+      icon: BsCalendarDate,
+      hoverIcon: BsCalendarDateFill,
+      ref: AppointmentRef,
+      hovered: isAppointmentHovered,
+      onClick: () => setComponentInView(APPOINTMENT),
+    },
   ];
 
   const doctorOptions = [
@@ -200,6 +215,14 @@ export default function DashboardDrawer() {
       ref: statusesRef,
       hovered: isStatusesHovered,
       onClick: () => setComponentInView(STATUSES_TABLE),
+    },
+    {
+      name: "Appointments",
+      icon: BsCalendarDate,
+      hoverIcon: BsCalendarDateFill,
+      ref: AppointmentRef,
+      hovered: isAppointmentHovered,
+      onClick: () => setComponentInView(APPOINTMENT),
     },
   ];
 
