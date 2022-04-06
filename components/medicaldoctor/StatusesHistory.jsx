@@ -18,10 +18,6 @@ import SinglePatientStatusHistory from "./SinglePatientStatusHistory";
 import ChartData from "./ChartData";
 
 function StatusesHistory() {
-
-
-function AllPatientsStatus() {
-
   const { user: currentUser, supabase, setError } = useAppContext();
   const [patientDetails, setPatientDetails] = useState(() => null);
   const [patientsDetails, setPatientsDetails] = useState(() => null);
@@ -73,7 +69,8 @@ function AllPatientsStatus() {
    */
   const patientStatusesRow =
 
-   * Fill the status components for all patient.
+
+   * Fill the statuses rows for each patient.
    */
 
     patientsDetails && patientsStatuses
@@ -227,7 +224,6 @@ function AllPatientsStatus() {
                 <Th color="black">Fever</Th>
                 <Th color="black">Chest Pain</Th>
 
-     
               </Tr>
             </Tfoot>
           </Table>

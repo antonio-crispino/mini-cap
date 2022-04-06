@@ -1,9 +1,9 @@
 import { Tr, Td } from "@chakra-ui/react";
 
 
+
 function PatientTableRow({
 
-function SinglePatientStatus({
 
   patientDetails,
   patientStatusDetails,
@@ -18,7 +18,9 @@ function SinglePatientStatus({
 
   if (patientDetails !== null) {
     patientName = Object.keys(patientDetails.firstname[0]).map(() => (
-      <Td key={Math.floor(Math.random() * 1000000)}>
+
+      <Td data-testid="NameTest" key={Math.floor(Math.random() * 1000000)}>
+
         <b>{`${patientDetails.firstname} ${patientDetails.middlename || ""} ${
           patientDetails.lastname
         }`}</b>
@@ -28,8 +30,6 @@ function SinglePatientStatus({
 
 
   const statusColumns = Object.keys(patientStatusDetails).map((detail) => {
-
-
 
     if (
       detail === "created_at" ||
@@ -55,7 +55,11 @@ function SinglePatientStatus({
   };
 
   return (
-    <Tr onClick={patientName !== null ? onClickHandler : null}>
+
+    <Tr
+      data-testid="NameTest"
+      onClick={patientName !== null ? onClickHandler : null}
+    >
       {patientName} {statusColumns}
 
     </Tr>
