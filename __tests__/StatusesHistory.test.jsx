@@ -12,7 +12,7 @@ describe("Update status testing", () => {
     lastname: "fakelastname",
   };
   describe("Check that the general UI components are rendering with correct", () => {
-    it("renders the namees of the patient in the patient's name field", async () => {
+    it("renders the names of the patient in the patient's name field", async () => {
       render(
         <ContextProvider mockData={{}}>
           <PatientTableRow patientsDetails={patientsDetails} testing />

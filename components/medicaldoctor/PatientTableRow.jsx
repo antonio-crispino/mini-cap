@@ -14,7 +14,7 @@ function PatientTableRow({
 
   if (patientDetails !== null) {
     patientName = Object.keys(patientDetails.firstname[0]).map(() => (
-      <Td data-testid="checkbox-test" key={Math.floor(Math.random() * 1000000)}>
+      <Td data-testid="NameTest" key={Math.floor(Math.random() * 1000000)}>
         <b>{`${patientDetails.firstname} ${patientDetails.middlename || ""} ${
           patientDetails.lastname
         }`}</b>
