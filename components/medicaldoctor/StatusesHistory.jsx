@@ -14,7 +14,14 @@ import { useAppContext } from "../../context/AppContext";
 import PatientTableRow from "./PatientTableRow";
 import SinglePatientStatusHistory from "./SinglePatientStatusHistory";
 
+// import PatientTableColumnHeads from "./PatientTableColumnHeads";
+import ChartData from "./ChartData";
+
+function StatusesHistory() {
+
+
 function AllPatientsStatus() {
+
   const { user: currentUser, supabase, setError } = useAppContext();
   const [patientDetails, setPatientDetails] = useState(() => null);
   const [patientsDetails, setPatientsDetails] = useState(() => null);
@@ -61,9 +68,14 @@ function AllPatientsStatus() {
   }, [currentUser?.id]);
 
   /**
+
+   * Fill the statuses rows for each patient.
+   */
+  const patientStatusesRow =
+
    * Fill the status components for all patient.
    */
-  const patientStatusesItems =
+
     patientsDetails && patientsStatuses
       ? patientsDetails.map((aPatient) => {
           const thing = { ...aPatient };
@@ -89,6 +101,61 @@ function AllPatientsStatus() {
       : null;
 
   /**
+
+   * Export datat to charts.
+   */
+
+  const chart =
+    patientsDetails && patientsStatuses
+      ? patientsDetails.map((aPatient) => {
+          const thing = { ...aPatient };
+          delete thing.requestedUpdatesList;
+          Object.keys(thing.userInfo).forEach((info) => {
+            thing[info] = thing.userInfo[info];
+          });
+          delete thing.userInfo;
+          delete thing.doctorInfo;
+          const aPatientStatuses = patientsStatuses
+            .filter((aStatus) => aStatus.id === thing.id)
+            .reverse();
+          return (
+            <ChartData
+              key={Math.floor(Math.random() * 1000000)}
+              setPatientDetails={setPatientDetails}
+              patientDetails={thing}
+              patientStatusDetails={aPatientStatuses[0]}
+              setPatientStatusesVisible={setPatientStatusesVisible}
+            />
+          );
+        })
+      : null;
+
+  /**
+   * Fill the headings of the columns.
+   */
+  /*
+  const columnHeadings =
+    patientsDetails && patientsStatuses
+      ? patientsDetails.map((aPatient) => {
+          const thing = { ...aPatient };
+          delete thing.requestedUpdatesList;
+          delete thing.userInfo;
+          delete thing.doctorInfo;
+          const aPatientStatuses = patientsStatuses
+            .filter((aStatus) => aStatus.id === thing.id)
+            .reverse();
+          return (
+            <PatientTableColumnHeads
+              key={Math.floor(Math.random() * 1000000)}
+              patientStatusDetails={aPatientStatuses[0]}
+              setPatientStatusesVisible={setPatientStatusesVisible}
+            />
+          );
+        })
+      : null;
+      */
+
+  /**
    * Fill the status history component for a single selected patient.
    */
   const singlePatientStatusesItems =
@@ -109,45 +176,58 @@ function AllPatientsStatus() {
         borderRadius="1rem"
         padding="1rem"
         margin="1rem"
-        width="calc(100% -1rem)"
+
+        width="calc(30% -1rem)"
+
       >
         <b style={{ fontSize: "1.25rem" }} justifyContent="left">
           My Patients History
         </b>
       </Box>
-      <Box width="calc(80%)" margin="3rem">
+
+      <Box
+        width="calc(80% - 1rem)"
+        margin="3rem"
+        gap="1rem"
+        flexWrap="wrap"
+        justifyContent="left"
+      >
         <TableContainer>
-          <Table variant="striped" colorScheme="teal">
-            <TableCaption>Lastest Status Update</TableCaption>
+          <Table variant="striped" colorScheme="purple" color="black">
+            <TableCaption placement="top" color="black">
+              Lastest Status Update
+            </TableCaption>
             <Thead>
               <Tr>
-                <Th>Name</Th>
-                <Th>Weight</Th>
-                <Th>Temperture</Th>
-                <Th>Nausea</Th>
-                <Th>Headache</Th>
-                <Th>Lethargy</Th>
-                <Th>Vomiting</Th>
-                <Th>Sore Throat</Th>
-                <Th>Nasal Congestion</Th>
-                <Th>Fever</Th>
-                <Th>Chest Pain</Th>
+                <Th color="black">Name</Th>
+                <Th color="black">Weight</Th>
+                <Th color="black">Temperture</Th>
+                <Th color="black">Nausea</Th>
+                <Th color="black">Headache</Th>
+                <Th color="black">Lethargy</Th>
+                <Th color="black">Vomiting</Th>
+                <Th color="black">Sore Throat</Th>
+                <Th color="black">Nasal Congestion</Th>
+                <Th color="black">Fever</Th>
+                <Th color="black">Chest Pain</Th>
               </Tr>
             </Thead>
-            <Tbody>{patientStatusesItems}</Tbody>
+            <Tbody>{patientStatusesRow}</Tbody>
             <Tfoot>
               <Tr>
-                <Th>Name</Th>
-                <Th>Weight</Th>
-                <Th>Temperture</Th>
-                <Th>Nausea</Th>
-                <Th>Headache</Th>
-                <Th>Lethargy</Th>
-                <Th>Vomiting</Th>
-                <Th>Sore Throat</Th>
-                <Th>Nasal Congestion</Th>
-                <Th>Fever</Th>
-                <Th>Chest Pain</Th>
+                <Th color="black">Name</Th>
+                <Th color="black">Weight</Th>
+                <Th color="black">Temperture</Th>
+                <Th color="black">Nausea</Th>
+                <Th color="black">Headache</Th>
+                <Th color="black">Lethargy</Th>
+                <Th color="black">Vomiting</Th>
+                <Th color="black">Sore Throat</Th>
+                <Th color="black">Nasal Congestion</Th>
+                <Th color="black">Fever</Th>
+                <Th color="black">Chest Pain</Th>
+
+     
               </Tr>
             </Tfoot>
           </Table>
@@ -160,7 +240,9 @@ function AllPatientsStatus() {
         flexWrap="wrap"
         justifyContent="left"
       >
-        Graph here
+
+        {chart}
+
       </Box>
       <Box margin="1rem" gap="1rem" flexWrap="wrap" justifyContent="left">
         {singlePatientStatusesItems}
@@ -169,4 +251,6 @@ function AllPatientsStatus() {
   );
 }
 
-export default AllPatientsStatus;
+
+export default StatusesHistory;
+
