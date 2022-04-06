@@ -41,7 +41,7 @@ function SinglePatientStatus({
         );
       return (
         <ListItem key={Math.floor(Math.random() * 1000000)}>
-          <b>{detail}</b>: {patientDetails[detail] || "n/a"}
+          <b>{detail}</b>: {`${patientDetails[detail]}` || "n/a"}
         </ListItem>
       );
     });
