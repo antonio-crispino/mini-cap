@@ -18,11 +18,8 @@ import {
   PATIENTS_STATUS,
   DEFAULT_VIEW,
   NOTIFICATION,
-
   HISTORY_TABLE,
-
   APPOINTMENT,
-
 } from "../../utils/types";
 import CardGrid from "../CardsGrid";
 import CardDetails from "../CardDetails";
@@ -36,7 +33,6 @@ import StatusesHistory from "../medicaldoctor/StatusesHistory";
 
 import SinglePatientTracing from "../healthofficial/SinglePatientTracing";
 import AppointmentsView from "../AppointmentsView";
-
 
 export default function MainDashView() {
   const { componentInView, tracedPatients, user } = useAppContext();
