@@ -18,7 +18,7 @@ describe("Update status testing", () => {
           <PatientTableRow patientsDetails={patientsDetails} testing />
         </ContextProvider>
       );
-      const getName = await screen.findAllByTestId("NameTest").value;
+      const getName = await screen.findAllByTestId("NameTest");
 
       expect(getName).toBe("fakefirstname fakemidlename fakelastname");
 
