@@ -57,5 +57,6 @@ function PatientInformationAlert({ user }) {
       </Box>
     );
   }
+  return null;
 }
 export default PatientInformationAlert;

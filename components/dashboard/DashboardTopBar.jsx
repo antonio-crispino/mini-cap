@@ -13,7 +13,7 @@ import {
   Circle,
 } from "@chakra-ui/react";
 import { MdAccountCircle, MdOutlineAccountCircle } from "react-icons/md";
-import { AiFillBell, AiOutlineBell } from "react-icons/ai";
+import { AiFillBell, AiOutlineBell, AiOutlineMessage } from "react-icons/ai";
 
 import { useRouter } from "next/router";
 import { useAppContext } from "../../context/AppContext";
@@ -49,6 +49,13 @@ export default function DashboardTopBar() {
       <DashboardDrawer />
       <Box marginLeft={3}>ANTI COVID</Box>
       <Spacer />
+
+      <IconButton
+        icon={<AiOutlineMessage />}
+        fontSize="1.4rem"
+        onClick={() => router.push("/messenger")}
+      />
+
       <Box position="relative" mr={1}>
         <IconButton
           ref={notificationIconRef}
