@@ -19,6 +19,7 @@ import { useForm } from "react-hook-form";
 import { useAppContext } from "../context/AppContext";
 import { useDataContext } from "../context/DataContext";
 import { PATIENTS_TABLE } from "../utils/types";
+import RequestPatientAppointment from "./RequestPatientAppointment";
 import RequestPatientUpdates from "./RequestPatientUpdates";
 
 function PatientForm({ patientData }) {
@@ -187,8 +188,9 @@ function PatientForm({ patientData }) {
           </GridItem>
           {user.userType === "doctor" ? (
             <GridItem width="full" colSpan={2} mt={2}>
-              <Flex alignItems="center" justifyContent="center">
+              <Flex alignItems="center" justifyContent="center" gap={5}>
                 <RequestPatientUpdates patientData={patientData} />
+                <RequestPatientAppointment patientData={patientData} />
               </Flex>
             </GridItem>
           ) : (
