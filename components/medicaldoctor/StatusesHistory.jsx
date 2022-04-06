@@ -1,7 +1,17 @@
 import { useState, useEffect } from "react";
-import { Box } from "@chakra-ui/react";
+import {
+  Box,
+  Table,
+  Thead,
+  Tbody,
+  Tfoot,
+  Tr,
+  Th,
+  TableCaption,
+  TableContainer,
+} from "@chakra-ui/react";
 import { useAppContext } from "../../context/AppContext";
-import SinglePatientStatus from "./SinglePatientStatus";
+import PatientTableRow from "./PatientTableRow";
 import SinglePatientStatusHistory from "./SinglePatientStatusHistory";
 
 function AllPatientsStatus() {
@@ -15,7 +25,6 @@ function AllPatientsStatus() {
     const getPatientsDetails = async () => {
       if (currentUser) {
         const { data: loadedPatientsDetails, error } =
-          currentUser.userType === "health_official" ||
           currentUser.userType === "doctor"
             ? await supabase.supaGetPatients()
             : await supabase.supaGetDoctorPatients(currentUser.id);
@@ -30,7 +39,6 @@ function AllPatientsStatus() {
     const getPatientsStatuses = async () => {
       if (currentUser) {
         const { data: loadedPatientsStatuses, error } =
-          currentUser.userType === "health_official" ||
           currentUser.userType === "doctor"
             ? await supabase.supaGetPatientsStatuses()
             : await supabase.supaGetDoctorPatientsStatuses(currentUser.id);
@@ -69,7 +77,7 @@ function AllPatientsStatus() {
             .filter((aStatus) => aStatus.id === thing.id)
             .reverse();
           return (
-            <SinglePatientStatus
+            <PatientTableRow
               key={Math.floor(Math.random() * 1000000)}
               setPatientDetails={setPatientDetails}
               patientDetails={thing}
@@ -95,17 +103,55 @@ function AllPatientsStatus() {
     ) : null;
 
   return (
-    <Box>
-      <Box display={patientStatusesVisible ? "block" : "none"}>
-        <Box
-          backgroundColor="var(--chakra-colors-gray-100)"
-          borderRadius="1rem"
-          padding="1rem"
-          margin="1rem"
-          width="calc(100% - 2rem)"
-        >
-          <b style={{ fontSize: "1.25rem" }}>My Patients</b>
-        </Box>
+    <Box margin="2rem">
+      <Box
+        backgroundColor="var(--chakra-colors-gray-100)"
+        borderRadius="1rem"
+        padding="1rem"
+        margin="1rem"
+        width="calc(100% -1rem)"
+      >
+        <b style={{ fontSize: "1.25rem" }} justifyContent="left">
+          My Patients History
+        </b>
+      </Box>
+      <Box width="calc(80%)" margin="3rem">
+        <TableContainer>
+          <Table variant="striped" colorScheme="teal">
+            <TableCaption>Lastest Status Update</TableCaption>
+            <Thead>
+              <Tr>
+                <Th>Name</Th>
+                <Th>Weight</Th>
+                <Th>Temperture</Th>
+                <Th>Nausea</Th>
+                <Th>Headache</Th>
+                <Th>Lethargy</Th>
+                <Th>Vomiting</Th>
+                <Th>Sore Throat</Th>
+                <Th>Nasal Congestion</Th>
+                <Th>Fever</Th>
+                <Th>Chest Pain</Th>
+              </Tr>
+            </Thead>
+            <Tbody>{patientStatusesItems}</Tbody>
+            <Tfoot>
+              <Tr>
+                <Th>Name</Th>
+                <Th>Weight</Th>
+                <Th>Temperture</Th>
+                <Th>Nausea</Th>
+                <Th>Headache</Th>
+                <Th>Lethargy</Th>
+                <Th>Vomiting</Th>
+                <Th>Sore Throat</Th>
+                <Th>Nasal Congestion</Th>
+                <Th>Fever</Th>
+                <Th>Chest Pain</Th>
+              </Tr>
+            </Tfoot>
+          </Table>
+        </TableContainer>
       </Box>
       <Box
         display={patientStatusesVisible ? "flex" : "none"}
@@ -114,9 +160,11 @@ function AllPatientsStatus() {
         flexWrap="wrap"
         justifyContent="left"
       >
-        {patientStatusesItems}
+        Graph here
       </Box>
-      <Box>{singlePatientStatusesItems}</Box>
+      <Box margin="1rem" gap="1rem" flexWrap="wrap" justifyContent="left">
+        {singlePatientStatusesItems}
+      </Box>
     </Box>
   );
 }

@@ -10,10 +10,10 @@ import {
 import { useAppContext } from "../context/AppContext";
 
 function PasswordResetForm() {
-  const { sendRestToEmail, user } = useAppContext();
+  const { sendResetPassEmail, user } = useAppContext();
 
   const resetPassword = async () => {
-    const response = await sendRestToEmail(user.email);
+    const response = await sendResetPassEmail(user.email);
     if (!response) {
       const toast = createStandaloneToast();
       toast({
