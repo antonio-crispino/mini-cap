@@ -99,18 +99,28 @@ function RequestPatientAppointment({ patientData }) {
 
   return (
     <>
-      <Button onClick={onOpen} colorScheme="purple" leftIcon={<ViewIcon />}>
+      <Button
+        data-testid="open-modal-btn"
+        onClick={onOpen}
+        colorScheme="purple"
+        leftIcon={<ViewIcon />}
+      >
         Schedule Appointment
       </Button>
 
-      <Modal isOpen={isOpen} onClose={onClose} size="5xl">
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        size="5xl"
+        data-testid="model-open"
+      >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Specify Appointment Details</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <FormControl my={5} isInvalid={emptyFields.subject}>
-              <FormLabel>Subject</FormLabel>
+              <FormLabel htmlFor="subject">Subject</FormLabel>
               <Input
                 id="subject"
                 placeholder="Appointment title here ..."
@@ -126,7 +136,7 @@ function RequestPatientAppointment({ patientData }) {
               </FormLabel>
 
               <SingleDatepicker
-                name="date-input"
+                id="date-input"
                 date={selectedDate}
                 onDateChange={setSelectedDate}
                 propsConfigs={{
@@ -144,6 +154,7 @@ function RequestPatientAppointment({ patientData }) {
                   inputProps: {
                     size: "lg",
                     placeholder: "date",
+                    "data-testid": "date-in",
                   },
                 }}
               />
@@ -159,11 +170,13 @@ function RequestPatientAppointment({ patientData }) {
                 size="lg"
               />
               {!isError ? (
-                <FormHelperText>
+                <FormHelperText data-testid="correct-format-time">
                   Please make sure the format is HH:MM for example 20:45
                 </FormHelperText>
               ) : (
-                <FormErrorMessage>Wrong format! must be HH:MM</FormErrorMessage>
+                <FormErrorMessage data-testid="wrong-time-err">
+                  Wrong format! must be HH:MM
+                </FormErrorMessage>
               )}
             </FormControl>
 
@@ -202,6 +215,7 @@ function RequestPatientAppointment({ patientData }) {
 
           <ModalFooter>
             <Button
+              data-testid="schedule-btn"
               colorScheme="blue"
               onClick={submitAppointment}
               disabled={

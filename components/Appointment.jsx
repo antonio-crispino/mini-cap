@@ -17,7 +17,6 @@ function Appointment({ appointment }) {
   const [buttonAction, setButtonAction] = useState(appointment.status);
   const [localAppointment, setLocalAppointment] = useState({ ...appointment });
   const handleAppointmentStatus = async (e) => {
-    console.log(e.target.id);
     const response = await supabase.setAppointmentStatus(
       appointment.id,
       e.target.id
@@ -91,6 +90,7 @@ function Appointment({ appointment }) {
           id="Canceled"
           m={4}
           colorScheme="red"
+          data-testid="cancel-btn"
           onClick={(e) => handleAppointmentStatus(e)}
         >
           Cancel
@@ -104,11 +104,13 @@ function Appointment({ appointment }) {
             m={4}
             colorScheme="purple"
             onClick={(e) => handleAppointmentStatus(e)}
+            data-testid="reject-btn"
           >
             Reject
           </Button>
           <Button
             id="Confirmed"
+            data-testid="accept-btn"
             m={4}
             colorScheme="green"
             onClick={(e) => handleAppointmentStatus(e)}
