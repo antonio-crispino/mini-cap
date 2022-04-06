@@ -25,6 +25,8 @@ function AppContextProvider({ mockData, children }) {
   const [componentInView, setComponentInView] = useState(DEFAULT_VIEW);
   const [expandedCard, setExpandedCard] = useState({});
   const [notifications, setNotifications] = useState([]);
+  const [patient, setPatient] = useState({});
+  const [tracedPatients, setTracedPatients] = useState([]);
 
   useEffect(() => {
     const getUserProfile = async () => {
@@ -168,9 +170,13 @@ function AppContextProvider({ mockData, children }) {
       componentInView,
       expandedCard,
       notifications,
+      patient,
+      tracedPatients,
       setExpandedCard,
       setNotifications,
       setComponentInView,
+      setPatient,
+      setTracedPatients,
       login,
       logout,
       setError,
@@ -189,9 +195,13 @@ function AppContextProvider({ mockData, children }) {
     componentInView,
     expandedCard,
     notifications,
+    patient,
+    tracedPatients,
     setExpandedCard,
     setNotifications,
     setComponentInView,
+    setPatient,
+    setTracedPatients,
     login,
     logout,
     setError,

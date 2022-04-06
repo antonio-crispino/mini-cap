@@ -4,6 +4,10 @@ export const PATIENTS_TABLE = "PATIENTS_TABLE";
 
 export const STATUSES_TABLE = "STATUSES_TABLE";
 
+export const TRACING_TABLE = "TRACING_TABLE";
+
+export const PATIENTS_TRACING_TABLE = "PATIENTS_TRACING_TABLE";
+
 export const DOCTORS_TABLE = "DOCTORS_TABLE";
 
 export const HEALTH_OFFICIALS_TABLE = "HEALTH_OFFICIALS_TABLE";
@@ -25,6 +29,8 @@ export const PATIENTS_STATUS = "PATIENTS_STATUS";
 export const DEFAULT_VIEW = "DEFAULT_VIEW";
 
 export const NOTIFICATION = "NOTIFICATION";
+
+export const APPOINTMENT = "APPOINTMENT";
 
 export const calculateEndDate = () => {
   const someDate = new Date();

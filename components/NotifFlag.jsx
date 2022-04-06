@@ -9,7 +9,6 @@ function Flag({ ...notification }) {
 
   const updateFlag = async () => {
     setState(!flagValue);
-    console.log(!flagValue);
 
     const flagUpdate = {
       flag: !flagValue,

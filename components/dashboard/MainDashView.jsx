@@ -6,6 +6,8 @@ import {
   ALL_USERS_TABLE,
   PATIENTS_TABLE,
   STATUSES_TABLE,
+  TRACING_TABLE,
+  PATIENTS_TRACING_TABLE,
   DOCTORS_TABLE,
   HEALTH_OFFICIALS_TABLE,
   IMMIGRATION_OFFICERS_TABLE,
@@ -16,6 +18,7 @@ import {
   PATIENTS_STATUS,
   DEFAULT_VIEW,
   NOTIFICATION,
+  APPOINTMENT,
 } from "../../utils/types";
 import CardGrid from "../CardsGrid";
 import CardDetails from "../CardDetails";
@@ -24,9 +27,11 @@ import GenericForm from "../GenericForm";
 import DefaultView from "../DefaultView";
 import NotificationList from "../NotificationList";
 import AllPatientsStatus from "../medicaldoctor/AllPatientsStatus";
+import SinglePatientTracing from "../healthofficial/SinglePatientTracing";
+import AppointmentsView from "../AppointmentsView";
 
 export default function MainDashView() {
-  const { componentInView, user } = useAppContext();
+  const { componentInView, tracedPatients, user } = useAppContext();
   const {
     users,
     patients,
@@ -42,7 +47,6 @@ export default function MainDashView() {
     noDoc: false,
     symptoms: false,
   });
-
   const [filteredPatients, setFilteredPatients] = useState([...patients]);
   const [filteredUsers, setFilteredUsers] = useState([...users]);
   const [filteredBusinesses, setFilteredBusinesses] = useState([...businesses]);
@@ -195,6 +199,10 @@ export default function MainDashView() {
         return <CardGrid payload={filteredPatients} />;
       case STATUSES_TABLE:
         return <AllPatientsStatus />;
+      case TRACING_TABLE:
+        return <SinglePatientTracing />;
+      case PATIENTS_TRACING_TABLE:
+        return <CardGrid payload={tracedPatients} />;
       case DOCTORS_TABLE:
         return <CardGrid payload={filteredDoctors} />;
       case HEALTH_OFFICIALS_TABLE:
@@ -213,6 +221,8 @@ export default function MainDashView() {
         return <GenericForm userId={user.id} viewType="patientStatus" />;
       case NOTIFICATION:
         return <NotificationList />;
+      case APPOINTMENT:
+        return <AppointmentsView />;
       case DEFAULT_VIEW:
         return <DefaultView user={user} />;
 
@@ -221,6 +231,7 @@ export default function MainDashView() {
     }
   }, [
     filteredPatients,
+    tracedPatients,
     componentInView,
     filteredAdmins,
     filteredBusinesses,
@@ -234,7 +245,8 @@ export default function MainDashView() {
     componentInView === PATIENT_UPDATE_INFO ||
     componentInView === PATIENTS_STATUS ||
     componentInView === DEFAULT_VIEW ||
-    componentInView === NOTIFICATION ? (
+    componentInView === NOTIFICATION ||
+    componentInView === APPOINTMENT ? (
     <>{renderComponent()}</>
   ) : (
     <>
@@ -243,7 +255,8 @@ export default function MainDashView() {
         optionClicked={(e) => checkedHandler(e)}
         searchListener={(e) => searchHandler(e)}
       />
-      {componentInView === STATUSES_TABLE ? (
+      {componentInView === STATUSES_TABLE ||
+      componentInView === TRACING_TABLE ? (
         <Box margin="2rem">{renderComponent()}</Box>
       ) : (
         <Grid
