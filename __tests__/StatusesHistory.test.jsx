@@ -18,9 +18,7 @@ describe("Update status testing", () => {
           <PatientTableRow patientsDetails={patientsDetails} testing />
         </ContextProvider>
       );
-      const getName = await getByLabelText(
-        "fakefirstname fakemidlename fakelastname"
-      ).value;
+      const getName = await getByLabelText("NameTest").value;
 
       expect(getName).toBe("fakefirstname fakemidlename fakelastname");
     });
