@@ -48,8 +48,8 @@ export default function DashboardTopBar() {
     >
       <DashboardDrawer />
       <Box marginLeft={3}>ANTI COVID</Box>
-
       <Spacer />
+
       <IconButton
         icon={<AiOutlineMessage />}
         fontSize="1.4rem"
