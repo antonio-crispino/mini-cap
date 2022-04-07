@@ -2,6 +2,8 @@ import { Badge, Box, Button, Center, Image, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { useAppContext } from "../context/AppContext";
 import { CARD_DETAILS, TRACING_TABLE } from "../utils/types";
+import HealthOfficialFlag from "./HealthOfficialFlag";
+import { useDataContext } from "../context/DataContext";
 
 function Card({ fullObj }) {
   const { setExpandedCard, setComponentInView, setPatient, supabase, user } =
@@ -25,6 +27,7 @@ function Card({ fullObj }) {
   const [contactedQuarantine, setContactedQuarantine] = useState(
     userInfo?.quarantine
   );
+  const { patients } = useDataContext();
 
   const viewDetailsHandler = (userObj) => {
     let passedCardDetails = { ...userObj };
@@ -167,6 +170,14 @@ function Card({ fullObj }) {
           <Text>{email}</Text>
         </Center>
       </Box>
+       {(user.userType === "health_official" ||
+        user.userType === "immigration_officer") && (
+        <Box p={1}>
+          <Center>
+            <HealthOfficialFlag patients={fullObj} />
+          </Center>
+        </Box>
+      )}
       <Box p={5}>
         <Center>
           <Button

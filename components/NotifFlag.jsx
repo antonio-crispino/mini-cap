@@ -7,7 +7,7 @@ function Flag({ ...notification }) {
     notification.flag
   );
 
-  const updateFlag = () => {
+  const updateFlag = async () => {
     setState(!flagValue);
 
     const flagUpdate = {
@@ -16,7 +16,7 @@ function Flag({ ...notification }) {
     const matchId = {
       id: notification.id,
     };
-    supabase.updateTableBy("notifications", flagUpdate, matchId);
+    await supabase.updateTableBy("notifications", flagUpdate, matchId);
   };
 
   return (
