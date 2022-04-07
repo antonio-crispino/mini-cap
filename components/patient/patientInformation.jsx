@@ -29,6 +29,7 @@ function PatientInformationAlert({ user }) {
     return (
       <Box maxWidth="50%" opacity={0.9} mb={5}>
         <Alert
+          data-testid="info-alert"
           status="warning"
           borderRadius={20}
           p={3}
