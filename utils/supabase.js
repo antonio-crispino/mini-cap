@@ -437,22 +437,11 @@ export default class SupaClient {
   }
 
   async updateChatFlag(chatID, requiredFlag, val) {
-    // const chat = await this.getChatInfo(chatID);
-    const chatArray = await this.client
-      .from("conversations")
-      .select("*")
-      .eq("id", chatID);
-
-    const chat = chatArray.data[0];
-
-    console.log("chat2", !chat.doctorFlagged);
-
-    console.log("stat changed", chatID, requiredFlag, val);
     let flag;
 
     if (requiredFlag === "doctor") {
       flag = {
-        doctorFlagged: !chat.doctorFlagged,
+        doctorFlagged: val,
       };
     }
 
