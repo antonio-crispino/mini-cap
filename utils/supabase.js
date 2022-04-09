@@ -421,4 +421,55 @@ export default class SupaClient {
 
     return { data };
   }
+
+  async getFlagStatus(chatID) {
+    const chatArray = await this.client
+      .from("conversations")
+      .select("*")
+      .eq("id", chatID);
+
+    if (chatID === -1) {
+      return null;
+    }
+    const chat = chatArray.data[0];
+
+    return chat.doctorFlagged;
+  }
+
+  async updateChatFlag(chatID, requiredFlag, val) {
+    // const chat = await this.getChatInfo(chatID);
+    const chatArray = await this.client
+      .from("conversations")
+      .select("*")
+      .eq("id", chatID);
+
+    const chat = chatArray.data[0];
+
+    console.log("chat2", !chat.doctorFlagged);
+
+    console.log("stat changed", chatID, requiredFlag, val);
+    let flag;
+
+    if (requiredFlag === "doctor") {
+      flag = {
+        doctorFlagged: !chat.doctorFlagged,
+      };
+    }
+
+    const matchData = {
+      id: chatID,
+    };
+
+    const { data, error } = await this.client
+      .from("conversations")
+      .update({
+        ...flag,
+      })
+      .match({ ...matchData });
+    if (error) {
+      return { error };
+    }
+
+    return { data };
+  }
 }
