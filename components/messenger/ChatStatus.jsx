@@ -11,11 +11,10 @@ export default function ChatStatus({ chatID }) {
   };
 
   return (
-    <ButtonGroup>
+    <ButtonGroup marginBottom="0.5rem">
       <Button colorScheme="red" onClick={() => changeFlagStatus(true)}>
         Flag
       </Button>
-
       <Button onClick={() => changeFlagStatus(false)}>Unflag</Button>
     </ButtonGroup>
   );

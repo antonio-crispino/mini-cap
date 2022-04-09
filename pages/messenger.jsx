@@ -4,10 +4,10 @@ import { IoArrowBackCircleOutline } from "react-icons/io5";
 import { useRouter } from "next/router";
 import Chats from "../components/messenger/Chats";
 import Messages from "../components/messenger/Messages";
+import ChatStatus from "../components/messenger/ChatStatus";
 import MessagesInput from "../components/messenger/MessagesInput";
 import { useAppContext } from "../context/AppContext";
 import { useDataContext } from "../context/DataContext";
-
 import useSetupMessages from "../hooks/useSetupMessages";
 import useSetupChats from "../hooks/useSetupChats";
 
@@ -46,8 +46,10 @@ export default function Messenger() {
         overflow="hidden"
       >
         <Messages messages={messages[currentChatId] || []} userId={user?.id} />
+        <ChatStatus chatID={currentChatId} />
         <Spacer />
         <MessagesInput chatId={currentChatId} userId={user?.id} />
+
         <Button
           bg="none"
           color="white"
