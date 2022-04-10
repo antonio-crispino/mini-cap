@@ -18,6 +18,8 @@ import {
   PATIENTS_STATUS,
   DEFAULT_VIEW,
   NOTIFICATION,
+  HISTORY_TABLE,
+  APPOINTMENT,
 } from "../../utils/types";
 import CardGrid from "../CardsGrid";
 import CardDetails from "../CardDetails";
@@ -26,7 +28,11 @@ import GenericForm from "../GenericForm";
 import DefaultView from "../DefaultView";
 import NotificationList from "../NotificationList";
 import AllPatientsStatus from "../medicaldoctor/AllPatientsStatus";
+
+import StatusesHistory from "../medicaldoctor/StatusesHistory";
+
 import SinglePatientTracing from "../healthofficial/SinglePatientTracing";
+import AppointmentsView from "../AppointmentsView";
 
 export default function MainDashView() {
   const { componentInView, tracedPatients, user } = useAppContext();
@@ -45,7 +51,6 @@ export default function MainDashView() {
     noDoc: false,
     symptoms: false,
   });
-
   const [filteredPatients, setFilteredPatients] = useState([...patients]);
   const [filteredUsers, setFilteredUsers] = useState([...users]);
   const [filteredBusinesses, setFilteredBusinesses] = useState([...businesses]);
@@ -109,6 +114,10 @@ export default function MainDashView() {
           break;
         case PATIENTS_TABLE:
         case STATUSES_TABLE:
+          filteredArray = searchFilter(patients, searchedString);
+          setFilteredPatients(filteredArray);
+          break;
+        case HISTORY_TABLE:
           filteredArray = searchFilter(patients, searchedString);
           setFilteredPatients(filteredArray);
           break;
@@ -198,10 +207,15 @@ export default function MainDashView() {
         return <CardGrid payload={filteredPatients} />;
       case STATUSES_TABLE:
         return <AllPatientsStatus />;
+
+      case HISTORY_TABLE:
+        return <StatusesHistory />;
+
       case TRACING_TABLE:
         return <SinglePatientTracing />;
       case PATIENTS_TRACING_TABLE:
         return <CardGrid payload={tracedPatients} />;
+
       case DOCTORS_TABLE:
         return <CardGrid payload={filteredDoctors} />;
       case HEALTH_OFFICIALS_TABLE:
@@ -220,6 +234,8 @@ export default function MainDashView() {
         return <GenericForm userId={user.id} viewType="patientStatus" />;
       case NOTIFICATION:
         return <NotificationList />;
+      case APPOINTMENT:
+        return <AppointmentsView />;
       case DEFAULT_VIEW:
         return <DefaultView user={user} />;
 
@@ -238,11 +254,13 @@ export default function MainDashView() {
     filteredImmOfficers,
   ]);
 
-  return componentInView === CARD_DETAILS ||
+  return componentInView === HISTORY_TABLE ||
+    componentInView === CARD_DETAILS ||
     componentInView === PATIENT_UPDATE_INFO ||
     componentInView === PATIENTS_STATUS ||
     componentInView === DEFAULT_VIEW ||
-    componentInView === NOTIFICATION ? (
+    componentInView === NOTIFICATION ||
+    componentInView === APPOINTMENT ? (
     <>{renderComponent()}</>
   ) : (
     <>

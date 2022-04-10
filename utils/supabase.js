@@ -186,8 +186,6 @@ export default class SupaClient {
       .from("patients")
       .select(`*, userInfo: users!patients_id_fkey (*)`)
       .match({ doctorId });
-    // console.log("Patients");
-    // console.log(thing.data);
     return thing;
   }
 
@@ -196,8 +194,6 @@ export default class SupaClient {
       .from("patient_updates")
       .select("*")
       .match({ doctorId });
-    // console.log("Statuses");
-    // console.log(thing.data);
     return thing;
   }
 
@@ -319,6 +315,40 @@ export default class SupaClient {
     const { data, error } = await this.client
       .from(table)
       .select("*")
+      .match({ id });
+    if (error) {
+      return { error };
+    }
+    return { data };
+  }
+
+  async scheduleAppointment(appointmentDetails) {
+    const { data, error } = await this.client
+      .from("appointments")
+      .insert([appointmentDetails]);
+    if (error) {
+      return { error };
+    }
+    return { data };
+  }
+
+  async getAppointments(userId, userType) {
+    const { data, error } = await this.client
+      .from("appointments")
+      .select("*")
+      .match(
+        userType === "doctor" ? { doctorId: userId } : { patientId: userId }
+      );
+    if (error) {
+      return { error };
+    }
+    return { data };
+  }
+
+  async setAppointmentStatus(id, value) {
+    const { data, error } = await this.client
+      .from("appointments")
+      .update({ status: value })
       .match({ id });
     if (error) {
       return { error };

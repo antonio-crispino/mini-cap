@@ -15,7 +15,8 @@ function AllPatientsStatus() {
     const getPatientsDetails = async () => {
       if (currentUser) {
         const { data: loadedPatientsDetails, error } =
-          currentUser.userType === "health_official"
+          currentUser.userType === "health_official" ||
+          currentUser.userType === "doctor"
             ? await supabase.supaGetPatients()
             : await supabase.supaGetDoctorPatients(currentUser.id);
         if (error) {
@@ -29,7 +30,8 @@ function AllPatientsStatus() {
     const getPatientsStatuses = async () => {
       if (currentUser) {
         const { data: loadedPatientsStatuses, error } =
-          currentUser.userType === "health_official"
+          currentUser.userType === "health_official" ||
+          currentUser.userType === "doctor"
             ? await supabase.supaGetPatientsStatuses()
             : await supabase.supaGetDoctorPatientsStatuses(currentUser.id);
         if (error) {

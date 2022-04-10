@@ -32,7 +32,12 @@ import {
   MdEmail,
 } from "react-icons/md";
 
-import { BsFileMedical, BsFileMedicalFill } from "react-icons/bs";
+import {
+  BsFileMedical,
+  BsFileMedicalFill,
+  BsCalendarDateFill,
+  BsCalendarDate,
+} from "react-icons/bs";
 import React, { useState, useEffect } from "react";
 import useHover from "../../hooks/useHover";
 import { useAppContext } from "../../context/AppContext";
@@ -41,6 +46,7 @@ import {
   ALL_USERS_TABLE,
   PATIENTS_TABLE,
   STATUSES_TABLE,
+  HISTORY_TABLE,
   DOCTORS_TABLE,
   HEALTH_OFFICIALS_TABLE,
   IMMIGRATION_OFFICERS_TABLE,
@@ -48,6 +54,7 @@ import {
   BUSINESSES_TABLE,
   PATIENT_UPDATE_INFO,
   PATIENTS_STATUS,
+  APPOINTMENT,
 } from "../../utils/types";
 
 export default function DashboardDrawer() {
@@ -58,6 +65,7 @@ export default function DashboardDrawer() {
   const [allUsersRef, isAllUsersHovered] = useHover();
   const [patientsRef, isPatientsHovered] = useHover();
   const [statusesRef, isStatusesHovered] = useHover();
+  const [AppointmentRef, isAppointmentHovered] = useHover();
   const [doctorsRef, isDoctorsHovered] = useHover();
   const [healthOfficialsRef, isHealthOfficialsHovered] = useHover();
   const [immigrationOfficerRef, isImmigrationOfficerHovered] = useHover();
@@ -182,6 +190,14 @@ export default function DashboardDrawer() {
       hovered: isEmailDoctorRef,
       onClick: () => window.open(generalEmail()),
     },
+    {
+      name: "Appointments",
+      icon: BsCalendarDate,
+      hoverIcon: BsCalendarDateFill,
+      ref: AppointmentRef,
+      hovered: isAppointmentHovered,
+      onClick: () => setComponentInView(APPOINTMENT),
+    },
   ];
 
   const doctorOptions = [
@@ -200,6 +216,22 @@ export default function DashboardDrawer() {
       ref: statusesRef,
       hovered: isStatusesHovered,
       onClick: () => setComponentInView(STATUSES_TABLE),
+    },
+    {
+      name: "Statuses History",
+      icon: MdFace,
+      hoverIcon: MdOutlineFace,
+      ref: statusesRef,
+      hovered: isStatusesHovered,
+      onClick: () => setComponentInView(HISTORY_TABLE),
+    },
+    {
+      name: "Appointments",
+      icon: BsCalendarDate,
+      hoverIcon: BsCalendarDateFill,
+      ref: AppointmentRef,
+      hovered: isAppointmentHovered,
+      onClick: () => setComponentInView(APPOINTMENT),
     },
   ];
 
@@ -222,6 +254,17 @@ export default function DashboardDrawer() {
     },
   ];
 
+  const immigrationOfficerOptions = [
+    {
+      name: "Patients",
+      icon: MdFace,
+      hoverIcon: MdOutlineFace,
+      ref: patientsRef,
+      hovered: isPatientsHovered,
+      onClick: () => setComponentInView(PATIENTS_TABLE),
+    },
+  ];
+
   useEffect(() => {
     switch (user.userType) {
       case "admin":
@@ -235,6 +278,9 @@ export default function DashboardDrawer() {
         break;
       case "health_official":
         setCurrentOpt(healthOfficialOptions);
+        break;
+      case "immigration_officer":
+        setCurrentOpt(immigrationOfficerOptions);
         break;
       default:
         break;
