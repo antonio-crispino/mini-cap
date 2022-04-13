@@ -1,5 +1,5 @@
 /* eslint-disable no-restricted-syntax */
-import { Flex, Box } from "@chakra-ui/react";
+import { Flex, Box, Badge } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import ChatOptions from "./ChatOptions";
 
@@ -88,6 +88,17 @@ export default function Chats({
             fontWeight={chat.id === currentChatId ? "bold" : "inherit"}
           >
             {chat.info.firstname} {chat.info.lastname}
+            {chat.doctorFlagged ? (
+              <Badge
+                variant="solid"
+                px={2}
+                mx={1}
+                colorScheme="red"
+                rounded="full"
+              >
+                urgent
+              </Badge>
+            ) : null}
           </Box>
         ))}
       </Flex>
