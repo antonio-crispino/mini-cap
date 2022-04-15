@@ -99,6 +99,17 @@ export default function Chats({
                 urgent
               </Badge>
             ) : null}
+            {chat.patientFlagged ? (
+              <Badge
+                variant="solid"
+                px={2}
+                mx={1}
+                colorScheme="red"
+                rounded="full"
+              >
+                urgent
+              </Badge>
+            ) : null}
           </Box>
         ))}
       </Flex>

@@ -475,6 +475,12 @@ export default class SupaClient {
       };
     }
 
+    if (requiredFlag === "patient") {
+      flag = {
+        patientFlagged: val,
+      };
+    }
+
     const matchData = {
       id: chatID,
     };
