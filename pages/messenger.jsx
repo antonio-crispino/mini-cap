@@ -46,7 +46,7 @@ export default function Messenger() {
         overflow="hidden"
       >
         <Messages messages={messages[currentChatId] || []} userId={user?.id} />
-        <ChatStatus chatID={currentChatId} />
+        <ChatStatus chatID={currentChatId} supabase={supabase} user={user} />
         <Spacer />
         <MessagesInput chatId={currentChatId} userId={user?.id} />
 
