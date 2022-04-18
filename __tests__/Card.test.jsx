@@ -115,5 +115,18 @@ describe("Single card testing", () => {
       const button = screen.getByTestId("general-email-button");
       expect(button).toHaveTextContent("Send Email");
     });
+
+    it("renders the details button text in the card", async () => {
+      render(
+        <AppContextProvider mockData={{}}>
+          <DataContextProvider mockData={{}}>
+            <Card fullObj={mockPatientInfo} />
+          </DataContextProvider>
+        </AppContextProvider>
+      );
+
+      const button = screen.getByTestId("details-button");
+      expect(button).toHaveTextContent("Details");
+    });
   });
 });
