@@ -104,6 +104,12 @@ export default function DashboardTopBar() {
           >
             Account
           </MenuItem>
+          <MenuItem
+            justifyContent="center"
+            onClick={() => router.push("/qrcode")}
+          >
+            QR-Code
+          </MenuItem>
         </MenuList>
       </Menu>
     </Flex>
