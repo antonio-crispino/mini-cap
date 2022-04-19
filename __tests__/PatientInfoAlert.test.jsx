@@ -6,7 +6,7 @@ import PatientInformationAlert from "../components/patient/patientInformation";
 // unit test showing how PatienInformationAlert functions with missing patient details
 
 afterEach(cleanup);
-describe("Update details testing", () => {
+describe("Patient Details Update", () => {
   const patientDetails = {
     id: 5943857,
     firstname: "Jane",
@@ -17,8 +17,8 @@ describe("Update details testing", () => {
     dateofbirth: null,
     type: "patient",
   };
-  describe("Update details testing", () => {
-    it("Check for important patient details", async () => {
+  describe("Updated user form testing", () => {
+    it("Fill in and render patient details with the proper information", async () => {
       render(
         <ContextProvider mockData={{}}>
           <UserForm userData={patientDetails} />
@@ -31,14 +31,15 @@ describe("Update details testing", () => {
       );
     });
 
-    describe("Update details testing", () => {
-      it("Check for important patient details", async () => {
+    describe("Update missing information testing", () => {
+      it("Check for missing patient details alert", async () => {
         render(
           <ContextProvider mockData={{}}>
             <PatientInformationAlert user={patientDetails} />
           </ContextProvider>
         );
-        expect(screen.findAllByTestId("info-alert")).toBeDefined();
+        const btn = await screen.queryAllByTestId("info-alert");
+        expect(btn).toBeDefined();
       });
     });
   });
