@@ -115,5 +115,98 @@ describe("Single card testing", () => {
       const button = screen.getByTestId("general-email-button");
       expect(button).toHaveTextContent("Send Email");
     });
+
+    it("renders the details button text in the card", async () => {
+      render(
+        <AppContextProvider mockData={{}}>
+          <DataContextProvider mockData={{}}>
+            <Card fullObj={mockPatientInfo} />
+          </DataContextProvider>
+        </AppContextProvider>
+      );
+
+      const button = screen.getByTestId("details-button");
+      expect(button).toHaveTextContent("Details");
+    });
+  });
+
+  describe("Check that the general UI components are defined", () => {
+    it("checks if the details button is defined", async () => {
+      render(
+        <AppContextProvider mockData={{}}>
+          <DataContextProvider mockData={{}}>
+            <Card fullObj={mockPatientInfo} />
+          </DataContextProvider>
+        </AppContextProvider>
+      );
+
+      const button = screen.getByTestId("details-button");
+      expect(button).toBeDefined();
+    });
+
+    it("checks if the contact tracing button is defined", async () => {
+      render(
+        <AppContextProvider mockData={{}}>
+          <DataContextProvider mockData={{}}>
+            <Card fullObj={mockPatientInfo} />
+          </DataContextProvider>
+        </AppContextProvider>
+      );
+
+      const button = screen.getByTestId("contact-trace-button");
+      expect(button).toBeDefined();
+    });
+
+    it("checks if the precaution email button is defined", async () => {
+      render(
+        <AppContextProvider mockData={{}}>
+          <DataContextProvider mockData={{}}>
+            <Card fullObj={mockPatientInfo} />
+          </DataContextProvider>
+        </AppContextProvider>
+      );
+
+      const button = screen.getByTestId("precaution-email-button");
+      expect(button).toBeDefined();
+    });
+
+    it("checks if the quarantine email button is defined", async () => {
+      render(
+        <AppContextProvider mockData={{}}>
+          <DataContextProvider mockData={{}}>
+            <Card fullObj={mockPatientInfo} />
+          </DataContextProvider>
+        </AppContextProvider>
+      );
+
+      const button = screen.getByTestId("quarantine-email-button");
+      expect(button).toBeDefined();
+    });
+
+    it("checks if the email button is defined", async () => {
+      render(
+        <AppContextProvider mockData={{}}>
+          <DataContextProvider mockData={{}}>
+            <Card fullObj={mockPatientInfo} />
+          </DataContextProvider>
+        </AppContextProvider>
+      );
+
+      const button = screen.getByTestId("general-email-button");
+      expect(button).toBeDefined();
+    });
+
+    it("checks if the email button is defined", async () => {
+      render(
+        <AppContextProvider mockData={{}}>
+          <DataContextProvider mockData={{}}>
+            <Card fullObj={mockPatientInfo} />
+          </DataContextProvider>
+        </AppContextProvider>
+      );
+
+      const button = screen.getByTestId("general-email-button");
+      expect(button);
+    });
   });
 });
