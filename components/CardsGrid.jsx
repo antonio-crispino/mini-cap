@@ -4,7 +4,6 @@ import { GridItem } from "@chakra-ui/react";
 import Card from "./Card";
 
 function CardGrid({ payload }) {
-  console.log(payload, "payload");
   return (
     <>
       {payload?.map((fullObj) => (

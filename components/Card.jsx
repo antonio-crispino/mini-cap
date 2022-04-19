@@ -1,15 +1,16 @@
 import { Badge, Box, Button, Center, Image, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { useAppContext } from "../context/AppContext";
+import { useDataContext } from "../context/DataContext";
 import { CARD_DETAILS, TRACING_TABLE } from "../utils/types";
 import HealthOfficialFlag from "./HealthOfficialFlag";
-// import { useDataContext } from "../context/DataContext";
 
 function Card({ fullObj }) {
+  const { patients } = useDataContext();
   const { setExpandedCard, setComponentInView, setPatient, supabase, user } =
     useAppContext();
   const { userInfo } = fullObj;
-  const { userType, firstname, middlename, lastname, email } =
+  const { userType, firstname, middlename, lastname, email, id } =
     userInfo || fullObj;
   const userFullName = `${firstname}${
     middlename ? ` ${middlename}` : ""
@@ -27,7 +28,6 @@ function Card({ fullObj }) {
   const [contactedQuarantine, setContactedQuarantine] = useState(
     userInfo?.quarantine
   );
-  // const { patients } = useDataContext();
 
   const viewDetailsHandler = (userObj) => {
     let passedCardDetails = { ...userObj };
@@ -39,6 +39,17 @@ function Card({ fullObj }) {
     }
     setExpandedCard(passedCardDetails);
     setComponentInView(CARD_DETAILS);
+  };
+
+  const getPatientCount = (docId) => {
+    let count = 0;
+    patients.forEach((patient) => {
+      if (docId === patient.doctorId) {
+        count += 1;
+      }
+    });
+
+    return count;
   };
 
   const precautionEmail = () => `
@@ -168,6 +179,11 @@ function Card({ fullObj }) {
         <Center flexDir="column">
           <Text>Name: {`${firstname} ${lastname}`}</Text>
           <Text>{email}</Text>
+          {userType === "doctor" ? (
+            <Text>Patients Count: {getPatientCount(id)}</Text>
+          ) : (
+            <Box h={6} /> // spacer for consistency
+          )}
         </Center>
       </Box>
       {(user?.userType === "health_official" ||
