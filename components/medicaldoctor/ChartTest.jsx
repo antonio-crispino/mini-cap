@@ -1,13 +1,17 @@
 import React from "react";
 import Chart from "chart.js";
+import { Box } from "@chakra-ui/react";
 
-export default function ChartTest(StatusData) {
-  let statusData = null;
-  if (StatusData !== null) {
-    statusData = Object.keys(StatusData).map(() => StatusData);
+export default function ChartTest(ChartData) {
+  let chartData = null;
+  if (ChartData !== null) {
+    chartData = Object.keys(ChartData).map(() => ChartData);
   }
+  // console.log(chartData[0].StatusData.length > 0);
+
   React.useEffect(() => {
-    const displayData = statusData[0].StatusData;
+    const displayData = chartData[0].StatusData;
+    // console.log(id);
     const config = {
       type: "line",
       data: {
@@ -20,15 +24,7 @@ export default function ChartTest(StatusData) {
           "Saturday",
           "Sunday",
         ],
-        datasets: [
-          {
-            label: "Test",
-            fill: false,
-            backgroundColor: "#edf2f7",
-            borderColor: "#edf2f7",
-            data: displayData,
-          },
-        ],
+        datasets: [displayData],
       },
       options: {
         maintainAspectRatio: false,
@@ -109,15 +105,17 @@ export default function ChartTest(StatusData) {
       <div className="rounded-t mb-0 px-4 py-3 bg-transparent">
         <div className="flex flex-wrap items-center">
           <div className="relative w-full max-w-full flex-grow flex-1">
-            <h6 className="uppercase text-blueGray-100 mb-1 text-xs font-semibold">
-              Rick Morty Yesenin
-            </h6>
             <h2 className="text-white text-xl font-semibold">Temperture</h2>
           </div>
         </div>
       </div>
       <div className="p-4 flex-auto">
-        {Chart}
+        <Box margin="1rem" gap="1rem" flexWrap="wrap" justifyContent="center">
+          {Chart}
+        </Box>
+        <div className="relative h-350-px">
+          <canvas id="line-chart" />
+        </div>
         <div className="relative h-350-px">
           <canvas id="line-chart" />
         </div>
