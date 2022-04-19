@@ -33,7 +33,6 @@ export default function DashboardTopBar() {
     setComponentInView(NOTIFICATION);
   };
   const backHomeHandler = () => {
-    window.location.reload();
     setComponentInView(DEFAULT_VIEW);
   };
 
