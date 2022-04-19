@@ -21,7 +21,7 @@ export function NavBar() {
                 Home
               </Button>
             </NextLink>
-            <NextLink href="/" passHref>
+            <NextLink href="/qrcode" passHref>
               <Button
                 variant="ghost"
                 _hover={{ textDecoration: "underline" }}
@@ -31,7 +31,7 @@ export function NavBar() {
                 QR-code
               </Button>
             </NextLink>
-            <NextLink href="/" passHref>
+            <NextLink href="/messenger" passHref>
               <Button
                 variant="ghost"
                 _hover={{ textDecoration: "underline" }}
@@ -109,7 +109,7 @@ export function NavBar() {
                 Home
               </Button>
             </NextLink>
-            <NextLink href="/" passHref>
+            <NextLink href="/qrcode" passHref>
               <Button
                 variant="ghost"
                 _hover={{ textDecoration: "underline" }}
@@ -119,7 +119,7 @@ export function NavBar() {
                 QR-code
               </Button>
             </NextLink>
-            <NextLink href="/" passHref>
+            <NextLink href="/messenger" passHref>
               <Button
                 variant="ghost"
                 _hover={{ textDecoration: "underline" }}
@@ -139,7 +139,7 @@ export function NavBar() {
                 FAQ
               </Button>
             </NextLink>
-            <NextLink href="/" passHref>
+            <NextLink href="/signup" passHref>
               <Button
                 variant="ghost"
                 _hover={{ textDecoration: "underline" }}
