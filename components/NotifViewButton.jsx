@@ -49,8 +49,9 @@ function NotifViewButton({ ...notification }) {
         variant={readValue ? "outline" : "solid"}
         onClick={onOpen}
         type="button"
+        data-testid="notif-view-btn"
       >
-        {readValue ? "View" : "View"}
+        {readValue ? "Viewed" : "View"}
       </Button>
       <Modal isOpen={isOpen} onClose={viewed}>
         <ModalOverlay />

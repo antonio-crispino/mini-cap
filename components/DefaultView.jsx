@@ -21,6 +21,7 @@ function DefaultView({ user }) {
         <Heading
           textAlign="center"
           color="white"
+          data-testid="default-view"
         >{`Welcome ${user.firstname} ${user.lastname}!`}</Heading>
         <Text fontSize="2xl" textAlign="center" color="white">
           Please access the navigation drawer on the left for navigation. You

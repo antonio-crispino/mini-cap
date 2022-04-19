@@ -64,6 +64,7 @@ function UserForm({ userData }) {
 
               <Input
                 id="id"
+                data-testid="user-id"
                 placeholder="Id string"
                 bg="white"
                 size="lg"
@@ -160,6 +161,7 @@ function UserForm({ userData }) {
               <FormLabel color="white">Address</FormLabel>
               <Input
                 id="address"
+                data-testid="user-address"
                 placeholder="781 Hacker St."
                 bg="white"
                 size="lg"
@@ -180,6 +182,7 @@ function UserForm({ userData }) {
                 <Input
                   id="phonenumber"
                   placeholder="4381232897"
+                  data-testid="user-phone"
                   bg="white"
                   color="black.500"
                   defaultValue={userData.phonenumber}
