@@ -110,12 +110,20 @@ function StatusesHistory() {
           const aPatientStatuses = patientsStatuses
             .filter((aStatus) => aStatus.id === thing.id)
             .reverse();
+          let aPatientStatusesNew = null;
+
+          for (let i = 0; i < aPatientStatuses.length; i++) {
+            if (aPatientStatusesNew !== undefined) {
+              aPatientStatusesNew = aPatientStatuses;
+            }
+          }
+
           return (
             <ChartData
               key={Math.floor(Math.random() * 1000000)}
               setPatientDetails={setPatientDetails}
               patientDetails={thing}
-              patientStatusDetails={aPatientStatuses[0]}
+              patientStatusDetails={aPatientStatusesNew}
               setPatientStatusesVisible={setPatientStatusesVisible}
             />
           );
@@ -233,15 +241,7 @@ function StatusesHistory() {
       >
         {chart}
       </Box>
-      <Box
-        margin="1rem"
-        gap="1rem"
-        flexWrap="wrap"
-        justifyContent="left"
-        color="white"
-      >
-        {singlePatientStatusesItems}
-      </Box>
+      <Box>{singlePatientStatusesItems}</Box>
     </Flex>
   );
 }
