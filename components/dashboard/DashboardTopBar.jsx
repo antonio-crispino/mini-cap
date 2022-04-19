@@ -20,7 +20,7 @@ import { useAppContext } from "../../context/AppContext";
 
 import DashboardDrawer from "./DashboardDrawer";
 import useHover from "../../hooks/useHover";
-import { NOTIFICATION } from "../../utils/types";
+import { DEFAULT_VIEW, NOTIFICATION } from "../../utils/types";
 
 export default function DashboardTopBar() {
   const { user, logout, setComponentInView } = useAppContext();
@@ -31,6 +31,9 @@ export default function DashboardTopBar() {
 
   const viewChangeHandler = () => {
     setComponentInView(NOTIFICATION);
+  };
+  const backHomeHandler = () => {
+    setComponentInView(DEFAULT_VIEW);
   };
 
   return (
@@ -47,7 +50,9 @@ export default function DashboardTopBar() {
       justifyContent="center"
     >
       <DashboardDrawer />
-      <Box marginLeft={3}>ANTI COVID</Box>
+      <Box as="button" onClick={() => backHomeHandler()} marginLeft={3}>
+        ANTI COVID
+      </Box>
       <Spacer />
 
       <IconButton
