@@ -11,6 +11,7 @@ function SinglePatientStatusHistory({
   }
 
   const patientListItems = Object.keys(patientDetails).map((detail) => {
+    let newDetail = null;
     if (
       detail === "symptoms" ||
       detail === "doctorId" ||
@@ -27,8 +28,41 @@ function SinglePatientStatusHistory({
       detail === "address" ||
       detail === "dateofbirth" ||
       detail === "sex"
-    )
+    ) {
       return null;
+    }
+    switch (detail) {
+      case "medicalCardNum":
+        newDetail = "Medical Card Number";
+        break;
+      case "healthFlag":
+        newDetail = "Health Flag";
+        break;
+      case "email":
+        newDetail = "Email";
+        break;
+      case "address":
+        newDetail = "Address";
+        break;
+      case "phonenumber":
+        newDetail = "Phone Number";
+        break;
+      case "dateofbirth":
+        newDetail = "Date of Birth";
+        break;
+      case "sex":
+        newDetail = "Sex";
+        break;
+      case "contacted_with_covid":
+        newDetail = "Contacted with Covid";
+        break;
+      case "quarantine":
+        newDetail = "Quarantine";
+        break;
+      default:
+        newDetail = null;
+        break;
+    }
     if (detail === "id")
       return (
         <ListItem key={Math.floor(Math.random() * 1000000)}>
@@ -40,7 +74,7 @@ function SinglePatientStatusHistory({
       );
     return (
       <ListItem key={Math.floor(Math.random() * 1000000)}>
-        <b>{detail}</b>: {patientDetails[detail] || "n/a"}
+        <b>{newDetail || detail}</b>: {patientDetails[detail] || "n/a"}
       </ListItem>
     );
   });

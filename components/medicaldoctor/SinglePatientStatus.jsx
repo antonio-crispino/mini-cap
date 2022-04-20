@@ -15,6 +15,7 @@ function SinglePatientStatus({
 
   if (patientDetails !== null) {
     patientListItems = Object.keys(patientDetails).map((detail) => {
+      let newDetail = null;
       if (
         detail === "symptoms" ||
         detail === "doctorId" ||
@@ -28,8 +29,41 @@ function SinglePatientStatus({
         detail === "userType" ||
         detail === "inactive" ||
         detail === "isPriority"
-      )
+      ) {
         return null;
+      }
+      switch (detail) {
+        case "medicalCardNum":
+          newDetail = "Medical Card Number";
+          break;
+        case "healthFlag":
+          newDetail = "Health Flag";
+          break;
+        case "email":
+          newDetail = "Email";
+          break;
+        case "address":
+          newDetail = "Address";
+          break;
+        case "phonenumber":
+          newDetail = "Phone Number";
+          break;
+        case "dateofbirth":
+          newDetail = "Date of Birth";
+          break;
+        case "sex":
+          newDetail = "Sex";
+          break;
+        case "contacted_with_covid":
+          newDetail = "Contacted with Covid";
+          break;
+        case "quarantine":
+          newDetail = "Quarantine";
+          break;
+        default:
+          newDetail = null;
+          break;
+      }
       if (detail === "id")
         return (
           <ListItem key={Math.floor(Math.random() * 1000000)}>
@@ -41,7 +75,7 @@ function SinglePatientStatus({
         );
       return (
         <ListItem key={Math.floor(Math.random() * 1000000)}>
-          <b>{detail}</b>: {`${patientDetails[detail]}` || "n/a"}
+          <b>{newDetail || detail}</b>: {`${patientDetails[detail]}` || "n/a"}
         </ListItem>
       );
     });
@@ -55,17 +89,54 @@ function SinglePatientStatus({
 
   const statusDate = patientStatusDetails.created_at;
   const statusListItems = Object.keys(patientStatusDetails).map((detail) => {
+    let newDetail = null;
     if (
       detail === "created_at" ||
       detail === "recordedOn" ||
       detail === "medicalCard" ||
       detail === "id" ||
       detail === "doctorId"
-    )
+    ) {
       return null;
+    }
+    switch (detail) {
+      case "soreThroat":
+        newDetail = "Sore Throat";
+        break;
+      case "nasalCongestion":
+        newDetail = "Nasal Congestion";
+        break;
+      case "chestPain":
+        newDetail = "Chest Pain";
+        break;
+      case "weight":
+        newDetail = "Weight";
+        break;
+      case "temperature":
+        newDetail = "Temperature";
+        break;
+      case "nausea":
+        newDetail = "Nausea";
+        break;
+      case "headache":
+        newDetail = "Headache";
+        break;
+      case "lethargy":
+        newDetail = "Lethargy";
+        break;
+      case "vomiting":
+        newDetail = "Vomiting";
+        break;
+      case "fever":
+        newDetail = "Fever";
+        break;
+      default:
+        newDetail = null;
+        break;
+    }
     return (
       <ListItem key={Math.floor(Math.random() * 1000000)}>
-        <b>{detail}:</b> {patientStatusDetails[detail] || "n/a"}
+        <b>{newDetail || detail}:</b> {patientStatusDetails[detail] || "n/a"}
       </ListItem>
     );
   });
