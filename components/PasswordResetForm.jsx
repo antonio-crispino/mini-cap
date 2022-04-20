@@ -10,14 +10,14 @@ import {
 import { useAppContext } from "../context/AppContext";
 
 function PasswordResetForm() {
-  const { sendRestToEmail, user } = useAppContext();
+  const { sendResetPassEmail, user } = useAppContext();
 
   const resetPassword = async () => {
-    const response = await sendRestToEmail(user.email);
+    const response = await sendResetPassEmail(user.email);
     if (!response) {
       const toast = createStandaloneToast();
       toast({
-        title: "Resset Email Sent",
+        title: "Reset Email Sent",
         status: "success",
         duration: 9000,
         isClosable: true,
@@ -38,7 +38,7 @@ function PasswordResetForm() {
 
         <Box justifySelf="end">
           <Text color="#fff" alignSelf="start" justifySelf="flex-end">
-            Once you request a resset, you will receive an email with
+            Once you request a reset, you will receive an email with
             instructions.
           </Text>
           <Button
@@ -49,7 +49,7 @@ function PasswordResetForm() {
             color="white"
             onClick={async () => resetPassword()}
           >
-            Resset Password
+            Reset Password
           </Button>
         </Box>
       </Flex>

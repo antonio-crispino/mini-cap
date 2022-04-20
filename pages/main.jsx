@@ -51,9 +51,9 @@ function Main() {
         w="full"
         type="submit"
         maxWidth="25%"
-        onClick={() => router.push("/admindash")}
+        onClick={() => router.push("/dashboard")}
       >
-        Admin Dashboard
+        Dashboard
       </Button>
       <Button
         variant="solid"
@@ -75,7 +75,7 @@ function Main() {
         type="submit"
         maxWidth="25%"
       >
-        <NextLink href="/account">
+        <NextLink href="/modifyCredentials">
           <Link>Modify Credentials</Link>
         </NextLink>
       </Button>

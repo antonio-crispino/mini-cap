@@ -28,15 +28,25 @@ import {
   MdOutlineAdminPanelSettings,
   MdOutlineAddBusiness,
   MdAddBusiness,
+  MdOutlineEmail,
+  MdEmail,
 } from "react-icons/md";
 
-import { BsFileMedical, BsFileMedicalFill } from "react-icons/bs";
+import {
+  BsFileMedical,
+  BsFileMedicalFill,
+  BsCalendarDateFill,
+  BsCalendarDate,
+} from "react-icons/bs";
 import React, { useState, useEffect } from "react";
 import useHover from "../../hooks/useHover";
 import { useAppContext } from "../../context/AppContext";
+import { useDataContext } from "../../context/DataContext";
 import {
   ALL_USERS_TABLE,
   PATIENTS_TABLE,
+  STATUSES_TABLE,
+  HISTORY_TABLE,
   DOCTORS_TABLE,
   HEALTH_OFFICIALS_TABLE,
   IMMIGRATION_OFFICERS_TABLE,
@@ -44,14 +54,18 @@ import {
   BUSINESSES_TABLE,
   PATIENT_UPDATE_INFO,
   PATIENTS_STATUS,
+  APPOINTMENT,
 } from "../../utils/types";
 
 export default function DashboardDrawer() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { user, setComponentInView } = useAppContext();
+  const { patients } = useDataContext();
   const [currentOpt, setCurrentOpt] = useState();
   const [allUsersRef, isAllUsersHovered] = useHover();
   const [patientsRef, isPatientsHovered] = useHover();
+  const [statusesRef, isStatusesHovered] = useHover();
+  const [AppointmentRef, isAppointmentHovered] = useHover();
   const [doctorsRef, isDoctorsHovered] = useHover();
   const [healthOfficialsRef, isHealthOfficialsHovered] = useHover();
   const [immigrationOfficerRef, isImmigrationOfficerHovered] = useHover();
@@ -59,8 +73,38 @@ export default function DashboardDrawer() {
   const [adminRef, isAdminHovered] = useHover();
   const [updateStatusRef, isUpdateStatusHovered] = useHover();
   const [updateInfoRef, isUpdateInfoRef] = useHover();
+  const [emailDoctorRef, isEmailDoctorRef] = useHover();
 
   const btnRef = React.useRef();
+
+  const loggedInUserFullName = `${user.firstname}${
+    user.middlename ? ` ${user.middlename}` : ""
+  } ${user.lastname}`;
+
+  const loggedInPatient =
+    user.userType === "patient"
+      ? patients.find((patient) => patient.id === user.id)
+      : null;
+
+  const loggedInPatientDoctorFullName = `${
+    loggedInPatient?.doctorInfo?.firstname
+  }${
+    loggedInPatient?.doctorInfo?.middlename
+      ? ` ${loggedInPatient?.doctorInfo?.middlename}`
+      : ""
+  } ${loggedInPatient?.doctorInfo?.lastname}`;
+
+  const generalEmail = () => `
+      mailto:${loggedInPatient?.doctorInfo?.email}?
+      &subject=-- ENTER SUBJECT HERE --
+      &body=Dear Dr. ${loggedInPatientDoctorFullName},
+      %0D%0A
+      %0D%0A-- ENTER MESSAGE HERE --
+      %0D%0A
+      %0D%0ABest regards,
+      %0D%0A${loggedInUserFullName}
+      %0D%0A.
+    `;
 
   const adminOptions = [
     {
@@ -138,9 +182,79 @@ export default function DashboardDrawer() {
       hovered: isUpdateInfoRef,
       onClick: () => setComponentInView(PATIENTS_STATUS),
     },
+    {
+      name: "Email Doctor",
+      icon: MdEmail,
+      hoverIcon: MdOutlineEmail,
+      ref: emailDoctorRef,
+      hovered: isEmailDoctorRef,
+      onClick: () => window.open(generalEmail()),
+    },
+    {
+      name: "Appointments",
+      icon: BsCalendarDate,
+      hoverIcon: BsCalendarDateFill,
+      ref: AppointmentRef,
+      hovered: isAppointmentHovered,
+      onClick: () => setComponentInView(APPOINTMENT),
+    },
   ];
 
   const doctorOptions = [
+    {
+      name: "Patients",
+      icon: MdFace,
+      hoverIcon: MdOutlineFace,
+      ref: patientsRef,
+      hovered: isPatientsHovered,
+      onClick: () => setComponentInView(PATIENTS_TABLE),
+    },
+    {
+      name: "Statuses",
+      icon: MdFace,
+      hoverIcon: MdOutlineFace,
+      ref: statusesRef,
+      hovered: isStatusesHovered,
+      onClick: () => setComponentInView(STATUSES_TABLE),
+    },
+    {
+      name: "Statuses History",
+      icon: MdFace,
+      hoverIcon: MdOutlineFace,
+      ref: statusesRef,
+      hovered: isStatusesHovered,
+      onClick: () => setComponentInView(HISTORY_TABLE),
+    },
+    {
+      name: "Appointments",
+      icon: BsCalendarDate,
+      hoverIcon: BsCalendarDateFill,
+      ref: AppointmentRef,
+      hovered: isAppointmentHovered,
+      onClick: () => setComponentInView(APPOINTMENT),
+    },
+  ];
+
+  const healthOfficialOptions = [
+    {
+      name: "Patients",
+      icon: MdFace,
+      hoverIcon: MdOutlineFace,
+      ref: patientsRef,
+      hovered: isPatientsHovered,
+      onClick: () => setComponentInView(PATIENTS_TABLE),
+    },
+    {
+      name: "Statuses",
+      icon: MdFace,
+      hoverIcon: MdOutlineFace,
+      ref: statusesRef,
+      hovered: isStatusesHovered,
+      onClick: () => setComponentInView(STATUSES_TABLE),
+    },
+  ];
+
+  const immigrationOfficerOptions = [
     {
       name: "Patients",
       icon: MdFace,
@@ -162,7 +276,12 @@ export default function DashboardDrawer() {
       case "doctor":
         setCurrentOpt(doctorOptions);
         break;
-
+      case "health_official":
+        setCurrentOpt(healthOfficialOptions);
+        break;
+      case "immigration_officer":
+        setCurrentOpt(immigrationOfficerOptions);
+        break;
       default:
         break;
     }

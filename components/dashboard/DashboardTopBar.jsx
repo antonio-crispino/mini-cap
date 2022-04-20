@@ -13,14 +13,14 @@ import {
   Circle,
 } from "@chakra-ui/react";
 import { MdAccountCircle, MdOutlineAccountCircle } from "react-icons/md";
-import { AiFillBell, AiOutlineBell } from "react-icons/ai";
+import { AiFillBell, AiOutlineBell, AiOutlineMessage } from "react-icons/ai";
 
 import { useRouter } from "next/router";
 import { useAppContext } from "../../context/AppContext";
 
 import DashboardDrawer from "./DashboardDrawer";
 import useHover from "../../hooks/useHover";
-import { NOTIFICATION } from "../../utils/types";
+import { DEFAULT_VIEW, NOTIFICATION } from "../../utils/types";
 
 export default function DashboardTopBar() {
   const { user, logout, setComponentInView } = useAppContext();
@@ -31,6 +31,9 @@ export default function DashboardTopBar() {
 
   const viewChangeHandler = () => {
     setComponentInView(NOTIFICATION);
+  };
+  const backHomeHandler = () => {
+    setComponentInView(DEFAULT_VIEW);
   };
 
   return (
@@ -47,9 +50,17 @@ export default function DashboardTopBar() {
       justifyContent="center"
     >
       <DashboardDrawer />
-      <Box marginLeft={3}>ANTI COVID</Box>
-
+      <Box as="button" onClick={() => backHomeHandler()} marginLeft={3}>
+        ANTI COVID
+      </Box>
       <Spacer />
+
+      <IconButton
+        icon={<AiOutlineMessage />}
+        fontSize="1.4rem"
+        onClick={() => router.push("/messenger")}
+      />
+
       <Box position="relative" mr={1}>
         <IconButton
           ref={notificationIconRef}
@@ -97,6 +108,12 @@ export default function DashboardTopBar() {
             onClick={() => router.push("/account")}
           >
             Account
+          </MenuItem>
+          <MenuItem
+            justifyContent="center"
+            onClick={() => router.push("/qrcode")}
+          >
+            QR-Code
           </MenuItem>
         </MenuList>
       </Menu>

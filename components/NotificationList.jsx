@@ -1,10 +1,15 @@
-import { Box, Text, Flex, Heading, Button } from "@chakra-ui/react";
+import { Box, Text, Flex, Heading, HStack } from "@chakra-ui/react";
 import { useAppContext } from "../context/AppContext";
+import Flag from "./NotifFlag";
+import NotifViewButton from "./NotifViewButton";
 
 // TODO: button changes view to the corresponding update
+// TODO Check priority to organize Notifications
+
 function NotificationList() {
   const { notifications } = useAppContext();
   const toDate = (dateStr) => dateStr.split("T")[0];
+
   return (
     <Flex flexDir="column" mt={5} p={5}>
       <Heading
@@ -16,6 +21,17 @@ function NotificationList() {
       >
         Notifications
       </Heading>
+
+      {/* <Heading
+        alignSelf="left"
+        mb={4}
+        color="white"
+        fontSize="4xl"
+        fontFamily="opensans-extrabold"
+      >
+        Priority
+      </Heading> */}
+
       {notifications.map((notification, index) => (
         <Box
           w="100%"
@@ -27,6 +43,7 @@ function NotificationList() {
           px={10}
           key={`${index}-${notification.userId}`}
           my={1}
+          opacity={0.8}
         >
           <Flex justifyContent="space-between">
             <Box alignContent="space-between">
@@ -37,10 +54,11 @@ function NotificationList() {
                 notification.created_at
               )}`}</Text>
             </Box>
-
-            <Button type="button" colorScheme="blue">
-              View
-            </Button>
+            <HStack>
+              <Heading> </Heading>
+              <NotifViewButton {...notification} />
+              <Flag {...notification} />
+            </HStack>
           </Flex>
         </Box>
       ))}

@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 import { ViewIcon } from "@chakra-ui/icons";
 import {
   Button,
@@ -23,24 +24,28 @@ export default function RequestPatientUpdates({ patientData }) {
   const [hasPriority, setHasPriority] = useState(
     patientData?.isPriority || false
   );
-  const [updatesList, setUpdatesList] = useState({
-    temperature: false,
-    weight: false,
-    nausea: false,
-    headache: false,
-    lethargy: false,
-    vomiting: false,
-    soreThroat: false,
-    nasalCongestion: false,
-    fever: false,
-    chestPain: false,
-  });
+  const [updatesList, setUpdatesList] = useState([
+    { val: false, name: "temperature", json: "temperature" },
+    { val: false, name: "weight", json: "weight" },
+    { val: false, name: "nausea", json: "nausea" },
+    { val: false, name: "headache", json: "headache" },
+    { val: false, name: "lethargy", json: "lethargy" },
+    { val: false, name: "vomiting", json: "vomiting" },
+    { val: false, name: "sore throat", json: "soreThroat" },
+    { val: false, name: "nasal congestion", json: "nasalCongestion" },
+    { val: false, name: "fever", json: "fever" },
+    { val: false, name: "chest pain", json: "chestPain" },
+  ]);
 
   const sendUpdateRequest = async () => {
+    const doctorRequestedList = {};
+    for (const el of updatesList) {
+      doctorRequestedList[el.json] = el.val;
+    }
     const error = await supabase.supaRequestPatientUpdate(
       patientData.id,
       user.id,
-      updatesList,
+      doctorRequestedList,
       hasPriority
     );
     if (error) {
@@ -56,6 +61,11 @@ export default function RequestPatientUpdates({ patientData }) {
       isClosable: true,
     });
   };
+  const handleUpdateList = (idx, val) => {
+    const newList = [...updatesList];
+    newList[idx].val = val;
+    setUpdatesList(newList);
+  };
 
   return (
     <>
@@ -70,19 +80,14 @@ export default function RequestPatientUpdates({ patientData }) {
           <ModalCloseButton />
           <ModalBody>
             <Stack spacing={5} direction="column">
-              {Object.keys(updatesList).map((el) => (
+              {updatesList.map((el, idx) => (
                 <Checkbox
-                  name={el}
-                  key={el}
-                  isChecked={updatesList[el].val}
-                  onChange={(e) =>
-                    setUpdatesList({
-                      ...updatesList,
-                      [e.target.name]: e.target.checked,
-                    })
-                  }
+                  name={el.name}
+                  key={el.name}
+                  isChecked={updatesList[idx].val}
+                  onChange={(e) => handleUpdateList(idx, e.target.checked)}
                 >
-                  {el}
+                  {el.name}
                 </Checkbox>
               ))}
               <Checkbox

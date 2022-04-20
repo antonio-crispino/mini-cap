@@ -1,4 +1,5 @@
 import { Flex, Heading, Stack, Text } from "@chakra-ui/react";
+import PatientInformationAlert from "./patient/patientInformation";
 
 function DefaultView({ user }) {
   return (
@@ -16,9 +17,11 @@ function DefaultView({ user }) {
         p={{ base: 1, md: 5 }}
         bg="linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.55))"
       >
+        <PatientInformationAlert user={user} />
         <Heading
           textAlign="center"
           color="white"
+          data-testid="default-view"
         >{`Welcome ${user.firstname} ${user.lastname}!`}</Heading>
         <Text fontSize="2xl" textAlign="center" color="white">
           Please access the navigation drawer on the left for navigation. You
